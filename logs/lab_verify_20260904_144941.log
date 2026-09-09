@@ -1,0 +1,13 @@
+2026-09-04 14:49:41  INFO      
+CTEC Lab Network Verifier
+2026-09-04 14:49:41  INFO      Jump host : ctec-jump.ctec.charterlab.com
+2026-09-04 14:49:41  INFO      Username  : aphillips
+2026-09-04 14:49:41  INFO      Log file  : C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260904_144941.log
+
+2026-09-04 14:49:41  DEBUG     [KEY] Loading from C:\Users\p3135123/.ssh/id_rsa
+2026-09-04 14:49:41  INFO      
+========================================================================
+  Connecting to ctec-jump.ctec.charterlab.com
+========================================================================
+2026-09-04 14:49:41  INFO        Trying SSH key: C:\Users\p3135123/.ssh/id_rsa
+2026-09-04 14:49:42  INFO        Connected to ctec-jump.ctec.charterlab.com (key auth)

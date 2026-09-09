@@ -1,0 +1,1427 @@
+2026-08-03 13:29:30  INFO      
+CTEC Lab Network Verifier
+2026-08-03 13:29:30  INFO      Jump host : ctec-jump.ctec.charterlab.com
+2026-08-03 13:29:30  INFO      Username  : aphillips
+2026-08-03 13:29:30  INFO      Log file  : C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260803_132930.log
+
+2026-08-03 13:29:30  DEBUG     [KEY] Loading from C:\Users\p3135123/.ssh/id_rsa
+2026-08-03 13:29:31  INFO      
+========================================================================
+  Connecting to ctec-jump.ctec.charterlab.com
+========================================================================
+2026-08-03 13:29:31  INFO        Trying SSH key: C:\Users\p3135123/.ssh/id_rsa
+2026-08-03 13:29:31  INFO        Connected to ctec-jump.ctec.charterlab.com (key auth)
+2026-08-03 13:29:38  INFO      
+========================================================================
+  Stage 1 — Ping Reachability (via jump server)
+========================================================================
+2026-08-03 13:29:38  DEBUG     [CMD] jump $ ping -c 3 -W 2 apc01k1dccc
+2026-08-03 13:29:40  DEBUG     [CMD] jump exec_command OK (549 chars)
+2026-08-03 13:29:40  INFO        [PASS]  ping apc01k1dccc
+2026-08-03 13:29:40  DEBUG     [CMD] jump $ ping -c 3 -W 2 apa01k1dccc
+2026-08-03 13:29:42  DEBUG     [CMD] jump exec_command OK (569 chars)
+2026-08-03 13:29:42  INFO        [PASS]  ping apa01k1dccc
+2026-08-03 13:29:42  DEBUG     [CMD] jump $ ping -c 3 -W 2 ara01k1dccc
+2026-08-03 13:29:44  DEBUG     [CMD] jump exec_command OK (543 chars)
+2026-08-03 13:29:44  INFO        [PASS]  ping ara01k1dccc
+2026-08-03 13:29:44  DEBUG     [CMD] jump $ ping -c 3 -W 2 asa01k1dccc
+2026-08-03 13:29:47  DEBUG     [CMD] jump exec_command OK (547 chars)
+2026-08-03 13:29:47  INFO        [PASS]  ping asa01k1dccc
+2026-08-03 13:29:47  DEBUG     [CMD] jump $ ping -c 3 -W 2 cts01k1dccc
+2026-08-03 13:29:49  DEBUG     [CMD] jump exec_command OK (556 chars)
+2026-08-03 13:29:49  INFO        [PASS]  ping cts01k1dccc
+2026-08-03 13:29:49  DEBUG     [CMD] jump $ ping -c 3 -W 2 dtr01k1dccc
+2026-08-03 13:29:51  DEBUG     [CMD] jump exec_command OK (555 chars)
+2026-08-03 13:29:51  INFO        [PASS]  ping dtr01k1dccc
+2026-08-03 13:29:51  INFO      
+========================================================================
+  Stage 2 — SSH Connectivity
+========================================================================
+2026-08-03 13:29:51  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-03 13:29:51  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-03 13:29:52  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-03 13:29:53  DEBUG     [SSH] apc01k1dccc auth OK (password)
+2026-08-03 13:29:53  DEBUG     [CMD] apc01k1dccc $ show version brief
+2026-08-03 13:29:53  DEBUG     [CMD] apc01k1dccc exec_command OK (45 chars)
+2026-08-03 13:29:53  INFO        [PASS]  ssh apc01k1dccc
+2026-08-03 13:29:53  DEBUG     [SSH] Connecting to apa01k1dccc
+2026-08-03 13:29:53  DEBUG     [CHANNEL] Opening channel to apa01k1dccc:22
+2026-08-03 13:29:55  DEBUG     [CHANNEL] IPv4 resolution failed for apa01k1dccc, using hostname
+2026-08-03 13:29:55  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:29:55  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:29:56  DEBUG     [SSH] apa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:29:56  DEBUG     [CMD] apa01k1dccc $ show version brief
+2026-08-03 13:29:56  DEBUG     [CMD] apa01k1dccc exec_command OK (1273 chars)
+2026-08-03 13:29:56  INFO        [PASS]  ssh apa01k1dccc
+2026-08-03 13:29:56  DEBUG     [SSH] Connecting to ara01k1dccc
+2026-08-03 13:29:56  DEBUG     [CHANNEL] Opening channel to ara01k1dccc:22
+2026-08-03 13:29:58  DEBUG     [CHANNEL] IPv4 resolution failed for ara01k1dccc, using hostname
+2026-08-03 13:29:58  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:29:59  DEBUG     [SSH] ara01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:29:59  DEBUG     [CMD] ara01k1dccc $ show version brief
+2026-08-03 13:29:59  DEBUG     [CMD] ara01k1dccc exec_command OK (724 chars)
+2026-08-03 13:29:59  INFO        [PASS]  ssh ara01k1dccc
+2026-08-03 13:29:59  DEBUG     [SSH] Connecting to asa01k1dccc
+2026-08-03 13:29:59  DEBUG     [CHANNEL] Opening channel to asa01k1dccc:22
+2026-08-03 13:30:01  DEBUG     [CHANNEL] IPv4 resolution failed for asa01k1dccc, using hostname
+2026-08-03 13:30:01  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:01  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:30:01  DEBUG     [SSH] asa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:01  DEBUG     [CMD] asa01k1dccc $ show version brief
+2026-08-03 13:30:02  DEBUG     [CMD] asa01k1dccc exec_command OK (1214 chars)
+2026-08-03 13:30:02  INFO        [PASS]  ssh asa01k1dccc
+2026-08-03 13:30:02  DEBUG     [SSH] Connecting to cts01k1dccc
+2026-08-03 13:30:02  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-03 13:30:03  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-03 13:30:04  DEBUG     [SSH] cts01k1dccc kbd-interactive failed
+2026-08-03 13:30:04  DEBUG     [SSH] cts01k1dccc transport closed — reopening for password auth
+2026-08-03 13:30:04  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-03 13:30:04  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-03 13:30:05  DEBUG     [SSH] cts01k1dccc auth OK (password)
+2026-08-03 13:30:05  DEBUG     [CMD] cts01k1dccc $ show version
+2026-08-03 13:30:06  DEBUG     [CMD] cts01k1dccc exec_command failed (Channel closed.), trying invoke_shell
+2026-08-03 13:30:06  INFO        [FAIL]  ssh cts01k1dccc  ()
+2026-08-03 13:30:06  DEBUG     [SSH] cts01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 464, in stage_ssh
+    run_command(client, cmd, host=host, timeout=15)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1044, in open_channel
+    self._send_user_message(m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1830, in _send_user_message
+    self._send_message(data)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1806, in _send_message
+    self.packetizer.send_message(data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\packet.py", line 468, in send_message
+    self.write_all(out)
+    ~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\packet.py", line 382, in write_all
+    raise EOFError()
+EOFError
+
+2026-08-03 13:30:06  DEBUG     [SSH] Connecting to dtr01k1dccc
+2026-08-03 13:30:06  DEBUG     [CHANNEL] Opening channel to dtr01k1dccc:22
+2026-08-03 13:30:07  DEBUG     [CHANNEL] IPv4 resolution failed for dtr01k1dccc, using hostname
+2026-08-03 13:30:08  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:09  DEBUG     [SSH] dtr01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:09  DEBUG     [CMD] dtr01k1dccc $ show version brief
+2026-08-03 13:30:09  DEBUG     [CMD] dtr01k1dccc exec_command OK (1477 chars)
+2026-08-03 13:30:09  INFO        [PASS]  ssh dtr01k1dccc
+2026-08-03 13:30:09  INFO      
+========================================================================
+  Stage 3 — Device Verification
+========================================================================
+2026-08-03 13:30:09  INFO      
+========================================================================
+  vCMTS (apc)  (apc01k1dccc)
+========================================================================
+2026-08-03 13:30:09  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-03 13:30:09  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-03 13:30:11  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-03 13:30:11  DEBUG     [SSH] apc01k1dccc auth OK (password)
+2026-08-03 13:30:11  INFO      
+  >> Interface status
+     CMD: show int desc
+2026-08-03 13:30:11  DEBUG     [CMD] apc01k1dccc $ show int desc
+2026-08-03 13:30:11  DEBUG     [CMD] apc01k1dccc exec_command OK (137 chars)
+2026-08-03 13:30:11  INFO      ----------------------------^
+syntax error: ambiguous command
+Possible alternatives starting with int:
+  interface  - 
+  interfaces -
+2026-08-03 13:30:11  INFO      
+  >> Traceroute to DTR01
+     CMD: traceroute 172.20.27.70 count 3
+2026-08-03 13:30:11  DEBUG     [CMD] apc01k1dccc $ traceroute 172.20.27.70 count 3
+2026-08-03 13:30:20  DEBUG     [CMD] apc01k1dccc exec_command OK (956 chars)
+2026-08-03 13:30:20  INFO      traceroute to 172.20.27.70 (172.20.27.70), 30 hops max, 60 byte packets
+ 1  71.85.92.97 (71.85.92.97)  0.449 ms  0.438 ms  0.438 ms
+ 2  96.34.184.130 (96.34.184.130)  0.494 ms  0.527 ms  0.552 ms
+ 3  96.34.24.146 (96.34.24.146)  0.741 ms  0.809 ms  0.885 ms
+ 4  96.34.24.14 (96.34.24.14)  1.066 ms  1.112 ms  1.142 ms
+ 5  syn-024-033-055-033.inf.spectrum.com (24.33.55.33)  0.430 ms  0.431 ms  0.458 ms
+ 6  24.33.55.200 (24.33.55.200)  1.706 ms  1.555 ms  1.787 ms
+ 7  96.34.7.107 (96.34.7.107)  1.963 ms  2.062 ms  2.109 ms
+ 8  24.28.208.198 (24.28.208.198)  2.225 ms  2.256 ms  2.251 ms
+ 9  96.34.174.181 (96.34.174.181)  2.235 ms  2.282 ms  2.238 ms
+10  96.34.174.167 (96.34.174.167)  0.833 ms  0.856 ms 96.34.174.165 (96.34.174.165)  0.953 ms
+11  96.34.10.97 (96.34.10.97)  0.923 ms 96.34.10.101 (96.34.10.101)  0.894 ms 96.34.10.97 (96.34.10.97)  0.931 ms
+12  dhc01poc.enwd.co.sa.charterlab.com (172.20.27.70)  0.751 ms  0.863 ms  0.765 ms
+2026-08-03 13:30:21  INFO      
+========================================================================
+  APA Switch (apa)  (apa01k1dccc)
+========================================================================
+2026-08-03 13:30:21  DEBUG     [SSH] Connecting to apa01k1dccc
+2026-08-03 13:30:21  DEBUG     [CHANNEL] Opening channel to apa01k1dccc:22
+2026-08-03 13:30:23  DEBUG     [CHANNEL] IPv4 resolution failed for apa01k1dccc, using hostname
+2026-08-03 13:30:23  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:23  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:30:23  DEBUG     [SSH] apa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:23  INFO      
+  >> Interface status
+     CMD: show int desc
+2026-08-03 13:30:23  DEBUG     [CMD] apa01k1dccc $ show int desc
+2026-08-03 13:30:24  DEBUG     [CMD] apa01k1dccc exec_command OK (5122 chars)
+2026-08-03 13:30:24  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:24.235 UTC
+
+Interface          Status      Protocol    Description
+--------------------------------------------------------------------------------
+BV101              up          up          [TYPE=RPHY][NAME=COS-CONTROL][DAA=HARMONIC][CLUSTER-MGMT]
+BV102              up          up          [TYPE=RPHY][NAME=COS-RPHY-DSI-VLAN][DAA=HARMONIC][DSI-RPHY-SIDE]
+BV103              up          up          [TYPE=RPHY][NAME=COS-NSI-NETWORK][DAA=HARMONIC][NSI-CM-CPE]
+BV104              up          up          [TYPE=RPHY][NAME=COS-NSI-PROV][DAA=HARMONIC][NSI-PROVISIONING]
+BV105              up          up          [TYPE=RPHY][NAME=COS-PUBLIC][DAA=HARMONIC][NSI-DHCP-LQ]
+BE1                up          up          [TYPE=ASA][BW=200G][NAME=ASA01K1DCCC][AS=65519][LAG=BE2200] 
+BE101              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N1][NBR_INT=BOND0][LAG=101]
+BE101.100          up          up          [TYPE=APC][BW=100G][NAME=COS-CONTROL][NBR_INT=netpf0]
+BE101.200          up          up          [TYPE=APC][BW=100G][NAME=COS-RPHY-VLAN][NBR_INT=netpf0]
+BE101.300          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-NETWORK][NBR_INT=netpf0]
+BE101.400          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-PROV][NBR_INT=netpf0]
+BE101.500          up          up          [TYPE=APC][BW=100G][NAME=COS-PUBLIC][NBR_INT=netpf0]
+BE102              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N2][NBR_INT=BOND0][LAG=102]
+BE102.100          up          up          [TYPE=APC][BW=100G][NAME=COS-CONTROL][NBR_INT=netpf0]
+BE102.200          up          up          [TYPE=APC][BW=100G][NAME=COS-RPHY-VLAN][NBR_INT=netpf0]
+BE102.300          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-NETWORK][NBR_INT=netpf0]
+BE102.400          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-PROV][NBR_INT=netpf0]
+BE102.500          up          up          [TYPE=APC][BW=100G][NAME=COS-PUBLIC][NBR_INT=netpf0]
+BE103              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N3][NBR_INT=BOND0][LAG=103]
+BE103.100          up          up          [TYPE=APC][BW=100G][NAME=COS-CONTROL][NBR_INT=netpf0]
+BE103.200          up          up          [TYPE=APC][BW=100G][NAME=COS-RPHY-VLAN][NBR_INT=netpf0]
+BE103.300          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-NETWORK][NBR_INT=netpf0]
+BE103.400          up          up          [TYPE=APC][BW=100G][NAME=COS-NSI-PROV][NBR_INT=netpf0]
+BE103.500          up          up          [TYPE=APC][BW=100G][NAME=COS-PUBLIC][NBR_INT=netpf0]
+Lo0                up          up          [TYPE=LOOPBACK][NAME=APA01K1DCCC][FUNC=APA][CLLI=AK.R01.R04.RU7][SITE=CHTR][AS=65519]
+Nu0                up          up          
+Mg0/RP0/CPU0/0     admin-down  admin-down  
+FH0/0/0/24         up          up          [TYPE=ASA][BW=400G][NAME=ASA01K1DCCC][NBR_INT=Fou0/0/0/26]
+FH0/0/0/25         admin-down  admin-down  
+FH0/0/0/26         admin-down  admin-down  
+FH0/0/0/27         admin-down  admin-down  
+FH0/0/0/28         admin-down  admin-down  
+FH0/0/0/29         admin-down  admin-down  
+Hu0/0/0/0          up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N1][NBR_INT=netpf0][LAG=101]
+Hu0/0/0/1          admin-down  admin-down  
+Hu0/0/0/2          up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N2][NBR_INT=netpf0][LAG=101]
+Hu0/0/0/3          admin-down  admin-down  
+Hu0/0/0/4          up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N3][NBR_INT=netpf0][LAG=101]
+Hu0/0/0/5          admin-down  admin-down  
+Hu0/0/0/6          admin-down  admin-down  
+Hu0/0/0/7          admin-down  admin-down  
+Hu0/0/0/8          admin-down  admin-down  
+Hu0/0/0/9          admin-down  admin-down  
+Hu0/0/0/10         admin-down  admin-down  
+Hu0/0/0/11         admin-down  admin-down  
+Hu0/0/0/12         admin-down  admin-down  
+Hu0/0/0/13         admin-down  admin-down  
+Hu0/0/0/14         admin-down  admin-down  
+Hu0/0/0/15         admin-down  admin-down  
+Hu0/0/0/16         admin-down  admin-down  
+Hu0/0/0/17         admin-down  admin-down  
+Hu0/0/0/18         admin-down  admin-down  
+Hu0/0/0/19         admin-down  admin-down  
+Hu0/0/0/20         admin-down  admin-down  
+Hu0/0/0/21         admin-down  admin-down  
+Hu0/0/0/22         admin-down  admin-down  
+Hu0/0/0/23         admin-down  admin-down
+2026-08-03 13:30:24  INFO      
+  >> Bundle-Ether1 (to ASA)
+     CMD: show bundle Bundle-Ether1
+2026-08-03 13:30:24  DEBUG     [CMD] apa01k1dccc $ show bundle Bundle-Ether1
+2026-08-03 13:30:24  DEBUG     [CMD] apa01k1dccc exec_command OK (2082 chars)
+2026-08-03 13:30:24  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:24.729 UTC
+
+Bundle-Ether1
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     400000000 (400000000) kbps
+  MAC address (source):                      0caf.31c9.f288 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  FH0/0/0/24            Local            Active       0x8000, 0x0001   400000000
+      Link is Active
+2026-08-03 13:30:24  INFO      
+  >> Bundle-Ether101 (N1)
+     CMD: show bundle Bundle-Ether101
+2026-08-03 13:30:24  DEBUG     [CMD] apa01k1dccc $ show bundle Bundle-Ether101
+2026-08-03 13:30:25  DEBUG     [CMD] apa01k1dccc exec_command OK (2088 chars)
+2026-08-03 13:30:25  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:25.241 UTC
+
+Bundle-Ether101
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     100000000 (100000000) kbps
+  MAC address (source):                      0caf.31c9.f287 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Not operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/0/0             Local            Active       0x8000, 0x0000   100000000
+      Link is Active
+2026-08-03 13:30:25  INFO      
+  >> Bundle-Ether102 (N2)
+     CMD: show bundle Bundle-Ether102
+2026-08-03 13:30:25  DEBUG     [CMD] apa01k1dccc $ show bundle Bundle-Ether102
+2026-08-03 13:30:25  DEBUG     [CMD] apa01k1dccc exec_command OK (2088 chars)
+2026-08-03 13:30:25  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:25.704 UTC
+
+Bundle-Ether102
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     100000000 (100000000) kbps
+  MAC address (source):                      0caf.31c9.f286 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Not operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/0/2             Local            Active       0x8000, 0x0000   100000000
+      Link is Active
+2026-08-03 13:30:25  INFO      
+  >> Bundle-Ether103 (N3)
+     CMD: show bundle Bundle-Ether103
+2026-08-03 13:30:25  DEBUG     [CMD] apa01k1dccc $ show bundle Bundle-Ether103
+2026-08-03 13:30:26  DEBUG     [CMD] apa01k1dccc exec_command OK (2088 chars)
+2026-08-03 13:30:26  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:26.172 UTC
+
+Bundle-Ether103
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     100000000 (100000000) kbps
+  MAC address (source):                      0caf.31c9.f285 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Not operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/0/4             Local            Active       0x8000, 0x0000   100000000
+      Link is Active
+2026-08-03 13:30:26  INFO      
+  >> LLDP FH0/0/0/24
+     CMD: show lldp neighbors FourHundredGigE0/0/0/24
+2026-08-03 13:30:26  DEBUG     [CMD] apa01k1dccc $ show lldp neighbors FourHundredGigE0/0/0/24
+2026-08-03 13:30:26  DEBUG     [CMD] apa01k1dccc exec_command OK (1174 chars)
+2026-08-03 13:30:26  INFO      ***********************************************
+*                                             *
+*                Welcome to                   *
+*                apa01k1dccc                  *
+*       ===========================           *
+*     Stability Zone SC - AK.R01.R04.RU7      *
+*                ---- SC ----                 *
+*  14810 Grasslands Dr. Englewood, CO 80112   *
+*       ===========================           *
+*       Model Number: NCS-57B1-6D24-SYS       *
+*             IOS Version: 7.11.2             *
+*            OOB IP: 10.xx.xx.xx              *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:26.662 UTC
+Capability codes:
+	(R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+	(W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID       Local Intf                      Hold-time  Capability      Port ID
+asa01k1dccc     FourHundredGigE0/0/0/24         120        R               Bundle-Ether2200
+asa01k1dccc     FourHundredGigE0/0/0/24         120        R               FourHundredGigE0/0/0/26
+
+Total entries displayed: 2
+2026-08-03 13:30:27  INFO      
+========================================================================
+  ARA Switch (ara)  (ara01k1dccc)
+========================================================================
+2026-08-03 13:30:27  DEBUG     [SSH] Connecting to ara01k1dccc
+2026-08-03 13:30:27  DEBUG     [CHANNEL] Opening channel to ara01k1dccc:22
+2026-08-03 13:30:29  DEBUG     [CHANNEL] IPv4 resolution failed for ara01k1dccc, using hostname
+2026-08-03 13:30:30  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:30  DEBUG     [SSH] ara01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:30  INFO      
+  >> Interface status
+     CMD: show int desc
+2026-08-03 13:30:30  DEBUG     [CMD] ara01k1dccc $ show int desc
+2026-08-03 13:30:30  DEBUG     [CMD] ara01k1dccc exec_command OK (4445 chars)
+2026-08-03 13:30:30  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    ara01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU5        *
+*                                             *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: NCS-55A1-24Q6H-SS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:30.777 UTC
+
+Interface          Status      Protocol    Description
+--------------------------------------------------------------------------------
+BV110              up          up          [TYPE=NODE][NAME=RPD-MGMT][DAA=HARMONIC][APC01]
+BV7002             up          up          [TYPE=PTP][NAME=PTP-BCM]
+BE1                up          up          [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][ZLAG=2100]
+Lo0                up          up          [TYPE=LOOPBACK][NAME=ARA01K1DCCC][FUNC=ARA][CLLI=K1DCCC][SITE=CHTR][AS=65519]
+Nu0                up          up          
+Gi0/0/0/32         admin-down  admin-down  
+Te0/0/0/0          up          up          [VENDOR=HARMONIC][TYPE=RPD][MODEL=PEBBLE-2][MAC=<MAC Address>][PORT=TEN1/1][LOCATION=LM4.R02.S03.P5]
+Te0/0/0/0.110      up          up          RPD-MGMT-APC01
+Te0/0/0/1          down        down        [VENDOR=HARMONIC][TYPE=RPD][MODEL=PEBBLE-2][MAC=<MAC Address>][PORT=TEN1/1][LOCATION=LM4.R02.S03.P5]
+Te0/0/0/1.110      down        down        RPD-MGMT-APC01
+Te0/0/0/2          admin-down  admin-down  
+Te0/0/0/3          admin-down  admin-down  
+Te0/0/0/4          admin-down  admin-down  
+Te0/0/0/5          admin-down  admin-down  
+Te0/0/0/6          admin-down  admin-down  
+Te0/0/0/7          admin-down  admin-down  
+Te0/0/0/8          admin-down  admin-down  
+Te0/0/0/9          admin-down  admin-down  
+Te0/0/0/10         down        down        [HOST=APDxxK1DCCC][VENDOR=TBD][TYPE=RPD][MODEL=TBD][MAC=TBD][LOCATION=TBD]
+Te0/0/0/10.110     down        down        RPD-MGMT-APC01
+Te0/0/0/11         admin-down  admin-down  
+Te0/0/0/12         down        down        [HOST=APDxxK1DCCC][VENDOR=TBD][TYPE=RPD][MODEL=TBD][MAC=TBD][LOCATION=TBD]
+Te0/0/0/12.110     down        down        RPD-MGMT-APC01
+Te0/0/0/13         admin-down  admin-down  
+Te0/0/0/14         admin-down  admin-down  
+Te0/0/0/15         admin-down  admin-down  
+Te0/0/0/16         admin-down  admin-down  
+Te0/0/0/17         admin-down  admin-down  
+Te0/0/0/18         admin-down  admin-down  
+Te0/0/0/19         admin-down  admin-down  
+Te0/0/0/20         admin-down  admin-down  
+Te0/0/0/21         admin-down  admin-down  
+Te0/0/0/22         admin-down  admin-down  
+Te0/0/0/23         admin-down  admin-down  
+Te0/0/0/24         admin-down  admin-down  
+Te0/0/0/25         admin-down  admin-down  
+Te0/0/0/26         admin-down  admin-down  
+Te0/0/0/27         admin-down  admin-down  
+Te0/0/0/28         admin-down  admin-down  
+Te0/0/0/29         admin-down  admin-down  
+Te0/0/0/30         admin-down  admin-down  
+Te0/0/0/31         admin-down  admin-down  
+Te0/0/0/33         admin-down  admin-down  
+Te0/0/0/34         admin-down  admin-down  
+Te0/0/0/35         admin-down  admin-down  
+Te0/0/0/36         admin-down  admin-down  
+Te0/0/0/37         admin-down  admin-down  
+Te0/0/0/38         admin-down  admin-down  
+Te0/0/0/39         admin-down  admin-down  
+Te0/0/0/40         admin-down  admin-down  
+Te0/0/0/41         admin-down  admin-down  
+Te0/0/0/42         admin-down  admin-down  
+Te0/0/0/43         admin-down  admin-down  
+Te0/0/0/44         admin-down  admin-down  
+Te0/0/0/45         admin-down  admin-down  
+Te0/0/0/46         admin-down  admin-down  
+Te0/0/0/47         up          up          [TYPE=PTP][HOST=atp01k1dccc][NBR_INT=1-1-1-1-x]
+Te0/0/0/47.102     up          up          PTP-BCM-1
+Hu0/0/1/0          up          up          [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][NBR_INT=Hu0/0/0/0]
+Hu0/0/1/1          down        down        
+Hu0/0/1/2          admin-down  admin-down  
+Hu0/0/1/3          admin-down  admin-down  
+Hu0/0/1/4          admin-down  admin-down  
+Hu0/0/1/5          admin-down  admin-down  
+Mg0/RP0/CPU0/0     admin-down  admin-down
+2026-08-03 13:30:30  INFO      
+  >> Bundle-Ether1 (to ASA)
+     CMD: show bundle Bundle-Ether1
+2026-08-03 13:30:30  DEBUG     [CMD] ara01k1dccc $ show bundle Bundle-Ether1
+2026-08-03 13:30:31  DEBUG     [CMD] ara01k1dccc exec_command OK (2033 chars)
+2026-08-03 13:30:31  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    ara01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU5        *
+*                                             *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: NCS-55A1-24Q6H-SS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:31.395 UTC
+
+Bundle-Ether1
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     100000000 (100000000) kbps
+  MAC address (source):                      0caf.3114.10e1 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/1/0             Local            Active       0x8000, 0x0002   100000000
+      Link is Active
+2026-08-03 13:30:31  INFO      
+  >> LLDP Hu0/0/1/0
+     CMD: show lldp neighbors HundredGigE0/0/1/0
+2026-08-03 13:30:31  DEBUG     [CMD] ara01k1dccc $ show lldp neighbors HundredGigE0/0/1/0
+2026-08-03 13:30:32  DEBUG     [CMD] ara01k1dccc exec_command OK (1120 chars)
+2026-08-03 13:30:32  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    ara01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU5        *
+*                                             *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: NCS-55A1-24Q6H-SS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:31.936 UTC
+Capability codes:
+	(R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+	(W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID       Local Intf                      Hold-time  Capability      Port ID
+asa01k1dccc     HundredGigE0/0/1/0              120        R               Bundle-Ether2100
+asa01k1dccc     HundredGigE0/0/1/0              120        R               HundredGigE0/0/0/0
+
+Total entries displayed: 2
+2026-08-03 13:30:32  INFO      
+  >> LLDP Hu0/0/1/1
+     CMD: show lldp neighbors HundredGigE0/0/1/1
+2026-08-03 13:30:32  DEBUG     [CMD] ara01k1dccc $ show lldp neighbors HundredGigE0/0/1/1
+2026-08-03 13:30:32  DEBUG     [CMD] ara01k1dccc exec_command OK (932 chars)
+2026-08-03 13:30:32  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    ara01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU5        *
+*                                             *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: NCS-55A1-24Q6H-SS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:32.561 UTC
+Capability codes:
+	(R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+	(W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID       Local Intf                      Hold-time  Capability      Port ID
+
+Total entries displayed: 0
+2026-08-03 13:30:33  INFO      
+========================================================================
+  ASA Switch (asa)  (asa01k1dccc)
+========================================================================
+2026-08-03 13:30:33  DEBUG     [SSH] Connecting to asa01k1dccc
+2026-08-03 13:30:33  DEBUG     [CHANNEL] Opening channel to asa01k1dccc:22
+2026-08-03 13:30:35  DEBUG     [CHANNEL] IPv4 resolution failed for asa01k1dccc, using hostname
+2026-08-03 13:30:35  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:36  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:30:36  DEBUG     [SSH] asa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:36  INFO      
+  >> Interface status
+     CMD: show int desc
+2026-08-03 13:30:36  DEBUG     [CMD] asa01k1dccc $ show int desc
+2026-08-03 13:30:36  DEBUG     [CMD] asa01k1dccc exec_command OK (3205 chars)
+2026-08-03 13:30:36  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:36.452 UTC
+
+Interface          Status      Protocol    Description
+--------------------------------------------------------------------------------
+BE1                up          up          [TYPE=HCR][BW=200G][NAME=DTR01K1DCCC][ZLAG=BE25] 
+BE2100             up          up          [TYPE=ARA][BW=100G][NAME=ARA01K1DCCC][ZLAG=BE1] 
+BE2200             up          up          [TYPE=APA][BW=400G][NAME=APA01K1DCCC][ZLAG=BE1] 
+Lo0                up          up          [TYPE=LOOPBACK][NAME=ASA01K1DCCC][FUNC=ASA][CLLI=AK.R01.R04.RU09][SITE=CHTR][AS=65519]
+Nu0                up          up          
+Mg0/RP0/CPU0/0     admin-down  admin-down  
+FH0/0/0/24         admin-down  admin-down  
+FH0/0/0/25         admin-down  admin-down  
+FH0/0/0/26         up          up          [TYPE=APA][BW=400G][NAME=APA01K1DCCC][NBR_INT=Fou0/0/0/24]
+FH0/0/0/27         admin-down  admin-down  
+FH0/0/0/28         admin-down  admin-down  
+FH0/0/0/29         admin-down  admin-down  
+Hu0/0/0/0          up          up          [TYPE=ARA][BW=100G][NAME=ARA01K1DCCC][NBR_INT=Hu0/0/1/0]
+Hu0/0/0/1          down        down        [TYPE=ARA][BW=100G][NAME=ARA01K1DCCC][NBR_INT=Hu0/0/1/1]
+Hu0/0/0/2          admin-down  admin-down  
+Hu0/0/0/3          admin-down  admin-down  
+Hu0/0/0/6          admin-down  admin-down  
+Hu0/0/0/7          admin-down  admin-down  
+Hu0/0/0/8          admin-down  admin-down  
+Hu0/0/0/9          admin-down  admin-down  
+Hu0/0/0/10         admin-down  admin-down  
+Hu0/0/0/11         admin-down  admin-down  
+Hu0/0/0/12         admin-down  admin-down  
+Hu0/0/0/13         admin-down  admin-down  
+Hu0/0/0/14         admin-down  admin-down  
+Hu0/0/0/15         admin-down  admin-down  
+Hu0/0/0/16         down        down        [TYPE=APA][BW=100G][NAME=APA01K1DCCC][NBR_INT=HU0/0/0/16]
+Hu0/0/0/17         down        down        [TYPE=APA][BW=100G][NAME=APA01K1DCCC][NBR_INT=HU0/0/0/17]
+Hu0/0/0/18         admin-down  admin-down  
+Hu0/0/0/19         admin-down  admin-down  
+Hu0/0/0/20         admin-down  admin-down  [TYPE=HCR][BW=100G][NAME=DTR01K1DCCC][NBR_INT=HU0/0/x/x]   
+Hu0/0/0/21         admin-down  admin-down  [TYPE=HCR][BW=100G][NAME=DTR01K1DCCC][NBR_INT=HU0/0/x/x]  
+Hu0/0/0/22         admin-down  admin-down  
+Hu0/0/0/23         admin-down  admin-down  
+Te0/0/0/4/0        up          up          [TYPE=HCR][BW=10G][NAME=DTR01K1DCCC][NBR_INT=TE0/0/0/2]
+Te0/0/0/4/1        admin-down  admin-down  
+Te0/0/0/4/2        admin-down  admin-down  
+Te0/0/0/4/3        admin-down  admin-down
+2026-08-03 13:30:36  INFO      
+  >> Bundle-Ether1 (to DTR01)
+     CMD: show bundle Bundle-Ether1
+2026-08-03 13:30:36  DEBUG     [CMD] asa01k1dccc $ show bundle Bundle-Ether1
+2026-08-03 13:30:37  DEBUG     [CMD] asa01k1dccc exec_command OK (2243 chars)
+2026-08-03 13:30:37  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:36.958 UTC
+
+Bundle-Ether1
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 3
+  Local bandwidth <effective/available>:     10000000 (10000000) kbps
+  MAC address (source):                      0caf.31c9.ea85 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/0/20            Local            Configured   0x8000, 0x0006   100000000
+      Link is shutdown
+  Hu0/0/0/21            Local            Configured   0x8000, 0x0005   100000000
+      Link is shutdown
+  Te0/0/0/4/0           Local            Active       0x8000, 0x0007    10000000
+      Link is Active
+2026-08-03 13:30:37  INFO      
+  >> Bundle-Ether2200 (to APA)
+     CMD: show bundle Bundle-Ether2200
+2026-08-03 13:30:37  DEBUG     [CMD] asa01k1dccc $ show bundle Bundle-Ether2200
+2026-08-03 13:30:37  DEBUG     [CMD] asa01k1dccc exec_command OK (2240 chars)
+2026-08-03 13:30:37  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:37.428 UTC
+
+Bundle-Ether2200
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 3
+  Local bandwidth <effective/available>:     400000000 (400000000) kbps
+  MAC address (source):                      0caf.31c9.ea83 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  FH0/0/0/26            Local            Active       0x8000, 0x0001   400000000
+      Link is Active
+  Hu0/0/0/16            Local            Configured   0x8000, 0x0004   100000000
+      Link is down
+  Hu0/0/0/17            Local            Configured   0x8000, 0x0003   100000000
+      Link is down
+2026-08-03 13:30:37  INFO      
+  >> Bundle-Ether2100 (to ARA)
+     CMD: show bundle Bundle-Ether2100
+2026-08-03 13:30:37  DEBUG     [CMD] asa01k1dccc $ show bundle Bundle-Ether2100
+2026-08-03 13:30:38  DEBUG     [CMD] asa01k1dccc exec_command OK (2036 chars)
+2026-08-03 13:30:38  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:37.925 UTC
+
+Bundle-Ether2100
+  Status:                                    Up
+  Local links <active/standby/configured>:   1 / 0 / 1
+  Local bandwidth <effective/available>:     100000000 (100000000) kbps
+  MAC address (source):                      0caf.31c9.ea84 (Chassis pool)
+  Inter-chassis link:                        No
+  Minimum active links / bandwidth:          1 / 1 kbps
+  Maximum active links:                      64
+  Wait while timer:                          2000 ms
+  Load balancing:                            
+    Link order signaling:                    Not configured
+    Hash type:                               Default
+    Locality threshold:                      None
+  LACP:                                      Operational
+    Flap suppression timer:                  Off
+    Cisco extensions:                        Disabled
+    Non-revertive:                           Disabled
+  mLACP:                                     Not configured
+  IPv4 BFD:                                  Not configured
+  IPv6 BFD:                                  Not configured
+
+  Port                  Device           State        Port ID         B/W, kbps
+  --------------------  ---------------  -----------  --------------  ----------
+  Hu0/0/0/0             Local            Active       0x8000, 0x0002   100000000
+      Link is Active
+2026-08-03 13:30:38  INFO      
+  >> Te0/0/0/4/0 (key 10G link)
+     CMD: show interfaces TenGigE0/0/0/4/0
+2026-08-03 13:30:38  DEBUG     [CMD] asa01k1dccc $ show interfaces TenGigE0/0/0/4/0
+2026-08-03 13:30:38  DEBUG     [CMD] asa01k1dccc exec_command OK (2068 chars)
+2026-08-03 13:30:38  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:38.648 UTC
+TenGigE0/0/0/4/0 is up, line protocol is up 
+  Interface state transitions: 19
+  Hardware is TenGigE, address is 0caf.31c9.ea14 (bia 0caf.31c9.ea14)
+  Description: [TYPE=HCR][BW=10G][NAME=DTR01K1DCCC][NBR_INT=TE0/0/0/2]
+  Internet address is Unknown
+  MTU 9192 bytes, BW 10000000 Kbit (Max: 10000000 Kbit)
+     reliability 255/255, txload 0/255, rxload 0/255
+  Encapsulation ARPA,
+  Full-duplex, 10000Mb/s, 40GBASE-PSM4, link type is force-up
+  output flow control is off, input flow control is off
+  Carrier delay (up) is 200 msec
+  loopback not set,
+  Last link flapped 11w6d
+  Last input 00:00:00, output 00:00:00
+  Last clearing of "show interface" counters never
+  5 minute input rate 1176000 bits/sec, 136 packets/sec
+  5 minute output rate 1266000 bits/sec, 120 packets/sec
+     11517834475 packets input, 15039154110927 bytes, 0 total input drops
+     0 drops for unrecognized upper-level protocol
+     Received 11 broadcast packets, 4164945 multicast packets
+              0 runts, 7 giants, 0 throttles, 0 parity
+     60 input errors, 53 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     8347474470 packets output, 10510436722973 bytes, 0 total output drops
+     Output 11 broadcast packets, 4002603 multicast packets
+     0 output errors, 0 underruns, 0 applique, 0 resets
+     0 output buffer failures, 0 output buffers swapped out
+     19 carrier transitions
+2026-08-03 13:30:38  INFO      
+  >> LLDP FH0/0/0/26
+     CMD: show lldp neighbors FourHundredGigE0/0/0/26
+2026-08-03 13:30:38  DEBUG     [CMD] asa01k1dccc $ show lldp neighbors FourHundredGigE0/0/0/26
+2026-08-03 13:30:39  DEBUG     [CMD] asa01k1dccc exec_command OK (1122 chars)
+2026-08-03 13:30:39  INFO      ***********************************************
+*                                             *
+*    Welcome to                               *
+*    asa01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU09       *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*                                             *
+*    Model Number: NCS-57B1-6D24-SYS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:39.139 UTC
+Capability codes:
+	(R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+	(W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+
+Device ID       Local Intf                      Hold-time  Capability      Port ID
+apa01k1dccc     FourHundredGigE0/0/0/26         120        R               Bundle-Ether1
+apa01k1dccc     FourHundredGigE0/0/0/26         120        R               FourHundredGigE0/0/0/24
+
+Total entries displayed: 2
+2026-08-03 13:30:40  INFO      
+  [SKIP]  iCMTS E6000 (cts) (cts01k1dccc) — SSH not available
+2026-08-03 13:30:40  INFO      
+========================================================================
+  DTR01 Router (dtr)  (dtr01k1dccc)
+========================================================================
+2026-08-03 13:30:40  DEBUG     [SSH] Connecting to dtr01k1dccc
+2026-08-03 13:30:40  DEBUG     [CHANNEL] Opening channel to dtr01k1dccc:22
+2026-08-03 13:30:41  DEBUG     [CHANNEL] IPv4 resolution failed for dtr01k1dccc, using hostname
+2026-08-03 13:30:42  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:30:42  DEBUG     [SSH] dtr01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:30:42  INFO      
+  >> Interface status
+     CMD: show int desc
+2026-08-03 13:30:42  DEBUG     [CMD] dtr01k1dccc $ show int desc
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command OK (9771 chars)
+2026-08-03 13:30:43  INFO      ***********************************************
+*                                             *
+*    Welcome to Host: dtr01k1dccc             *
+*    Logged in via: vty1                      *
+*                                             *
+*    Stability Zone C - AK.R01.R05            *
+*    DPOC                                     *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: ASR9006                    *
+*    IOS Version: 6.4.2SP6                    *
+*                                             *
+***********************************************
+
+
+
+Mon Aug  3 19:30:43.308 UTC
+
+Interface          Status      Protocol    Description
+--------------------------------------------------------------------------------
+BV10               up          up          
+BV11               down        down        
+BV12               down        down        
+BV100              up          up          
+BV111              down        down        
+BV112              down        down        
+BV300              down        down        [TYPE=COMPUTE-MGMT][NAME=AA_VCENTER]
+BV800              down        down        
+BV801              down        down        description DPOC - EON Compute Stack
+BV802              down        down        cts09k1dccc GAC Stack
+BV2000             admin-down  admin-down  NOKIA_R-OLT_NODE_MGMT
+BV2002             down        down        CALIX_R-OLT_NODE_MGMT
+BV2010             admin-down  admin-down  NOKIA_VCM+HSD+VOICE
+BV2012             down        down        CALIX_HSD+VOICE
+BV3000             down        down        Transparent LAN - CMTS Side
+BV3001             down        down        Transparent LAN - Router Side
+BV4001             down        down        rOLT Management
+BV4002             down        down        OLT - Data BVI
+BV4003             down        down        OLT - Voice BVI
+BE1                down        down        "Interconnect - cts01k1dccc - LAG 1"
+BE3                down        down        "Interconnect - cts03k1dccc - LAG 1"
+BE4                down        down        "Interconnect - cts04k1dccc - LAG 1"
+BE5                up          up          Interconnect - cts06k1dccc - LAG1
+BE7                down        down        Interconnect_to_arris OLT6/8_Layer_3
+BE20               up          up          dar03k1dccc te0/0/0/21
+BE21               up          up          [TYPE=ASA][BW=10G][NAME=ASA01K1DCCC][AS=65311][ZPRT=BE1]
+BE100              down        down        Interconnect - cts02k1dccc - LAG1
+BE105              down        down        
+BE2000             down        down        AGG_to_Nokia_SF-4X | CID: 11400
+BE2000.100         down        down        Nokia_SF-4X_VCM+DATA+VOICE
+BE2000.169         down        down        Nokia_SF-4X_NODE_MGMT
+Lo0                up          up          *** MGMT LOOPBACK ZERO ***
+Lo1                up          up          isis TEST loopback
+Lo14               up          up          *** MPLS LOOPBACK FOURTEEN ***
+Lo15               up          up          *** BGP LOOPBACK FIFTEEN ***
+Nu0                up          up          
+Mg0/RSP0/CPU0/0    admin-down  admin-down  
+Mg0/RSP0/CPU0/1    admin-down  admin-down  
+PT0/RSP0/CPU0/0    admin-down  admin-down  
+Te0/0/0/0          up          up          Interconnect - cts01k1dccc - LAG - ethernet 6/5
+Te0/0/0/1          up          up          Interconnect - cts02k1dccc - xgige6/0
+Te0/0/0/2          up          up          [TYPE=ASA][BW=10G][NAME=ASA01K1DCCC][AS=65311][ZPRT=HU0/0/0/4][LAG=BE1]
+Te0/0/0/3          down        down        Interconnect - cts04k1dccc - LAG1 - TE4/1/2
+Te0/0/0/4          up          up          Monitor Port to the Latency Analyzer Server
+Te0/0/0/5          up          up          Interconnect - cts06k1dccc - LAG1 - TE4/1/0
+Te0/0/0/6          down        down        Interconnect - cts07k1dccc - ****
+Te0/0/0/7          down        down        Test - IXIA - S2/S7
+Te0/0/0/7.1000     down        down        
+Te0/0/0/8          admin-down  admin-down  
+Te0/0/0/9          admin-down  admin-down  Interconnect - cts09k1dccc - ****
+Te0/0/0/10         up          up          Interconnect - cts06k1dccc - LAG1 - TE4/1/1
+Te0/0/0/11         down        down        Server - vmm02k1dccc - e1
+Te0/0/0/12         up          up          [10G Uplink to "New" hcr01k1dccc Te0/0/0/32/2]
+Te0/0/0/13         up          up          Connection to ByteBlower Traffic Generator Port NT-1 (untagged)
+Te0/0/0/14         down        down        Server - vmm03k1dccc - e1
+Te0/0/0/15         up          up          Connection to ByteBlower Traffic Generator Port NT-1 3200 (untagged)
+Te0/0/0/16         up          up          To nar01k1dccc - QFX5100 xe-0/0/0.0 Outside of Moonshot
+Te0/0/0/16.100     up          up          
+Te0/0/0/17         down        down        DPOC - IPDR Collector - dtr01k1dccc - TenGigE0/0/0/17 - vld02k1dccc - Ethernet_2
+Te0/0/0/18         up          up          VLAN 10 CONNECTION TO TVM-02 PORT 7
+Te0/0/0/18.10      up          up          VLAN 10 CONNECTION TO TVM-02 PORT 7
+Te0/0/0/19         up          up          10G_to_dar03k1dccc_Te0/0/0/21 | Interconnect
+Te0/0/0/20         down        down        Cisco UCS C460 - DUSTIN SIEVERS - Primary RDU HA Setup
+Te0/0/0/21         down        down        10G_to_Nokia_SF-4x_Uplink1 | CID: 11400
+Te0/0/0/22         up          up          *** TO dtr02k1dccc PORT Te0/0/0/22 ***
+Te0/0/0/23         up          up          *** TO /AZ/ sar01zcsccc PORT 0/0/0/7 ***
+Te0/0/0/23.801     up          down        
+Te0/0/0/23.803     up          down        
+Gi0/1/0/0          down        down        
+Gi0/1/0/1          down        down        ECN Traversal Raspberry PI - Lei
+Gi0/1/0/2          down        down        
+Gi0/1/0/3          admin-down  admin-down  Interconnect - cts01k1dccc - LAG - ethernet 6/0
+Gi0/1/0/4          down        down        Temporary Testing for Linux Throughput
+Gi0/1/0/5          up          up          LLD Testing Rasberry PI Cablelabs ECH
+Gi0/1/0/6          down        down        | Raspi � Raspbian Jesse | (DHCP, TFTP, syslog) | 10.3.255.2 | 2605:1c00:ff3:0:ffff:ffff:fff:fffe
+Gi0/1/0/6.1000     down        down        
+Gi0/1/0/7          down        down        "VECIMA VIVE POC MGMT
+Gi0/1/0/8          admin-down  admin-down  
+Gi0/1/0/9          down        down        Lei FLENTSERVER V2 APPLE
+Gi0/1/0/10         down        down        
+Gi0/1/0/11         down        down        
+Gi0/1/0/12         admin-down  admin-down  
+Gi0/1/0/13         admin-down  admin-down  
+Gi0/1/0/14         admin-down  admin-down  
+Gi0/1/0/15         down        down        
+Gi0/1/0/15.0       down        down        
+Gi0/1/0/16         admin-down  admin-down  
+Gi0/1/0/17         down        down        
+Gi0/1/0/18         down        down        
+Gi0/1/0/18.111     down        down        
+Gi0/1/0/18.112     down        down        
+Gi0/1/0/19         admin-down  admin-down  
+Te0/2/0/0          down        down        MIRROR PORT FOR TESTING | DO NOT TOUCH | CID:11442 | jgraves
+Te0/2/0/0.2001     down        down        
+Te0/2/0/0.3200     down        down        
+Te0/2/0/0.4000     down        down        
+Te0/2/0/0.4001     down        down        
+Te0/2/0/1          up          up          Ixia 10.244.24.23 card 3 port 2
+Te0/2/0/2          down        down        Interconnect | QFX5K-nar01k3dccc-xe-0/0/94
+Te0/2/0/3          up          up          "Connection to Ixia  10.244.24.24 Card 4 port 9"
+Te0/2/0/4          down        down        Calix rOLT - CID 11381
+Te0/2/0/4.100      down        down        CALIX_DATA_VLAN | 2600:6ce3:600::1/64
+Te0/2/0/4.4000     down        down        CALIX_MGMT_VLAN | vCM: 2605:1c00:fff0:202::1/64 | r-OLT: 2605:1c00:fff0:208::1/64
+Te0/2/0/5          admin-down  admin-down  
+Te0/2/0/6          down        down        Arris rOLT - CID 11373
+Te0/2/0/6.4000     down        down        
+Te0/2/0/6.4001     down        down        
+Te0/2/0/7          up          up          "VECIMA VIVE POC INGRESS"
+Te0/2/0/8          down        down        "VECIMA VIVE POC EGRESS"
+Te0/2/0/9          up          up          "Connection to Ixia  10.244.24.24 Card 4 port 10"
+Te0/2/0/10         down        down        Interconnect - bng03wtsccc - slot9 port 1-3
+Te0/2/0/10.200     down        down        bng03wtsccc
+Te0/2/0/11         down        down        Ixia_TVA_01_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+Te0/2/0/11.11      down        down        VLAN 11 CONNECTION TO Ixia_TVA_01_8.40_EA SERVER SIDE PORT - DUSTIN SIEVERS
+Te0/2/0/12         down        down        Ixia_TVA_02_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+Te0/2/0/13         down        down        Ixia_TVA_03_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+Te0/2/0/14         down        down        Ixia_TVA_04_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+Te0/2/0/15         down        down        Ixia_TVA_05_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+Te0/2/0/16         up          up          Interface to BVI100
+Te0/2/0/17         down        down        nar07k3dccc
+Te0/2/0/18         admin-down  admin-down  
+Te0/2/0/19         down        down        Adva-PTP-Server-GPS-AL.R01.R12
+Te0/2/0/20         down        down        DPOC - EON - Casa - vCCAP - Core
+Te0/2/0/21         up          up          DPOC - EON - Casa - vCMTS
+Te0/2/0/22         admin-down  admin-down  DPOC - EON Compute Stack - SNAPS Tenant network svr02k1dccc - BL.R01.R09 RU 35-34
+Te0/2/0/23         down        down        DPOC - EON Compute Stack - SNAPS Tenant network svr02k1dccc - BL.R01.R09 RU 35-34
+2026-08-03 13:30:43  INFO      
+  >> BE21 status (to ASA)
+     CMD: show interfaces Bundle-Ether21 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show interfaces Bundle-Ether21 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:43  INFO      
+  >> Te0/0/0/2 (to ASA)
+     CMD: show interfaces TenGigE0/0/0/2 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show interfaces TenGigE0/0/0/2 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:43  INFO      
+  >> Te0/0/0/0 (to iCMTS)
+     CMD: show interfaces TenGigE0/0/0/0 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show interfaces TenGigE0/0/0/0 brief
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:43  INFO      
+  >> BE21 config
+     CMD: show running-config interface Bundle-Ether21
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show running-config interface Bundle-Ether21
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:43  INFO      
+  >> DHCP binding summary
+     CMD: show dhcp ipv4 server binding summary
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show dhcp ipv4 server binding summary
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:43  INFO      
+  >> DNS config
+     CMD: show running-config formal | include domain-name-server
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc $ show running-config formal | include domain-name-server
+2026-08-03 13:30:43  DEBUG     [CMD] dtr01k1dccc exec_command failed (SSH session not active), trying invoke_shell
+2026-08-03 13:30:43  DEBUG     Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 503, in stage_verify
+    out = run_command(client, cmd, host=host)
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 399, in run_command
+    shell = t.open_session()
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 921, in open_session
+    return self.open_channel(
+           ~~~~~~~~~~~~~~~~~^
+        "session",
+        ^^^^^^^^^^
+    ...<2 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1015, in open_channel
+    raise SSHException("SSH session not active")
+paramiko.ssh_exception.SSHException: SSH session not active
+
+2026-08-03 13:30:43  INFO      [ERROR] command failed
+2026-08-03 13:30:44  INFO      
+========================================================================
+  Stage 3b — Pulling Running Configs
+========================================================================
+2026-08-03 13:30:44  INFO      
+  >> apc01k1dccc
+2026-08-03 13:30:44  DEBUG     [CONFIG] cmd=show running-config  prefix=config
+2026-08-03 13:30:44  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-03 13:30:44  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-03 13:30:46  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-03 13:30:46  DEBUG     [SSH] apc01k1dccc auth OK (password)
+2026-08-03 13:30:46  DEBUG     [CMD] apc01k1dccc $ show running-config
+2026-08-03 13:31:02  DEBUG     [CMD] apc01k1dccc exec_command OK (1335070 chars)
+2026-08-03 13:31:02  INFO        [SAVED] C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\configs\config_apc01k1dccc_20260803_133044.txt
+2026-08-03 13:31:02  DEBUG     [CONFIG] 1335070 chars written
+2026-08-03 13:31:02  INFO      
+  >> apa01k1dccc
+2026-08-03 13:31:02  DEBUG     [CONFIG] cmd=show running-config  prefix=config
+2026-08-03 13:31:02  DEBUG     [SSH] Connecting to apa01k1dccc
+2026-08-03 13:31:02  DEBUG     [CHANNEL] Opening channel to apa01k1dccc:22
+2026-08-03 13:31:03  DEBUG     [CHANNEL] IPv4 resolution failed for apa01k1dccc, using hostname
+2026-08-03 13:31:03  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:31:04  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:31:04  DEBUG     [SSH] apa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:31:04  DEBUG     [CMD] apa01k1dccc $ show running-config
+2026-08-03 13:31:05  DEBUG     [CMD] apa01k1dccc exec_command OK (47699 chars)
+2026-08-03 13:31:05  INFO        [SAVED] C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\configs\config_apa01k1dccc_20260803_133044.txt
+2026-08-03 13:31:05  DEBUG     [CONFIG] 47699 chars written
+2026-08-03 13:31:05  INFO      
+  >> ara01k1dccc
+2026-08-03 13:31:05  DEBUG     [CONFIG] cmd=show running-config  prefix=config
+2026-08-03 13:31:05  DEBUG     [SSH] Connecting to ara01k1dccc
+2026-08-03 13:31:05  DEBUG     [CHANNEL] Opening channel to ara01k1dccc:22
+2026-08-03 13:31:06  DEBUG     [CHANNEL] IPv4 resolution failed for ara01k1dccc, using hostname
+2026-08-03 13:31:07  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:31:07  DEBUG     [SSH] ara01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:31:07  DEBUG     [CMD] ara01k1dccc $ show running-config
+2026-08-03 13:31:08  DEBUG     [CMD] ara01k1dccc exec_command OK (38392 chars)
+2026-08-03 13:31:08  INFO        [SAVED] C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\configs\config_ara01k1dccc_20260803_133044.txt
+2026-08-03 13:31:08  DEBUG     [CONFIG] 38392 chars written
+2026-08-03 13:31:08  INFO      
+  >> asa01k1dccc
+2026-08-03 13:31:08  DEBUG     [CONFIG] cmd=show running-config  prefix=config
+2026-08-03 13:31:08  DEBUG     [SSH] Connecting to asa01k1dccc
+2026-08-03 13:31:08  DEBUG     [CHANNEL] Opening channel to asa01k1dccc:22
+2026-08-03 13:31:09  DEBUG     [CHANNEL] IPv4 resolution failed for asa01k1dccc, using hostname
+2026-08-03 13:31:10  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:31:10  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-03 13:31:10  DEBUG     [SSH] asa01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:31:10  DEBUG     [CMD] asa01k1dccc $ show running-config
+2026-08-03 13:31:11  DEBUG     [CMD] asa01k1dccc exec_command OK (36665 chars)
+2026-08-03 13:31:11  INFO        [SAVED] C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\configs\config_asa01k1dccc_20260803_133044.txt
+2026-08-03 13:31:11  DEBUG     [CONFIG] 36665 chars written
+2026-08-03 13:31:11  INFO        [SKIP]  cts01k1dccc — SSH not available
+2026-08-03 13:31:11  INFO      
+  >> dtr01k1dccc
+2026-08-03 13:31:11  DEBUG     [CONFIG] cmd=show running-config  prefix=config
+2026-08-03 13:31:11  DEBUG     [SSH] Connecting to dtr01k1dccc
+2026-08-03 13:31:11  DEBUG     [CHANNEL] Opening channel to dtr01k1dccc:22
+2026-08-03 13:31:12  DEBUG     [CHANNEL] IPv4 resolution failed for dtr01k1dccc, using hostname
+2026-08-03 13:31:13  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 13:31:13  DEBUG     [SSH] dtr01k1dccc auth OK (keyboard-interactive)
+2026-08-03 13:31:13  DEBUG     [CMD] dtr01k1dccc $ show running-config
+2026-08-03 13:31:15  DEBUG     [CMD] dtr01k1dccc exec_command OK (81954 chars)
+2026-08-03 13:31:15  INFO        [SAVED] C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\configs\config_dtr01k1dccc_20260803_133044.txt
+2026-08-03 13:31:15  DEBUG     [CONFIG] 81954 chars written
+2026-08-03 13:31:15  INFO      
+========================================================================
+  Web Service Reachability
+========================================================================
+2026-08-03 13:31:15  DEBUG     [CMD] jump $ curl -s -o /dev/null -w '%{http_code}' --connect-timeout 10 'http://10.241.0.118/xgui/login.jsp'
+2026-08-03 13:31:15  DEBUG     [CMD] jump exec_command OK (3 chars)
+2026-08-03 13:31:15  INFO        [PASS]  PacketStorm (10.241.0.118)         
+2026-08-03 13:31:15  INFO               PASS  HTTP 200
+2026-08-03 13:31:15  DEBUG     [CMD] jump $ ping -c 3 -W 3 10.241.0.66
+2026-08-03 13:31:17  DEBUG     [CMD] jump exec_command OK (379 chars)
+2026-08-03 13:31:17  INFO        [PASS]  ByteBlower (10.241.0.66)           
+2026-08-03 13:31:17  INFO               PASS  ping OK
+2026-08-03 13:31:18  INFO        [PASS]  Latency Analyzer (71.85.92.85)     
+2026-08-03 13:31:18  INFO               PASS  HTTP 200
+2026-08-03 13:31:18  INFO      
+========================================================================
+  Critical Link Summary
+========================================================================
+2026-08-03 13:31:18  DEBUG     [LINK] FH0/0/0/24 PASS  line=FH0/0/0/24         up          up          [TYPE=ASA][BW=400G][NAME=ASA01K1DCCC][NBR_INT=Fou0/0/0/26]
+2026-08-03 13:31:18  INFO        [PASS]  apa01k1dccc           FH0/0/0/24            expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE1 PASS  line=BE1                up          up          [TYPE=ASA][BW=200G][NAME=ASA01K1DCCC][AS=65519][LAG=BE2200]
+2026-08-03 13:31:18  INFO        [PASS]  apa01k1dccc           BE1                   expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE101 PASS  line=BE101              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N1][NBR_INT=BOND0][LAG=101]
+2026-08-03 13:31:18  INFO        [PASS]  apa01k1dccc           BE101                 expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE102 PASS  line=BE102              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N2][NBR_INT=BOND0][LAG=102]
+2026-08-03 13:31:18  INFO        [PASS]  apa01k1dccc           BE102                 expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE103 PASS  line=BE103              up          up          [TYPE=APC][BW=100G][NAME=APC01K1DCCC-N3][NBR_INT=BOND0][LAG=103]
+2026-08-03 13:31:18  INFO        [PASS]  apa01k1dccc           BE103                 expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE1 PASS  line=BE1                up          up          [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][ZLAG=2100]
+2026-08-03 13:31:18  INFO        [PASS]  ara01k1dccc           BE1                   expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] Hu0/0/1/0 PASS  line=Hu0/0/1/0          up          up          [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][NBR_INT=Hu0/0/0/0]
+2026-08-03 13:31:18  INFO        [PASS]  ara01k1dccc           Hu0/0/1/0             expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] FH0/0/0/26 PASS  line=FH0/0/0/26         up          up          [TYPE=APA][BW=400G][NAME=APA01K1DCCC][NBR_INT=Fou0/0/0/24]
+2026-08-03 13:31:18  INFO        [PASS]  asa01k1dccc           FH0/0/0/26            expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] Te0/0/0/4/0 PASS  line=Te0/0/0/4/0        up          up          [TYPE=HCR][BW=10G][NAME=DTR01K1DCCC][NBR_INT=TE0/0/0/2]
+2026-08-03 13:31:18  INFO        [PASS]  asa01k1dccc           Te0/0/0/4/0           expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE1 PASS  line=BE1                up          up          [TYPE=HCR][BW=200G][NAME=DTR01K1DCCC][ZLAG=BE25]
+2026-08-03 13:31:18  INFO        [PASS]  asa01k1dccc           BE1                   expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] BE2100 PASS  line=BE2100             up          up          [TYPE=ARA][BW=100G][NAME=ARA01K1DCCC][ZLAG=BE1]
+2026-08-03 13:31:18  INFO        [PASS]  asa01k1dccc           BE2100                expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] Te0/0/0/2 PASS  line=Te0/0/0/2          up          up          [TYPE=ASA][BW=10G][NAME=ASA01K1DCCC][AS=65311][ZPRT=HU0/0/0/4][LAG=BE1]
+2026-08-03 13:31:18  INFO        [PASS]  dtr01k1dccc           Te0/0/0/2             expected=up
+2026-08-03 13:31:18  DEBUG     [LINK] Te0/0/0/0 PASS  line=Te0/0/0/0          up          up          Interconnect - cts01k1dccc - LAG - ethernet 6/5
+2026-08-03 13:31:18  INFO        [PASS]  dtr01k1dccc           Te0/0/0/0             expected=up
+2026-08-03 13:31:18  INFO      
+2026-08-03 13:31:18  INFO        All critical links UP.
+2026-08-03 13:31:18  INFO      
+========================================================================
+  Verification Complete
+========================================================================
+2026-08-03 13:31:18  INFO      
+  Full debug log: C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260803_132930.log

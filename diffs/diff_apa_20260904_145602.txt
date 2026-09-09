@@ -1,0 +1,143 @@
+--- BASELINE  baseline_apa_20260803_145448.txt
++++ CURRENT   current_apa_20260904_145356.txt
+@@ -1,13 +1,13 @@
+ show running-config
+
+ 
+
+ 
+
+-Mon Aug  3 20:56:29.887 UTC
+
++Fri Sep  4 20:55:32.483 UTC
+
+ 
+
+ !! Building configuration...
+
+ 
+
+ !! IOS XR Configuration 7.11.2
+
+ 
+
+-!! Last configuration change at Wed Jul 29 16:16:43 2026 by jnguyen1
+
++!! Last configuration change at Wed Aug 12 23:43:16 2026 by jnguyen1
+
+ 
+
+ !
+
+ 
+
+@@ -629,6 +629,12 @@
+ 
+
+ ipv4 netmask-format bit-count
+
+ 
+
++object-group network ipv4 PL_ELK_4
+
++
+
++ 68.114.185.248/32
+
++
+
++!
+
++
+
+ object-group network ipv4 PL_NSO_4
+
+ 
+
+  host 68.114.184.4
+
+@@ -661,6 +667,26 @@
+ 
+
+ !
+
+ 
+
++object-group network ipv4 PL_FALCONV_4
+
++
+
++ 24.24.104.160/27
+
++
+
++ 24.28.209.168/30
+
++
+
++ 24.28.209.180/30
+
++
+
++ 65.185.199.192/27
+
++
+
++ 65.185.208.72/30
+
++
+
++ 65.185.208.76/30
+
++
+
++ 107.14.15.96/28
+
++
+
++ 107.14.15.112/28
+
++
+
++!
+
++
+
+ object-group network ipv4 PL_APC-SNMP_4
+
+ 
+
+  22.80.0.0/23
+
+@@ -1249,6 +1275,16 @@
+ 
+
+ ipv4 access-list TF_PROTECT-APC_4
+
+ 
+
++ 480 permit ipv4 net-group PL_XPTRAK_4 any
+
++
+
++ 490 permit ipv4 net-group PL_FORCE_4 any
+
++
+
++ 500 permit ipv4 net-group PL_ATLAS_4 any
+
++
+
++ 510 permit ipv4 net-group PL_FALCONV_4 any
+
++
+
++ 520 permit ipv4 net-group PL_ELK_4 any
+
++
+
+  530 permit ipv4 net-group PL_NSO_4 any
+
+ 
+
+ !

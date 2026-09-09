@@ -1,0 +1,10 @@
+[Unit]
+Description=Run CTEC Lab Network Verification once daily
+Requires=lab_verification.service
+
+[Timer]
+OnCalendar=*-*-* 06:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

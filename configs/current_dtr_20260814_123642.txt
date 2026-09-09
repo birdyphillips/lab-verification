@@ -1,0 +1,3274 @@
+! Pulled from  : dtr01k1dccc
+! Pull date    : 2026-08-14 12:38:41
+! Device date  : !! Last configuration change at Wed Aug 12 16:21:30 2026 by panderson1
+! ============================================================
+show running-config
+Fri Aug 14 18:38:40.421 UTC
+Building configuration...
+!! IOS XR Configuration 6.4.2
+!! Last configuration change at Wed Aug 12 16:21:30 2026 by panderson1
+!
+service unsupported-transceiver
+hostname dtr01k1dccc
+group TP_INTERFACE-DEFAULTS
+ interface 'Hu.*'
+  lacp period short
+  carrier-delay up 500 down 0
+  load-interval 30
+  dampening 1 750 2000 4
+ !
+ interface 'Te.*'
+  carrier-delay up 500 down 0
+  load-interval 30
+  dampening 1 750 2000 4
+ !
+ interface 'Bundle-Ether.*'
+  mtu 9192
+  lacp mode active
+  bundle minimum-active links 1
+  load-interval 30
+ !
+end-group
+taskgroup East-nsg-id
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+taskgroup chtridgroup
+ task read aaa
+ task read acl
+ task read bgp
+ task read cdp
+ task read cef
+ task read ppp
+ task read qos
+ task read rib
+ task read boot
+ task read diag
+ task read dwdm
+ task read hsrp
+ task read ipv4
+ task read ipv6
+ task read isis
+ task read lpts
+ task read ospf
+ task read ouni
+ task read snmp
+ task read vlan
+ task read vrrp
+ task read admin
+ task read l2vpn
+ task read bundle
+ task read crypto
+ task read fabric
+ task read static
+ task read sysmgr
+ task read system
+ task read tunnel
+ task read drivers
+ task read logging
+ task read monitor
+ task read mpls-te
+ task read netflow
+ task read network
+ task read mpls-ldp
+ task read pkg-mgmt
+ task read fault-mgr
+ task read interface
+ task read multicast
+ task read route-map
+ task read sonet-sdh
+ task read transport
+ task read filesystem
+ task read tty-access
+ task read config-mgmt
+ task read ip-services
+ task read mpls-static
+ task read route-policy
+ task read host-services
+ task read basic-services
+ task read config-services
+ task read ethernet-services
+ task write basic-services
+ task execute bundle
+ task execute crypto
+ task execute logging
+ task execute interface
+ task execute multicast
+ task execute transport
+ task execute basic-services
+!
+usergroup East-nsg
+ taskgroup East-nsg-id
+ description User group for Core R/W group
+!
+usergroup chtr-support
+ taskgroup chtridgroup
+ description User group for Read-Only group
+!
+aaa default-taskgroup chtridgroup
+clock timezone UTC 0
+banner exec #
+***********************************************
+*                                             *
+*    Welcome to Host: $(hostname)             *
+*    Logged in via: $(line)                      *
+*                                             *
+*    Stability Zone C - AK.R01.R05            *
+*    DPOC                                     *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: ASR9006                    *
+*    IOS Version: 6.4.2SP6                    *
+*                                             *
+***********************************************
+#
+banner login #
+******************************************************************************
+* This is a private computer system of Charter Communications ("Charter").   *
+* It is for authorized, legitimate business use and users only. All users    *
+* (authorized or unauthorized) have no explicit or implicit expectation of   *
+* privacy.                                                                   *
+*                                                                            *
+* Any or all uses of this system and all files on this system may be         *
+* intercepted, monitored, and disclosed by Charter at any time, and may be   *
+* disclosed to any third-party at Charter's sole discretion, including but   *
+* not limited to law enforcement.  By using this system, the user consents   *
+* to such interception, monitoring, and disclosure at Charter's sole         *
+* discretion.                                                                *
+*                                                                            *
+* Unauthorized or improper use of this system may result in loss of access   *
+* and/or privileges, corrective action up to and including termination, and  *
+* any legal remedy available to Charter, and/or civil and criminal           *
+* penalties. By continuing to use this system you indicate your awareness of *
+* and consent to these terms and conditions of use, including those found in *
+* Charter's Acceptable Use of Technology Policy, Network Protection Policy   *
+* and Employee Handbook.                                                     *
+*                                                                            *
+* LOG OFF IMMEDIATELY if you do not agree to the conditions stated in this   *
+* warning.                                                                   *
+******************************************************************************
+#
+logging trap informational
+logging events threshold 75
+logging buffered informational
+logging facility local7
+logging 22.254.9.167 vrf default severity info port 8514
+logging 192.168.30.112 vrf default severity info port default
+logging suppress rule acctbug
+ alarm MGBL exec ACCT_ERR
+ alarm MGBL CONFIGCLI AAA_ERR
+!
+logging suppress apply rule acctbug
+ all-of-router
+!
+logging source-interface Loopback0
+service timestamps log datetime localtime msec show-timezone
+service timestamps debug datetime localtime msec show-timezone
+logging events link-status software-interfaces
+domain name charterlab.com
+domain name-server 172.27.2.4
+domain lookup disable
+telnet vrf default ipv4 server max-servers 15
+telnet vrf default ipv6 server max-servers 15
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 66.189.243.5 port 49
+ key 7 1043100D0D4701
+!
+tacacs-server host 2600:6ce7::20:5 port 49
+!
+tacacs-server timeout 3
+username rtucker
+ group root-system
+ secret 5 $1$y24N$1wbFyKunX32BudPnhAjmh1
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local none
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+cdp
+ptp
+ profile tp64
+  sync frequency 16
+  delay-request frequency 16
+ !
+ profile slave
+  transport ipv4
+  port state slave-only
+  master ipv4 10.244.11.25
+  !
+ !
+ profile slave1
+  transport ipv4
+  port state slave-only
+  master ipv4 10.244.11.25
+  !
+  announce timeout 2
+ !
+!
+vrf TEST_RDU
+ address-family ipv4 unicast
+ !
+!
+line template VTY-Access
+ accounting commands default
+ authorization exec default
+ authorization commands default
+ login authentication default
+ exec-timeout 90 0
+ session-limit 10
+ session-timeout 120
+ transport input ssh
+!
+vty-pool default 0 10 line-template VTY-Access
+snmp-server community walkme RW
+snmp-server community Y7QJEAaS_r5BVb-Jxd0hmM RW
+snmp-server traps rf
+snmp-server traps aps
+snmp-server traps bfd
+snmp-server traps ethernet cfm
+snmp-server traps ds1
+snmp-server traps ds3
+snmp-server traps ntp
+snmp-server traps ethernet oam events
+snmp-server traps otn
+snmp-server traps copy-complete
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps flash removal
+snmp-server traps flash insertion
+snmp-server traps sonet
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps selective-vrf-download role-change
+snmp-server traps syslog
+snmp-server traps system
+snmp-server traps frequency synchronization
+snmp-server traps bridgemib
+snmp-server traps addrpool low
+snmp-server traps addrpool high
+snmp-server traps entity-state operstatus
+snmp-server traps entity-state switchover
+snmp-server traps performance traffic
+snmp-server traps entity-redundancy all
+snmp-server traps entity-redundancy status
+snmp-server traps entity-redundancy switchover
+monitor-session SAL ethernet
+ destination interface TenGigE0/0/0/21
+!
+monitor-session ROLT ethernet
+ destination interface TenGigE0/2/0/0.3200
+!
+monitor-session TUCK ethernet
+ destination interface GigabitEthernet0/1/0/17
+!
+monitor-session Dus10 ethernet
+ destination interface TenGigE0/0/0/20
+!
+monitor-session LLD-NB ethernet
+ destination interface TenGigE0/0/0/4
+!
+dhcp ipv4
+ profile VMWARE relay
+  helper-address vrf default 22.254.3.214
+  relay information policy keep
+  relay information option allow-untrusted
+ !
+ profile vOLT_Helpers relay
+  helper-address vrf default 10.3.255.2
+  relay information policy keep
+  relay information option allow-untrusted
+ !
+ profile R-OLT_CNR_HELPERS relay
+  helper-address vrf default 68.114.36.100
+  helper-address vrf default 68.114.36.101
+  relay information policy keep
+  relay information option allow-untrusted
+ !
+ interface BVI300 relay profile VMWARE
+ interface BVI2010 relay profile R-OLT_CNR_HELPERS
+ interface BVI2011 relay profile R-OLT_CNR_HELPERS
+ interface BVI2012 relay profile R-OLT_CNR_HELPERS
+!
+ftp client password encrypted 094F46290B114400
+ftp client username charter
+ftp client source-interface Loopback0
+ntp
+ server 172.27.2.4
+ source Loopback0
+ update-calendar
+!
+tftp client source-interface Loopback0
+control-plane
+ management-plane
+  inband
+   interface all
+    allow all
+    allow SSH peer
+     address ipv4 24.151.8.3
+     address ipv4 24.158.96.58
+     address ipv4 24.176.125.12
+     address ipv4 24.196.0.26
+     address ipv4 24.196.77.26
+     address ipv4 24.197.96.69
+     address ipv4 24.197.99.69
+     address ipv4 24.197.160.51
+     address ipv4 24.205.1.218
+     address ipv4 24.205.192.250
+     address ipv4 24.213.60.74
+     address ipv4 24.217.1.26
+     address ipv4 24.217.5.250
+     address ipv4 24.231.187.181
+     address ipv4 24.231.244.38
+     address ipv4 66.189.0.251
+     address ipv4 66.191.141.46
+     address ipv4 68.116.46.75
+     address ipv4 68.116.135.242
+     address ipv4 68.186.80.106
+     address ipv4 68.190.192.106
+     address ipv4 71.15.32.99
+     address ipv4 22.88.0.0/13
+     address ipv4 172.16.0.0/12
+     address ipv4 10.3.255.0/24
+     address ipv4 22.86.0.0/16
+     address ipv4 22.87.0.0/17
+     address ipv4 22.254.14.0/24
+     address ipv4 24.217.29.0/24
+     address ipv4 66.215.10.32/27
+     address ipv4 68.114.32.64/27
+     address ipv4 68.114.34.0/27
+     address ipv4 68.114.35.0/27
+     address ipv4 68.185.227.224/27
+     address ipv4 71.11.1.192/27
+     address ipv4 96.34.0.0/17
+     address ipv4 192.168.0.0/16
+    !
+    allow SNMP peer
+     address ipv4 172.27.31.228
+     address ipv4 172.30.106.236
+     address ipv4 172.30.106.237
+     address ipv4 172.30.106.238
+     address ipv4 172.30.106.239
+     address ipv4 172.30.106.240
+     address ipv4 172.30.106.241
+     address ipv4 172.30.106.242
+     address ipv4 172.30.106.243
+     address ipv4 172.30.106.244
+     address ipv4 172.30.126.253
+     address ipv4 172.24.160.0/19
+     address ipv4 172.24.209.0/24
+     address ipv4 192.168.78.128/25
+     address ipv4 192.168.101.0/24
+     address ipv4 192.168.168.0/24
+    !
+   !
+   interface Loopback0
+    allow all
+    allow all peer
+     address ipv4 172.30.107.135
+    !
+    allow SNMP peer
+     address ipv4 172.30.107.128/28
+    !
+   !
+  !
+ !
+!
+dhcp ipv6
+ profile IPV6_vOLT_Helpers relay
+  helper-address vrf default 2605:1c00:ff3:0:ffff:ffff:fff:fffe
+ !
+ profile IPV6_R-OLT_CNR_HELPERS relay
+  helper-address vrf default 2605:1c00:50f2:3000:0:64:6863:3031
+  helper-address vrf default 2605:1c00:50f2:3000:0:64:6863:3032
+ !
+ profile R-OLT_IPV6_NODE_CNR_HELPER relay
+  helper-address vrf default 2605:1c00:50f2:3000:0:64:6863:3033
+ !
+ interface BVI2000 relay profile R-OLT_IPV6_NODE_CNR_HELPER
+ interface BVI2001 relay profile R-OLT_IPV6_NODE_CNR_HELPER
+ interface BVI2002 relay profile R-OLT_IPV6_NODE_CNR_HELPER
+ interface BVI2010 relay profile IPV6_R-OLT_CNR_HELPERS
+ interface BVI2011 relay profile IPV6_R-OLT_CNR_HELPERS
+ interface BVI2012 relay profile IPV6_R-OLT_CNR_HELPERS
+ interface BVI2013 relay profile IPV6_R-OLT_CNR_HELPERS
+!
+ipv6 access-list IPV6-SSM-RANGE
+ 10 permit ipv6 ff08::1:0:0/96 any
+!
+ipv4 access-list SSM-RANGE
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+ 25 permit ipv4 239.0.0.0 0.255.255.255 any
+ 30 permit ipv4 224.0.0.0 0.0.0.255 any
+ 40 permit ipv4 232.0.0.0/8 any
+!
+ipv4 access-list REMOTE-ACCESS
+ 10 remark Jump Servers
+ 20 permit ipv4 host 24.217.1.26 any
+ 30 permit ipv4 host 97.93.37.70 any
+ 40 permit ipv4 host 24.213.60.74 any
+ 50 permit ipv4 host 66.168.128.42 any
+ 60 remark Interconnects
+ 70 permit ipv4 96.34.0.0 0.0.255.255 any
+ 75 remark Corporate Internet Drains
+ 80 permit ipv4 66.190.188.0 0.0.254.255 any
+ 90 permit ipv4 66.215.10.32 0.0.0.31 any
+ 100 permit ipv4 68.185.227.224 0.0.0.31 any
+ 110 permit ipv4 71.11.1.192 0.0.0.31 any
+ 120 permit ipv4 68.114.35.0 0.0.0.31 any
+ 121 permit ipv4 96.34.24.178 0.0.0.1 any
+ 130 permit ipv4 68.114.34.0 0.0.0.31 any
+ 140 permit ipv4 68.114.32.64 0.0.0.31 any
+ 150 permit ipv4 24.217.29.0 0.0.0.255 any
+ 160 permit ipv4 host 24.151.8.3 any
+ 170 permit ipv4 host 24.158.96.58 any
+ 180 permit ipv4 host 24.176.125.12 any
+ 190 permit ipv4 host 24.196.0.26 any
+ 200 permit ipv4 host 24.196.77.26 any
+ 210 permit ipv4 host 24.197.96.69 any
+ 220 permit ipv4 host 24.197.99.69 any
+ 230 permit ipv4 host 24.197.160.51 any
+ 240 permit ipv4 host 24.205.1.218 any
+ 250 permit ipv4 host 24.205.192.250 any
+ 260 permit ipv4 host 24.217.5.250 any
+ 270 permit ipv4 host 24.231.187.181 any
+ 280 permit ipv4 host 24.231.244.38 any
+ 290 permit ipv4 host 66.190.0.251 any
+ 300 permit ipv4 host 66.191.141.46 any
+ 310 permit ipv4 host 68.116.46.75 any
+ 320 permit ipv4 host 68.116.135.242 any
+ 330 permit ipv4 host 68.186.80.106 any
+ 340 permit ipv4 host 68.190.192.106 any
+ 350 permit ipv4 host 71.15.32.99 any
+ 351 permit ipv4 host 172.31.241.73 any
+ 360 remark Private
+ 370 permit ipv4 172.16.0.0 0.15.255.255 any
+ 380 permit ipv4 192.168.0.0 0.0.255.255 any
+ 381 permit ipv4 10.3.255.0 0.0.0.255 any
+ 382 permit ipv4 22.254.14.0 0.0.0.255 any
+ 392 permit ipv4 172.31.17.94 0.0.0.1 any
+ 394 permit ipv4 96.34.140.128 0.0.0.3 any
+ 402 remark Deny all else
+ 412 deny ipv4 any any
+!
+ipv4 access-list MPLS_LOOPBACK_RANGE
+ 10 permit ipv4 96.34.224.0 0.0.31.255 any
+ 20 permit ipv4 host 96.34.233.64 any
+!
+flow exporter-map EXPORT_VELOCIDATA_2
+ version v9
+ !
+ transport udp 9995
+ source Loopback0
+ destination 96.37.182.42
+!
+flow exporter-map EXPORT_VELOCIDATA_NetFlow
+ version v9
+ !
+ transport udp 9995
+ source Loopback0
+ destination 96.37.182.53
+!
+flow monitor-map MONITOR_VELOCIDATA_NetFlow
+ record ipv4
+ exporter EXPORT_VELOCIDATA_2
+ exporter EXPORT_VELOCIDATA_NetFlow
+ cache timeout active 1
+ cache timeout inactive 10
+!
+sampler-map SAMPLER_VELOCIDATA_NetFlow
+ random 1 out-of 200
+!
+interface Bundle-Ether1
+ description "Interconnect - cts01k1dccc - LAG 1"
+ bundle maximum-active links 8
+ bundle minimum-active links 1
+!
+interface Bundle-Ether3
+ description "Interconnect - cts03k1dccc - LAG 1"
+ mtu 2014
+ bundle maximum-active links 8
+ bundle minimum-active links 1
+!
+interface Bundle-Ether4
+ description "Interconnect - cts04k1dccc - LAG 1"
+ mtu 1514
+ ipv4 address 96.34.24.142 255.255.255.254
+ bundle minimum-active links 1
+ load-interval 30
+ dampening 1 750 2000 4
+!
+interface Bundle-Ether5
+ description Interconnect - cts06k1dccc - LAG1
+ mtu 1514
+ ipv4 address 96.34.24.150 255.255.255.254
+ ipv6 address 2001:506:100:fc91::32/126
+ bundle minimum-active links 1
+ load-interval 30
+ dampening 1 750 2000 4
+!
+interface Bundle-Ether7
+ description Interconnect_to_arris OLT6/8_Layer_3
+ service-policy output QSP-ALL-CORE-PROTECTED-OUTv3
+ ipv4 address 96.34.24.58 255.255.255.254
+ ipv6 address 2001:506:100:fc91::2/126
+ load-interval 30
+!
+interface Bundle-Ether20
+ description dar03k1dccc te0/0/0/21
+ mtu 9192
+ ipv4 address 96.34.24.178 255.255.255.254
+ ipv6 address 2001:506:100:fc91::5a/127
+ bundle minimum-active links 1
+ load-interval 30
+!
+interface Bundle-Ether21
+ apply-group TP_INTERFACE-DEFAULTS
+ description [TYPE=ASA][BW=10G][NAME=ASA01K1DCCC][AS=65311][ZPRT=BE1]
+ ipv4 address 96.34.24.146 255.255.255.254
+ ipv6 address 2001:506:100:fc91::c/127
+ monitor-session LLD-NB ethernet
+ !
+!
+interface Bundle-Ether100
+ description Interconnect - cts02k1dccc - LAG1
+ mtu 9216
+ ipv4 address 96.34.24.141 255.255.255.254
+ bundle minimum-active links 1
+ load-interval 30
+ dampening 1 750 2000 4
+!
+interface Bundle-Ether105
+!
+interface Bundle-Ether2000
+ description AGG_to_Nokia_SF-4X | CID: 11400
+ mtu 9216
+ load-interval 30
+!
+interface Bundle-Ether2000.100 l2transport
+ description Nokia_SF-4X_VCM+DATA+VOICE
+ encapsulation dot1q 100
+ rewrite ingress tag pop 1 symmetric
+!
+interface Bundle-Ether2000.169 l2transport
+ description Nokia_SF-4X_NODE_MGMT
+ encapsulation dot1q 169
+ rewrite ingress tag pop 1 symmetric
+!
+interface Loopback0
+ description *** MGMT LOOPBACK ZERO ***
+ ipv4 address 172.31.17.64 255.255.255.255
+!
+interface Loopback1
+ description isis TEST loopback
+ ipv4 address 96.34.184.150 255.255.255.255
+!
+interface Loopback14
+ description *** MPLS LOOPBACK FOURTEEN ***
+ ipv4 address 96.34.233.64 255.255.255.255
+!
+interface Loopback15
+ description *** BGP LOOPBACK FIFTEEN ***
+ ipv4 address 96.34.201.64 255.255.255.255
+ ipv6 address 2001:506:100:fc80::64/128
+!
+interface MgmtEth0/RSP0/CPU0/0
+ shutdown
+!
+interface MgmtEth0/RSP0/CPU0/1
+ shutdown
+!
+interface GigabitEthernet0/1/0/0
+ speed 1000
+ l2transport
+ !
+!
+interface GigabitEthernet0/1/0/1
+ description ECN Traversal Raspberry PI - Lei
+ bandwidth 1000000
+ ipv4 address 172.22.68.18 255.255.255.254
+ negotiation auto
+ load-interval 30
+ transceiver permit pid all
+!
+interface GigabitEthernet0/1/0/2
+ ipv4 address 100.66.127.246 255.255.255.248
+!
+interface GigabitEthernet0/1/0/3
+ description Interconnect - cts01k1dccc - LAG - ethernet 6/0
+ ipv6 address 2001:506:100:fc91::5/126
+ speed 1000
+ shutdown
+!
+interface GigabitEthernet0/1/0/4
+ description Temporary Testing for Linux Throughput
+ ipv4 address 96.34.184.141 255.255.255.252
+ negotiation auto
+ load-interval 30
+!
+interface GigabitEthernet0/1/0/5
+ description LLD Testing Rasberry PI Cablelabs ECH
+ ipv6 address 2600:6ce6:4200:10::a/127
+ ipv6 enable
+ negotiation auto
+ transceiver permit pid all
+!
+interface GigabitEthernet0/1/0/6
+ description | Raspi � Raspbian Jesse | (DHCP, TFTP, syslog) | 10.3.255.2 | 2605:1c00:ff3:0:ffff:ffff:fff:fffe
+ mtu 9216
+ ipv4 address 10.3.255.1 255.255.255.252
+ ipv6 address 2605:1c00:ff3:0:ffff:ffff:fff:fffd/126
+ negotiation auto
+ transceiver permit pid all
+!
+interface GigabitEthernet0/1/0/6.1000 l2transport
+ encapsulation dot1q 1000
+ rewrite ingress tag pop 1 symmetric
+!
+interface GigabitEthernet0/1/0/7
+ description "VECIMA VIVE POC MGMT
+ ipv4 address 71.85.92.68 255.255.255.254
+ ipv6 address 2600:6ce6:4200:10::8/127
+!
+interface GigabitEthernet0/1/0/8
+ shutdown
+!
+interface GigabitEthernet0/1/0/9
+ description Lei FLENTSERVER V2 APPLE
+ ipv4 address 96.34.140.129 255.255.255.252
+ negotiation auto
+ transceiver permit pid all
+!
+interface GigabitEthernet0/1/0/10
+ negotiation auto
+ l2transport
+ !
+!
+interface GigabitEthernet0/1/0/11
+ l2transport
+ !
+!
+interface GigabitEthernet0/1/0/12
+ shutdown
+!
+interface GigabitEthernet0/1/0/13
+ shutdown
+!
+interface GigabitEthernet0/1/0/14
+ shutdown
+!
+interface GigabitEthernet0/1/0/15.0 l2transport
+!
+interface GigabitEthernet0/1/0/16
+ shutdown
+!
+interface GigabitEthernet0/1/0/17
+ ipv6 address 2600:6ce6:4200::10/124
+!
+interface GigabitEthernet0/1/0/18
+ ipv6 address 2600:6ce6:4200::4/126
+!
+interface GigabitEthernet0/1/0/18.111 l2transport
+ encapsulation dot1q 111
+ rewrite ingress tag pop 1 symmetric
+!
+interface GigabitEthernet0/1/0/18.112 l2transport
+ encapsulation dot1q 112
+ rewrite ingress tag pop 1 symmetric
+!
+interface GigabitEthernet0/1/0/19
+ shutdown
+!
+interface TenGigE0/0/0/0
+ description Interconnect - cts01k1dccc - LAG - ethernet 6/5
+ ipv4 address 96.34.24.130 255.255.255.254
+ ipv6 address 2001:506:100:fc91::5/126
+!
+interface TenGigE0/0/0/1
+ description Interconnect - cts02k1dccc - xgige6/0
+ mtu 1514
+ ipv4 address 96.34.24.218 255.255.255.254
+ ipv6 address 2001:506:100:fc91::11/126
+ ipv6 enable
+ load-interval 30
+ flow ipv4 monitor MONITOR_VELOCIDATA_NetFlow sampler SAMPLER_VELOCIDATA_NetFlow ingress
+ flow ipv4 monitor MONITOR_VELOCIDATA_NetFlow sampler SAMPLER_VELOCIDATA_NetFlow egress
+!
+interface TenGigE0/0/0/2
+ apply-group TP_INTERFACE-DEFAULTS
+ description [TYPE=ASA][BW=10G][NAME=ASA01K1DCCC][AS=65311][ZPRT=HU0/0/0/4][LAG=BE1]
+ bundle id 21 mode inherit
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/3
+ description Interconnect - cts04k1dccc - LAG1 - TE4/1/2
+ bundle id 4 mode active
+ lacp period short
+ carrier-delay up 500 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/4
+ description Monitor Port to the Latency Analyzer Server
+ load-interval 30
+ l2transport
+ !
+!
+interface TenGigE0/0/0/5
+ description Interconnect - cts06k1dccc - LAG1 - TE4/1/0
+ bundle id 5 mode active
+ lacp period short
+ carrier-delay up 500 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/6
+ description Interconnect - cts07k1dccc - ****
+ ipv4 address 96.34.24.154 255.255.255.254
+!
+interface TenGigE0/0/0/7
+ description Test - IXIA - S2/S7
+ mtu 9216
+ ipv4 address 10.3.255.41 255.255.255.248
+ ipv6 address 2605:1c00:ff3:0:ffff:ffff:ffff:fff9/126
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/7.1000 l2transport
+ encapsulation dot1q 1000
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/0/0/8
+ shutdown
+!
+interface TenGigE0/0/0/9
+ description Interconnect - cts09k1dccc - ****
+ ipv4 address 96.34.24.166 255.255.255.254
+ ipv6 address 2001:506:100:f015::401c/126
+ shutdown
+ load-interval 30
+!
+interface TenGigE0/0/0/10
+ description Interconnect - cts06k1dccc - LAG1 - TE4/1/1
+ bundle id 5 mode active
+ lacp period short
+ carrier-delay up 500 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/11
+ description Server - vmm02k1dccc - e1
+ l2transport
+ !
+!
+interface TenGigE0/0/0/12
+ description [10G Uplink to "New" hcr01k1dccc Te0/0/0/32/2]
+ ipv4 address 2.2.2.1 255.255.255.252
+ carrier-delay up 500 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/13
+ description Connection to ByteBlower Traffic Generator Port NT-1 (untagged)
+ ipv4 address 96.34.184.158 255.255.255.254
+ ipv6 address 2001:506:100:fc91::1a/127
+ ipv6 enable
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/14
+ description Server - vmm03k1dccc - e1
+ transceiver permit pid all
+ l2transport
+ !
+!
+interface TenGigE0/0/0/15
+ description Connection to ByteBlower Traffic Generator Port NT-1 3200 (untagged)
+ ipv4 address 96.34.184.33 255.255.255.252
+ ipv6 address 2001:506:100:f015::5c/126
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/16
+ description To nar01k1dccc - QFX5100 xe-0/0/0.0 Outside of Moonshot
+ cdp
+ ipv4 address 96.34.24.204 255.255.255.254
+!
+interface TenGigE0/0/0/16.100 l2transport
+ encapsulation dot1q 100
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/0/0/17
+ description DPOC - IPDR Collector - dtr01k1dccc - TenGigE0/0/0/17 - vld02k1dccc - Ethernet_2
+!
+interface TenGigE0/0/0/18
+ description VLAN 10 CONNECTION TO TVM-02 PORT 7
+!
+interface TenGigE0/0/0/18.10 l2transport
+ description VLAN 10 CONNECTION TO TVM-02 PORT 7
+ encapsulation dot1q 10
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/0/0/19
+ description 10G_to_dar03k1dccc_Te0/0/0/21 | Interconnect
+ bundle id 20 mode active
+ carrier-delay up 2000 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/20
+ description Cisco UCS C460 - DUSTIN SIEVERS - Primary RDU HA Setup
+ cdp
+ ipv4 address 172.22.71.1 255.255.255.252
+ load-interval 30
+!
+interface TenGigE0/0/0/21
+ description 10G_to_Nokia_SF-4x_Uplink1 | CID: 11400
+ bundle id 2000 mode active
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/0/0/22
+ description *** TO dtr02k1dccc PORT Te0/0/0/22 ***
+ cdp
+ mtu 9216
+ ipv4 address 96.34.24.128 255.255.255.254
+ ipv6 address 2001:506:100:fc91::1/126
+ load-interval 30
+!
+interface TenGigE0/0/0/23
+ description *** TO /AZ/ sar01zcsccc PORT 0/0/0/7 ***
+ cdp
+ mtu 9216
+ ptp
+  profile slave
+  transport ipv4
+  port state slave-only
+  master ipv4 10.244.11.25
+  !
+  announce timeout 2
+ !
+ ipv4 address 96.34.24.15 255.255.255.254
+ ipv6 address 2001:506:100:f601::2/126
+ load-interval 30
+!
+interface TenGigE0/0/0/23.801
+!
+interface TenGigE0/0/0/23.803
+!
+interface TenGigE0/2/0/0
+ description MIRROR PORT FOR TESTING | DO NOT TOUCH | CID:11442 | jgraves
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/2/0/0.2001 l2transport
+ encapsulation dot1q 2001
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/0.3200 l2transport
+ encapsulation dot1q 3200
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/0.4000 l2transport
+ encapsulation dot1q 4000
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/0.4001 l2transport
+ encapsulation dot1q 4001
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/1
+ description Ixia 10.244.24.23 card 3 port 2
+ ipv4 address 198.19.1.81 255.255.255.252
+ ipv6 address 2605:1c00:50f2:202::1/126
+!
+interface TenGigE0/2/0/2
+ description Interconnect | QFX5K-nar01k3dccc-xe-0/0/94
+ mtu 9216
+ ipv4 address 96.34.24.224 255.255.255.254
+ ipv6 address 2001:506:100:fc91::44/127
+ load-interval 30
+!
+interface TenGigE0/2/0/3
+ description "Connection to Ixia  10.244.24.24 Card 4 port 9"
+ ipv4 address 198.19.1.85 255.255.255.252
+ ipv6 address 2605:1c00:50f2:200::1/64
+!
+interface TenGigE0/2/0/4
+ description Calix rOLT - CID 11381
+ mtu 9216
+ load-interval 30
+!
+interface TenGigE0/2/0/4.100 l2transport
+ description CALIX_DATA_VLAN | 2600:6ce3:600::1/64
+ encapsulation dot1q 100
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/4.4000 l2transport
+ description CALIX_MGMT_VLAN | vCM: 2605:1c00:fff0:202::1/64 | r-OLT: 2605:1c00:fff0:208::1/64
+ encapsulation dot1q 4000
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/5
+ shutdown
+!
+interface TenGigE0/2/0/6
+ description Arris rOLT - CID 11373
+ mtu 9216
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/2/0/6.4000 l2transport
+ encapsulation dot1q 4000
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/6.4001 l2transport
+ encapsulation dot1q 4001
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/7
+ description "VECIMA VIVE POC INGRESS"
+ ipv4 address 71.85.92.64 255.255.255.254
+ ipv6 address 2600:6ce6:4200:10::4/127
+!
+interface TenGigE0/2/0/8
+ description "VECIMA VIVE POC EGRESS"
+ ipv4 address 71.85.92.66 255.255.255.254
+ ipv6 address 2600:6ce6:4200:10::6/127
+!
+interface TenGigE0/2/0/9
+ description "Connection to Ixia  10.244.24.24 Card 4 port 10"
+ ipv4 address 198.19.1.89 255.255.255.252
+ ipv6 address 2605:1c00:50f2:201::1/64
+!
+interface TenGigE0/2/0/10
+ description Interconnect - bng03wtsccc - slot9 port 1-3
+ cdp
+ mtu 9200
+!
+interface TenGigE0/2/0/10.200
+ description bng03wtsccc
+ ipv4 address 96.34.24.253 255.255.255.254
+ load-interval 30
+ encapsulation dot1q 200
+ carrier-delay up 10000
+!
+interface TenGigE0/2/0/11
+ description Ixia_TVA_01_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+!
+interface TenGigE0/2/0/11.11 l2transport
+ description VLAN 11 CONNECTION TO Ixia_TVA_01_8.40_EA SERVER SIDE PORT - DUSTIN SIEVERS
+ encapsulation dot1q 11
+ rewrite ingress tag pop 1 symmetric
+!
+interface TenGigE0/2/0/12
+ description Ixia_TVA_02_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+ carrier-delay up 500 down 0
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/2/0/13
+ description Ixia_TVA_03_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+ carrier-delay up 500 down 0
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/2/0/14
+ description Ixia_TVA_04_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+ carrier-delay up 500 down 0
+ load-interval 30
+ transceiver permit pid all
+!
+interface TenGigE0/2/0/15
+ description Ixia_TVA_05_8.40_EA - SERVER SIDE PORT - DUSTIN SIEVERS - DO NOT TOUCH
+!
+interface TenGigE0/2/0/16
+ description Interface to BVI100
+ transceiver permit pid all
+ l2transport
+ !
+!
+interface TenGigE0/2/0/17
+ description nar07k3dccc
+ mtu 9216
+ ipv4 address 96.34.24.248 255.255.255.254
+ ipv6 address 2001:506:100:fc91::58/127
+ load-interval 30
+!
+interface TenGigE0/2/0/18
+ shutdown
+!
+interface TenGigE0/2/0/19
+ description Adva-PTP-Server-GPS-AL.R01.R12
+ carrier-delay up 500 down 0
+!
+interface TenGigE0/2/0/20
+ description DPOC - EON - Casa - vCCAP - Core
+ cdp
+ mtu 1514
+ ipv4 address 172.31.17.102 255.255.255.252
+ load-interval 30
+!
+interface TenGigE0/2/0/21
+ description DPOC - EON - Casa - vCMTS
+ mtu 2014
+ ipv4 address 22.254.14.97 255.255.255.252
+ load-interval 30
+!
+interface TenGigE0/2/0/22
+ description DPOC - EON Compute Stack - SNAPS Tenant network svr02k1dccc - BL.R01.R09 RU 35-34
+ mtu 2014
+ shutdown
+ load-interval 30
+ l2transport
+ !
+!
+interface TenGigE0/2/0/23
+ description DPOC - EON Compute Stack - SNAPS Tenant network svr02k1dccc - BL.R01.R09 RU 35-34
+ load-interval 30
+!
+interface BVI10
+ ipv4 address 100.66.125.1 255.255.255.248
+ ipv6 address 2600:6ce6:4200:11::1/64
+!
+interface BVI11
+ ipv4 address 100.66.125.9 255.255.255.248
+!
+interface BVI12
+ ipv4 address 100.66.125.17 255.255.255.240
+!
+interface BVI100
+ ipv4 address 71.85.92.81 255.255.255.240
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 address 2600:6ce6:4411:2::1/64
+ ipv6 enable
+!
+interface BVI111
+!
+interface BVI112
+ ipv4 address 71.85.92.241 255.255.255.240
+!
+interface BVI300
+ description [TYPE=COMPUTE-MGMT][NAME=AA_VCENTER]
+ mtu 2100
+ ipv4 address 96.34.184.193 255.255.255.192
+ arp timeout 120
+ ipv6 nd prefix default no-adv
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 address 2600:6ce6:4200:1::1/64
+ load-interval 30
+!
+interface BVI800
+ ipv4 address 22.254.14.1 255.255.255.240
+ ipv4 address 10.3.255.9 255.255.255.248 secondary
+ ipv6 address 2605:1c00:ff3::1/65
+ ipv6 address 2605:1c00:fff0:400::1/64
+!
+interface BVI801
+ description description DPOC - EON Compute Stack
+ ipv4 address 22.254.14.65 255.255.255.224
+ ipv4 address 10.3.131.145 255.255.255.240 secondary
+ ipv4 address 10.3.131.161 255.255.255.224 secondary
+ ipv4 address 10.3.131.209 255.255.255.240 secondary
+ ipv4 address 172.31.17.101 255.255.255.252 secondary
+ arp timeout 120
+ ipv6 nd prefix default no-adv
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 mtu 9216
+ ipv6 address 2001:506:100:fc91::81/122
+ ipv6 address 2605:1c00:1ff0:101::1/64
+ ipv6 address 2605:1c00:fff0:202::1/64
+ ipv6 enable
+!
+interface BVI802
+ description cts09k1dccc GAC Stack
+ ipv4 address 22.254.14.105 255.255.255.248
+ ipv6 nd prefix 2605:1c00:1ff0:102::/64 no-autoconfig
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 mtu 9216
+ ipv6 address 2605:1c00:1ff0:102::1/64
+ ipv6 enable
+!
+interface BVI2000
+ description NOKIA_R-OLT_NODE_MGMT
+ ipv6 address 2605:1c00:fff0:404::1/64
+ shutdown
+ load-interval 30
+!
+interface BVI2002
+ description CALIX_R-OLT_NODE_MGMT
+ mtu 9216
+ ipv6 address 2605:1c00:fff0:208::1/64
+ load-interval 30
+!
+interface BVI2010
+ description NOKIA_VCM+HSD+VOICE
+ ipv4 helper-address vrf default 68.114.36.100
+ ipv4 helper-address vrf default 68.114.36.101
+ ipv4 address 10.3.0.65 255.255.255.224 secondary
+ ipv4 address 96.34.184.129 255.255.255.240 secondary
+ ipv6 nd prefix default no-adv
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 mtu 9216
+ ipv6 address 2600:6ce3:f00:102::1/64
+ ipv6 address 2600:6ce3:f00:103::1/64
+ ipv6 enable
+ shutdown
+ load-interval 30
+!
+interface BVI2012
+ description CALIX_HSD+VOICE
+ mtu 9216
+ ipv4 helper-address vrf default 68.114.36.100
+ ipv4 helper-address vrf default 68.114.36.101
+ ipv4 address 96.34.184.97 255.255.255.240
+ ipv4 address 10.3.24.225 255.255.255.224 secondary
+ ipv6 nd prefix default no-adv
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 mtu 9216
+ ipv6 address 2600:6ce3:600:1::1/64
+ ipv6 address 2600:6ce3:600:4::1/64
+ ipv6 enable
+ load-interval 30
+!
+interface BVI3000
+ description Transparent LAN - CMTS Side
+!
+interface BVI3001
+ description Transparent LAN - Router Side
+ ipv4 address 96.34.24.241 255.255.255.252
+!
+interface BVI4001
+ description rOLT Management
+ ipv4 address 10.3.255.33 255.255.255.248
+!
+interface BVI4002
+ description OLT - Data BVI
+ ipv4 address 71.85.92.242 255.255.255.240
+ ipv4 address 100.66.73.1 255.255.255.0 secondary
+ load-interval 30
+!
+interface BVI4003
+ description OLT - Voice BVI
+!
+interface PTP0/RSP0/CPU0/0
+ shutdown
+!
+controller dwdm0/2/0/5
+ admin-state in-service
+!
+controller dwdm0/2/0/6
+ admin-state in-service
+!
+interface preconfigure GigabitEthernet0/1/0/54
+!
+interface preconfigure TenGigE0/2/0/33
+!
+!
+prefix-set BOGONS
+  # Routes denied from the Internet
+  0.0.0.0/0 ge 25,
+  0.0.0.0/8 le 32,
+  10.0.0.0/8 le 32,
+  127.0.0.0/8 le 32,
+  169.254.0.0/16 le 32,
+  172.16.0.0/12 le 32,
+  192.168.0.0/16 le 32,
+  224.0.0.0/3 le 32
+end-set
+!
+prefix-set PL_SQUAT
+  11.0.0.0/8 le 32,
+  21.0.0.0/8 le 32,
+  22.0.0.0/8 le 32,
+  26.0.0.0/8 le 32,
+  29.0.0.0/32,
+  30.0.0.0/8 le 32
+end-set
+!
+prefix-set PL_PRIVATE
+  10.0.0.0/8 le 32,
+  172.16.0.0/12 le 32,
+  192.168.0.0/16 le 32,
+  fc00::/7 le 128
+end-set
+!
+prefix-set STB-STATIC
+  # Set Top Box static routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-AZ-OUT
+  # Routable IPv6 space bound for /AZ/ and /SS/,
+  2600:6ce3::/36,
+  2600:6ce3:e00::/59,
+  2605:1c00:fff0::/52,
+  2605:1c00:ff3::/52,
+  2605:1c00:1ff0::/44 le 64,
+  2605:6ce3::/37,
+  2001:506:100:fc90::/60,
+  2001:506:100:fc80::/60,
+  2600:6ce6:4200::/43,
+  2605:1c00:50f2:204::/64,
+  2600:6ce6:4220:1001::/64,
+  2600:6ce6:4220:1002::/64,
+  2600:6ce6:4220:1000::/64,
+  2600:6ce6:4220:1003::/64,
+  2600:6ce6:4220:1004::/64,
+  2600:6ce6:4220:1005::/64,
+  2600:6ce6:4220:1006::/64,
+  2600:6ce6:4220:1007::/64,
+  2600:6ce6:4230::/44,
+  2600:6ce6:4240::/44,
+  2605:1c00:50f2:203::/64,
+  2605:1c00:50f2:2801::/64,
+  2605:1c00:50f2:2802::/64,
+  2605:1c00:50f2:2803::/64
+end-set
+!
+prefix-set IPV6-BOGONS
+  # Routes denied from the Internet
+  ::/8 le 128,
+  100::/8 le 128,
+  200::/7 le 128,
+  400::/6 le 128,
+  800::/5 le 128,
+  1000::/4 le 128,
+  4000::/3 le 128,
+  6000::/3 le 128,
+  8000::/3 le 128,
+  a000::/3 le 128,
+  c000::/3 le 128,
+  e000::/4 le 128,
+  f000::/5 le 128,
+  f800::/6 le 128,
+  fc00::/7 le 128,
+  fe00::/9 le 128,
+  fe80::/10 le 128,
+  fec0::/10 le 128,
+  ff00::/8 le 128,
+  ::/0 ge 1 le 16,
+  ::/0 ge 49
+end-set
+!
+prefix-set LEAKED-MGMT
+  # Connected management routes leaked to BB redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set PL_BAD-NETS
+  0.0.0.0/8 le 32,
+  100.64.0.0/10 le 32,
+  127.0.0.0/8 le 32,
+  169.254.0.0/16 le 32,
+  192.0.0.0/24 le 32,
+  192.0.2.0/24 le 32,
+  198.18.0.0/15 le 32,
+  198.51.100.0/24 le 32,
+  203.0.113.0/24 le 32,
+  224.0.0.0/4 le 32,
+  240.0.0.0/4 le 32,
+  ::/8 le 128,
+  100::/64 le 128,
+  3ffe::/16 le 128,
+  2001::/32 le 128,
+  2001:2::/48 le 128,
+  2001:db8::/32 le 128,
+  2002::/16 le 128,
+  200::/7 le 128,
+  400::/6 le 128,
+  800::/5 le 128,
+  1000::/4 le 128,
+  4000::/3 le 128,
+  6000::/3 le 128,
+  8000::/3 le 128,
+  a000::/3 le 128,
+  c000::/3 le 128,
+  e000::/4 le 128,
+  f000::/5 le 128,
+  f800::/6 le 128,
+  fe00::/9 le 128,
+  ff00::/8 le 128
+end-set
+!
+prefix-set VOD-CATCHER
+  # Connected VOD routes redistributed into BGP
+  100.66.127.240/29,
+  100.66.127.248/29,
+  255.255.255.255/32
+end-set
+!
+prefix-set AZ-GREEN-OUT
+  10.3.0.0/16 le 28,
+  10.10.0.0/20,
+  10.18.64.0/18,
+  10.255.144.0/20,
+  22.254.14.0/25,
+  30.127.164.0/22 le 28,
+  30.255.164.0/22,
+  71.85.92.0/24,
+  96.34.24.130/31,
+  96.34.201.64/26,
+  96.34.233.64/26,
+  100.66.64.0/18,
+  172.31.17.64/26,
+  172.22.68.0/22,
+  96.34.140.0/23 le 28,
+  30.127.164.192/26,
+  96.37.176.0/27,
+  96.37.176.32/29,
+  96.37.176.40/29,
+  172.22.68.112/30,
+  172.22.68.128/26,
+  172.22.68.192/26,
+  71.85.92.200/29,
+  172.22.74.0/24,
+  172.22.72.0/24,
+  172.22.75.0/24,
+  71.85.92.96/28,
+  172.22.70.0/24,
+  96.37.176.0/22
+end-set
+!
+prefix-set CB-STATIC-CUST
+  255.255.255.255/32
+end-set
+!
+prefix-set CONNECTED-VOIP
+  71.85.94.200/29
+end-set
+!
+prefix-set BGP-STATIC-VOIP
+  # VOIP static routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set CB-LBI-BGP-CUST
+  # Connected LBI BGP routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-STB-STATIC
+  # VOIP static routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-LEAKED-MGMT
+  # Connected management routes leaded to BB redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-VOD-CATCHER
+  # Connected VOD routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set NTWRK-MGMT-STATIC
+  # Network management static routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set CB-T1-PRI-VOIP-BGP
+  # Connected T1/PRI routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set CB-LBI-NON-BGP-CUST
+  # Connected LBI (NON-BGP) routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-CB-STATIC-CUST
+  # CB customer static routes (Charter owned) redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CONNECTED-VOIP
+  # Connected Voip routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set PROVISIONING-STATIC
+  # Provisioning static routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set RDU_HA_STANDBY_TEST
+  172.22.71.8/32
+end-set
+!
+prefix-set IPV6-BGP-STATIC-VOIP
+  # VOIP static routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CB-LBI-BGP-CUST
+  # Connected LBI BGP routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set CONNECTED-NETWORK-MGMT
+  # Connected Network Management routes redistributed into BGP,
+  71.85.92.64/31,
+  71.85.92.66/31,
+  71.85.92.68/31,
+  172.31.17.94/31,
+  172.22.68.18/31,
+  255.255.255.255/32,
+  96.34.140.128/30
+end-set
+!
+prefix-set CONNECTED-PROVISIONING
+  # Connected Provisioning routes redistributed into BGP
+  68.114.36.96/28,
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-NTWRK-MGMT-STATIC
+  # Network management static routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CB-T1-PRI-VOIP-BGP
+  # Connected T1/PRI routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CB-LBI-NON-BGP-CUST
+  # Connected LBI (NON-BGP) routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-PROVISIONING-STATIC
+  # Provisioning  static routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set CB-STATIC-CUST-OWNED-BLOCKS
+  # CB customer static routes (Cust owned) redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-CONNECTED-NETWORK-MGMT
+  # Connected Network Management routes redistributed into BGP
+  2605:1c00:1ff0:102::/64,
+  2605:1c00:1ff0:103::/64,
+  2600:6ce6:4200:10::4/127,
+  2600:6ce6:4200:10::6/127,
+  2600:6ce6:4200:10::8/127,
+  ::/0
+end-set
+!
+prefix-set IPV6-CONNECTED-PROVISIONING
+  # Connected Provisioning routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set CONNECTED-FACILITY-MONITORING
+  # Connected Simultrans monitoring routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set CONNECTED-SIMULTRANS-MONITORING
+  # Connected Simultrans monitoring routes redistributed into BGP
+  255.255.255.255/32
+end-set
+!
+prefix-set IPV6-CB-STATIC-CUST-OWNED-BLOCKS
+  # CB customer static routes (Customer owned) redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CONNECTED-FACILITY-MONITORING
+  # Connected Facility monitoring routes redistributed into BGP
+  ::/0
+end-set
+!
+prefix-set IPV6-CONNECTED-SIMULTRANS-MONITORING
+  # Connected Simultrans monitoring routes redistributed into BGP
+  ::/0
+end-set
+!
+as-path-set AP_LONG-PATH
+  length ge 50
+end-set
+!
+community-set CS_TYPE-ANY
+  7843:124,
+  7843:2303,
+  7843:2502,
+  7843:3000,
+  7843:7000,
+  ios-regex '7843:26..',
+  ios-regex '7843:28..'
+end-set
+!
+community-set CS_7843-RTBH
+  7843:666,
+  65535:666
+end-set
+!
+community-set CS_RCLASS-ANY
+  ios-regex '7843:20..'
+end-set
+!
+community-set Graceful-SHUT
+  65535:0
+end-set
+!
+community-set CS_65461-LP-50
+  65311:50
+end-set
+!
+community-set CS_65461-LP-80
+  65311:80
+end-set
+!
+community-set CS_LOCAL-LP-50
+  65311:50
+end-set
+!
+community-set CS_LOCAL-LP-80
+  65311:80
+end-set
+!
+community-set CS_65461-LP-120
+  65311:120
+end-set
+!
+community-set CS_LOCAL-LP-120
+  65311:120
+end-set
+!
+community-set CS_ACCESS-AGGREGATE
+  65311:2607
+end-set
+!
+community-set CS_GRACEFUL-SHUTDOWN
+  65535:0
+end-set
+!
+rpl editor vim
+!
+route-policy DENY-ALL
+  drop
+end-policy
+!
+!
+route-policy KMA-AGGS
+  set community (20115:3000, 20115:60320)
+end-policy
+!
+route-policy PASS-ALL
+  pass
+end-policy
+!
+route-policy BGP-STATIC
+  if destination in CB-STATIC-CUST then
+    set community (20115:3202, 20115:60320)
+  elseif destination in CB-STATIC-CUST-OWNED-BLOCKS then
+    set community (20115:3201, 20115:60320)
+  elseif destination in NTWRK-MGMT-STATIC then
+    set community (20115:3101, 20115:60320)
+  elseif destination in BGP-STATIC-VOIP then
+    set community (20115:3035, 20115:60320)
+  elseif destination in STB-STATIC then
+    set community (20115:3105, 20115:60320)
+  elseif destination in PROVISIONING-STATIC then
+    set community (20115:3100, 20115:60320)
+  endif
+end-policy
+!
+route-policy GREEN-TO-AZ
+  if destination in AZ-GREEN-OUT then
+    # Allow any Public, 172.30, or CMTS space to /AZ/
+    pass
+  elseif destination in BOGONS then
+    # Block all other RFC1918 space
+    drop
+  endif
+end-policy
+!
+route-policy BGP-CONNECTED
+  if destination in CONNECTED-VOIP then
+    set community (20115:3035, 20115:60320)
+  elseif destination in CONNECTED-PROVISIONING then
+    set community (20115:3100, 20115:60320)
+  elseif destination in CONNECTED-NETWORK-MGMT then
+    set community (20115:3101, 20115:60320)
+  elseif destination in CONNECTED-FACILITY-MONITORING then
+    set community (20115:3102, 20115:60320)
+  elseif destination in CONNECTED-SIMULTRANS-MONITORING then
+    set community (20115:3103, 20115:60320)
+  elseif destination in LEAKED-MGMT then
+    set community (20115:3110, 20115:60320)
+  elseif destination in VOD-CATCHER then
+    set community (20115:3120, 20115:60320)
+  elseif destination in CB-LBI-BGP-CUST then
+    set community (20115:3200, 20115:60320)
+  elseif destination in CB-LBI-NON-BGP-CUST then
+    set community (20115:3202, 20115:60320)
+  elseif destination in CB-T1-PRI-VOIP-BGP then
+    set community (20115:3250, 20115:60320)
+  endif
+end-policy
+!
+route-policy BP_MARKET-D_O
+  if destination in (0.0.0.0/0, ::/0) then
+    done
+  else
+    drop
+  endif
+end-policy
+!
+route-policy IPV6-PASS-ALL
+  pass
+end-policy
+!
+route-policy BP_MARKET-TBV_I
+  apply BP_MARKET-GENERAL_I
+end-policy
+!
+route-policy IPV6-BGP-STATIC
+  if destination in IPV6-CB-STATIC-CUST then
+    set community (20115:3202, 20115:60320)
+  elseif destination in IPV6-CB-STATIC-CUST-OWNED-BLOCKS then
+    set community (20115:3201, 20115:60320)
+  elseif destination in IPV6-NTWRK-MGMT-STATIC then
+    set community (20115:3101, 20115:60320)
+  elseif destination in IPV6-BGP-STATIC-VOIP then
+    set community (20115:3035, 20115:60320)
+  elseif destination in IPV6-STB-STATIC then
+    set community (20115:3105, 20115:60320)
+  elseif destination in IPV6-PROVISIONING-STATIC then
+    set community (20115:3100, 20115:60320)
+  endif
+end-policy
+!
+route-policy BP_MARKET-TBV_4I
+  apply BP_MARKET-GENERAL_4I
+  if community matches-any Graceful-SHUT then
+    set local-preference 11
+    done
+  endif
+  done
+end-policy
+!
+route-policy BP_MARKET-TBV_6I
+  apply BP_MARKET-GENERAL_6I
+  if community matches-any Graceful-SHUT then
+    set local-preference 11
+    done
+  endif
+  done
+end-policy
+!
+route-policy IPV6-GREEN-TO-AZ
+  if destination in IPV6-AZ-OUT then
+    # Allow any Public, CMM, or routed CM space to /AZ/
+    pass
+  elseif destination in IPV6-BOGONS then
+    # Block all other IPV6 space
+    drop
+  endif
+end-policy
+!
+route-policy IPV6-BGP-CONNECTED
+  if destination in IPV6-CONNECTED-VOIP then
+    set community (20115:3035, 20115:60320)
+  elseif destination in IPV6-CONNECTED-PROVISIONING then
+    set community (20115:3100, 20115:60320)
+  elseif destination in IPV6-CONNECTED-NETWORK-MGMT then
+    set community (20115:3101, 20115:60320)
+  elseif destination in IPV6-CONNECTED-FACILITY-MONITORING then
+    set community (20115:3102, 20115:60320)
+  elseif destination in IPV6-CONNECTED-SIMULTRANS-MONITORING then
+    set community (20115:3103, 20115:60320)
+  elseif destination in IPV6-LEAKED-MGMT then
+    set community (20115:3110, 20115:60320)
+  elseif destination in IPV6-VOD-CATCHER then
+    set community (20115:3120, 20115:60320)
+  elseif destination in IPV6-CB-LBI-BGP-CUST then
+    set community (20115:3200, 20115:60320)
+  elseif destination in IPV6-CB-LBI-NON-BGP-CUST then
+    set community (20115:3202, 20115:60320)
+  elseif destination in IPV6-CB-T1-PRI-VOIP-BGP then
+    set community (20115:3250, 20115:60320)
+  endif
+end-policy
+!
+route-policy BP_MARKET-GENERAL_I
+  if destination in PL_BAD-NETS then
+    drop
+  endif
+  if not community matches-any CS_TYPE-ANY then
+    drop
+  endif
+  if not community matches-any CS_RCLASS-ANY then
+    drop
+  endif
+  if as-path in AP_LONG-PATH then
+    drop
+  endif
+  if community matches-any CS_7843-RTBH and destination in (0.0.0.0/0 le 32) then
+    set next-hop 192.0.2.0
+    pass
+  endif
+  if community matches-any CS_7843-RTBH and destination in (::/0 le 128) then
+    set next-hop 100::
+    pass
+  endif
+  if community matches-any CS_LOCAL-LP-50 then
+    set local-preference 50
+    pass
+  endif
+  if community matches-any CS_LOCAL-LP-80 then
+    set local-preference 80
+    pass
+  endif
+  if community matches-any CS_LOCAL-LP-120 then
+    set local-preference 120
+    pass
+  endif
+  if community matches-any CS_GRACEFUL-SHUTDOWN then
+    set local-preference 10
+    pass
+  endif
+  done
+end-policy
+!
+route-policy BP_MARKET-GENERAL_4I
+  if destination in PL_BAD-NETS then
+    drop
+  endif
+  if as-path in AP_LONG-PATH then
+    drop
+  endif
+  if community matches-any CS_7843-RTBH then
+    set next-hop 192.0.2.0
+    done
+  endif
+  if community matches-any CS_65311-LP-50 then
+    set local-preference 50
+    done
+  endif
+  if community matches-any CS_65311-LP-80 then
+    set local-preference 80
+    done
+  endif
+  if community matches-any CS_65311-LP-120 then
+    set local-preference 120
+    done
+  endif
+  if community matches-any CS_GRACEFUL-SHUTDOWN then
+    set local-preference 10
+    done
+  endif
+end-policy
+!
+route-policy BP_MARKET-GENERAL_6I
+  if destination in PL_BAD-NETS then
+    drop
+  endif
+  if as-path in AP_LONG-PATH then
+    drop
+  endif
+  if community matches-any CS_7843-RTBH then
+    set next-hop 100::
+    done
+  endif
+  if community matches-any CS_65311-LP-50 then
+    set local-preference 50
+    done
+  endif
+  if community matches-any CS_65311-LP-80 then
+    set local-preference 80
+    done
+  endif
+  if community matches-any CS_65311-LP-120 then
+    set local-preference 120
+    done
+  endif
+  if community matches-any CS_GRACEFUL-SHUTDOWN then
+    set local-preference 10
+    done
+  endif
+end-policy
+!
+route-policy RP_IGP-HAS-DEFAULT_4
+  if rib-has-route in (0.0.0.0/0) then
+    pass
+  endif
+end-policy
+!
+route-policy RP_IGP-HAS-DEFAULT_6
+  if rib-has-route in (::/0) then
+    pass
+  endif
+end-policy
+!
+route-policy UNSUPPRESS-96.37.176
+  pass
+end-policy
+!
+route-policy ISIS-DEFAULT-ORIGINATE
+  set level level-1
+end-policy
+!
+route-policy RDU_HA_STANDBY_TEST_crossman-dsievers
+  if destination in RDU_HA_STANDBY_TEST then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  10.3.0.0/16 Null0
+  10.3.64.0/24 22.254.14.9
+  10.3.129.0/24 22.254.14.11
+  10.3.131.160/27 22.254.14.65
+  10.3.255.33/32 10.3.255.18
+  10.18.98.224/27 96.34.201.82
+  22.254.14.0/26 Null0
+  22.254.14.64/27 Null0
+  22.254.14.104/29 Null0
+  30.127.164.0/22 Null0
+  30.255.164.0/22 Null0
+  71.85.92.240/28 96.34.24.16
+  96.34.24.204/31 Null0
+  96.34.148.0/22 Null0
+  96.34.201.64/26 96.34.24.14
+  96.34.233.64/26 Null0
+  100.66.64.0/18 Null0
+  100.66.73.0/24 96.34.24.129
+  172.22.68.0/30 Null0
+  172.22.68.8/30 Null0
+  172.31.17.64/26 Null0
+ !
+ address-family ipv6 unicast
+  2605:1c00:fff0:202::/64 2605:1c00:1ff0:101:5054:ff:feda:1e91
+ !
+!
+router isis default
+ set-overload-bit on-startup 360
+ is-type level-1
+ net 49.5320.1720.3101.7064.00
+ nsf cisco
+ log adjacency changes
+ lsp-gen-interval maximum-wait 5000 initial-wait 1 secondary-wait 5000
+ log pdu drops
+ lsp-refresh-interval 65000
+ max-lsp-lifetime 65535
+ lsp-password text encrypted 0941571D115504 level 1 send-only
+ address-family ipv4 unicast
+  metric-style wide
+  advertise passive-only
+  ispf level 1
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback14
+  spf-interval maximum-wait 5000 initial-wait 50 secondary-wait 100
+  maximum-paths 5
+  adjacency-check disable
+ !
+ address-family ipv6 unicast
+  metric-style wide
+  ispf level 1
+  spf-interval maximum-wait 5000 initial-wait 50 secondary-wait 100
+  maximum-paths 8
+  single-topology
+  adjacency-check disable
+ !
+ interface Bundle-Ether4
+  suppressed
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  hello-password hmac-md5 encrypted 1043100D0D4701
+  address-family ipv4 unicast
+   metric 1000
+  !
+ !
+ interface Bundle-Ether5
+  suppressed
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  hello-password hmac-md5 encrypted 1043100D0D4701
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface Bundle-Ether20
+  suppressed
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 10000
+  !
+  address-family ipv6 unicast
+   metric 10000
+  !
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback14
+  passive
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback15
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface TenGigE0/0/0/0
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/1
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/2
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/3
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/4
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/5
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/6
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/9
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/10
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/13
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/15
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/16
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/0/0/22
+  suppressed
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/2/0/1
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 10000
+  !
+  address-family ipv6 unicast
+   metric 10000
+  !
+ !
+ interface TenGigE0/2/0/2
+  shutdown
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/2/0/10.200
+  suppressed
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  address-family ipv4 unicast
+   metric 1000
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface TenGigE0/2/0/20
+  suppressed
+  circuit-type level-1
+  point-to-point
+  address-family ipv4 unicast
+   metric 1000
+  !
+ !
+!
+snmp-server traps isis all
+snmp-server traps ospfv3 errors bad-packet
+snmp-server traps ospfv3 errors config-error
+snmp-server traps ospfv3 errors virt-bad-packet
+snmp-server traps ospfv3 state-change if-state-change
+snmp-server traps ospfv3 state-change neighbor-state-change
+snmp-server traps ospfv3 state-change virtif-state-change
+snmp-server traps ospfv3 state-change virtneighbor-state-change
+snmp-server traps ospfv3 state-change restart-status-change
+snmp-server traps ospfv3 state-change restart-virtual-helper-status-change
+router ospf 10
+ log adjacency changes detail
+ router-id 96.34.184.150
+ network point-to-point
+ dead-interval 16
+ hello-interval 4
+ address-family ipv4 unicast
+ area 10
+  interface TenGigE0/0/0/1
+  !
+  interface TenGigE0/0/0/22
+  !
+  interface TenGigE0/2/0/1
+  !
+ !
+!
+router bgp 65311
+ bgp router-id 96.34.201.64
+ bgp graceful-restart restart-time 120
+ bgp graceful-restart stalepath-time 360
+ bgp graceful-restart
+ address-family ipv4 unicast
+  bgp attribute-download
+  aggregate-address 10.3.0.0/16 route-policy KMA-AGGS
+  aggregate-address 10.18.64.0/18 route-policy KMA-AGGS
+  aggregate-address 10.255.144.0/20 route-policy KMA-AGGS
+  aggregate-address 22.254.14.0/25 summary-only route-policy KMA-AGGS
+  aggregate-address 30.127.164.0/22 summary-only route-policy KMA-AGGS
+  aggregate-address 30.255.164.0/22 summary-only route-policy KMA-AGGS
+  aggregate-address 71.85.92.0/24 summary-only route-policy KMA-AGGS
+  aggregate-address 96.34.184.0/24 route-policy KMA-AGGS
+  aggregate-address 96.37.176.0/22 route-policy KMA-AGGS
+  aggregate-address 100.66.64.0/18 summary-only route-policy KMA-AGGS
+  aggregate-address 172.22.68.0/22 route-policy KMA-AGGS
+  redistribute connected
+  redistribute static route-policy KMA-AGGS
+  redistribute rip route-policy RDU_HA_STANDBY_TEST_crossman-dsievers
+ !
+ address-family ipv6 unicast
+  bgp attribute-download
+  aggregate-address 2001:506:100:fc80::/60 route-policy KMA-AGGS
+  aggregate-address 2001:506:100:fc90::/60 route-policy KMA-AGGS
+  aggregate-address 2600:6ce3::/36 route-policy KMA-AGGS
+  aggregate-address 2600:6ce3:e00::/59 route-policy KMA-AGGS
+  aggregate-address 2600:6ce6:4200::/43 route-policy KMA-AGGS
+  aggregate-address 2605:1c00:ff3::/52 summary-only route-policy KMA-AGGS
+  aggregate-address 2605:1c00:1ff0::/44 route-policy KMA-AGGS
+  aggregate-address 2605:1c00:fff0::/52 route-policy KMA-AGGS
+  aggregate-address 2605:6ce3::/37 summary-only route-policy KMA-AGGS
+  redistribute connected
+  redistribute static route-policy KMA-AGGS
+ !
+ neighbor-group SC-RR
+  remote-as 65311
+  description DTR-Route-Reflectors
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy PASS-ALL out
+  !
+ !
+ neighbor-group AZ-eBGP
+  remote-as 65300
+  password encrypted 0702385846590A
+  description "eBGP to /AZ/ router sar01"
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy PASS-ALL in
+   route-policy GREEN-TO-AZ out
+  !
+ !
+ neighbor-group MPBGP-RR
+  remote-as 65311
+  update-source Loopback14
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor-group IPV6-SC-RR
+  remote-as 65311
+  description DTR-Route_Reflectors
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy IPV6-PASS-ALL out
+  !
+ !
+ neighbor-group IPV6-AZ-eBGP
+  remote-as 65300
+  password encrypted 0702385846590A
+  description "eBGP for ipv6 to /AZ/ router sarXX"
+  address-family ipv6 unicast
+   send-community-ebgp
+   route-policy IPV6-PASS-ALL in
+   route-policy IPV6-GREEN-TO-AZ out
+  !
+ !
+ neighbor-group IPv4-CIN-eBGP
+  remote-as 65500
+  bfd fast-detect
+  bfd multiplier 3
+  bfd minimum-interval 500
+  password encrypted 0702385846590A
+  description "eBGP DAA CIN Devices"
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+   remove-private-AS inbound
+  !
+ !
+ neighbor-group IPv6-CIN-eBGP
+  remote-as 65500
+  bfd fast-detect
+  bfd multiplier 3
+  bfd minimum-interval 100
+  password encrypted 0702385846590A
+  description "eBGP DAA CIN Devices"
+  address-family ipv6 unicast
+   send-community-ebgp
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+   remove-private-AS inbound
+  !
+ !
+ neighbor-group IPV6-CIN-CISCO
+  remote-as 65311
+  password encrypted 020B1D4F03561C
+  description "IPv6_daa03k1dccc_cisco_cin"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group IPV6-CMTS-CASA
+  remote-as 65311
+  password encrypted 110400111F4218
+  description "Casa CMTS C100G and C40G"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-BNG-NOKIA
+  remote-as 65311
+  password encrypted 13080E06035C17
+  description "Nokia BNG"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-CASA
+  remote-as 65311
+  password encrypted 0702385846590A
+  description "Casa CMTS C100G and C40G"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group IPV6-CMTS-ARRIS
+  remote-as 65311
+  password encrypted 110400111F4218
+  description "Arris CMTS C4 and E6K"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group IPV6-CMTS-CISCO
+  remote-as 65311
+  password encrypted 110400111F4218
+  description "Cisco CMTS 10K and CBR8"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-ARRIS
+  remote-as 65311
+  password encrypted 0702385846590A
+  description cts11k1dccc
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor-group iBGP-CMTS-CALIX
+  remote-as 65311
+  password encrypted 110400111F4218
+  description "Calix vOLT"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-CISCO
+  remote-as 65311
+  password encrypted 011E1F10535B15
+  description "Cisco CMTS 10K and CBR8"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group BG_ACCESS-EBGP_4
+  remote-as 65519
+  password encrypted 151F12180C7A38
+  description "V4 to Access Edge" 
+  address-family ipv4 unicast
+   route-policy BP_MARKET-TBV_I in
+   maximum-prefix 500 75 restart 5
+   route-policy BP_MARKET-D_O out
+   default-originate route-policy RP_IGP-HAS-DEFAULT_4
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor-group BG_ACCESS-EBGP_6
+  remote-as 65519
+  password encrypted 0941571D115504
+  description "V6 to Access Edge" 
+  address-family ipv6 unicast
+   route-policy BP_MARKET-TBV_I in
+   maximum-prefix 500 75 restart 5
+   route-policy BP_MARKET-D_O out
+   default-originate route-policy RP_IGP-HAS-DEFAULT_6
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor-group IPV6-CIN-JUNIPER
+  remote-as 65311
+  password encrypted 0702385846590A
+  description "Juniper CIN"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-JUNIPER
+  remote-as 65311
+  password encrypted 011E1F10535B15
+  description "Juniper CIN"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group IPV6-CMTS-HARMONIC
+  remote-as 65311
+  password encrypted 0702385846590A
+  description "Harmonic CableOS"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-HARMONIC
+  remote-as 65311
+  password encrypted 011E1F10535B15
+  description "Cisco CMTS 10K and CBR8"
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group IPV6-CMTS-GAINSPEED
+  remote-as 65311
+  password encrypted 020B1D4F03561C
+  description "Gainspeed Nokia SR7750s"
+  update-source Loopback15
+  address-family ipv6 unicast
+   route-policy IPV6-PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-CMTS-GAINSPEED
+  remote-as 65311
+  password encrypted 011E1F10535B15
+  description Gainspeed
+  update-source Loopback15
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy DENY-ALL out
+   default-originate
+  !
+ !
+ neighbor-group iBGP-ROUTE-REFLECTORS
+  remote-as 65311
+  password encrypted 011E1F10535B15
+  description "Route Reflectors"
+  update-source Loopback15
+  address-family ipv4 unicast
+   next-hop-self
+  !
+ !
+ neighbor 96.34.24.14
+  use neighbor-group AZ-eBGP
+  description sar01zcsccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 172.31.17.90
+  use neighbor-group iBGP-CMTS-JUNIPER
+  description dar01k3ccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 172.31.17.91
+  use neighbor-group iBGP-CMTS-JUNIPER
+  description dar02k3ccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 172.31.17.92
+  use neighbor-group iBGP-CMTS-JUNIPER
+  shutdown
+  description das01k3ccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.65
+  use neighbor-group SC-RR
+  address-family ipv4 unicast
+   route-policy PASS-ALL in
+   route-policy PASS-ALL out
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor 96.34.201.66
+  use neighbor-group iBGP-CMTS-ARRIS
+  description cts01k1dccc
+  address-family ipv4 unicast
+   next-hop-self
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.67
+  use neighbor-group iBGP-CMTS-CASA
+  description cts02k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.68
+  use neighbor-group iBGP-CMTS-CISCO
+  description cts03k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.69
+  use neighbor-group iBGP-CMTS-CISCO
+  description cts04k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.70
+  use neighbor-group iBGP-CMTS-HARMONIC
+  description cts05k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.71
+  use neighbor-group iBGP-CMTS-CISCO
+  description cts06k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.72
+  use neighbor-group iBGP-CMTS-HARMONIC
+  description cts05k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.74
+  use neighbor-group iBGP-CMTS-GAINSPEED
+  description vcr01k1sccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.76
+  use neighbor-group iBGP-CMTS-ARRIS
+  description cts11k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.78
+  use neighbor-group iBGP-CMTS-CASA
+  description cts13k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.79
+  use neighbor-group iBGP-CMTS-GAINSPEED
+  description vcr01k1sccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.80
+  use neighbor-group iBGP-CMTS-CISCO
+  description daa03k1dccc_cisco_cin
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.24.147
+  use neighbor-group BG_ACCESS-EBGP_4
+  description ASA01K1DCCC
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.24.167
+  use neighbor-group iBGP-CMTS-ARRIS
+  description cts09k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.24.225
+  use neighbor-group IPv4-CIN-eBGP
+  description ana01k3dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.116
+  use neighbor-group iBGP-CMTS-CALIX
+  description olt11k1dsccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.117
+  use neighbor-group iBGP-CMTS-CASA
+  description vcmts01k1dccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.201.118
+  use neighbor-group iBGP-BNG-NOKIA
+  description bng03wtsccc
+  address-family ipv4 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:f601::1
+  use neighbor-group IPV6-AZ-eBGP
+  description sar01zcsccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc91::d
+  use neighbor-group BG_ACCESS-EBGP_6
+  description ASA01K1DCCC 
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::60
+  use neighbor-group IPV6-CMTS-ARRIS
+  description cts14k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::65
+  use neighbor-group IPV6-SC-RR
+  description DTR02K1DCCC
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::66
+  use neighbor-group IPV6-CMTS-ARRIS
+  description cts01k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::67
+  use neighbor-group IPV6-CMTS-CASA
+  description cts02k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::68
+  use neighbor-group IPV6-CMTS-CISCO
+  description cts06k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::6a
+  use neighbor-group IPV6-CMTS-GAINSPEED
+  description vcr01k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::6b
+  use neighbor-group IPV6-CIN-CISCO
+  description dar03k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::70
+  use neighbor-group IPV6-CMTS-HARMONIC
+  description cts05k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::71
+  use neighbor-group IPV6-CMTS-ARRIS
+  description cts09k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc80::76
+  use neighbor-group IPV6-CMTS-ARRIS
+  description cts11k1dccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc91::45
+  use neighbor-group IPv6-CIN-eBGP
+  description nar01k3ccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 2001:506:100:fc81:96:34:24:92
+  use neighbor-group IPv6-CIN-eBGP
+  description das01k1ccc
+  address-family ipv6 unicast
+   soft-reconfiguration inbound always
+  !
+ !
+!
+snmp-server traps frame-relay pvc interval 30
+snmp-server traps atm pvc interval 30
+snmp-server traps ima
+snmp-server traps hsrp
+snmp-server traps vrrp events
+snmp-server traps vpls all
+snmp-server traps vpls status
+snmp-server traps vpls full-clear
+snmp-server traps vpls full-raise
+snmp-server traps l2vpn all
+snmp-server traps l2vpn vc-up
+snmp-server traps l2vpn vc-down
+l2vpn
+ pw-class mpls-ctl
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode ethernet
+  !
+ !
+ pw-class mpls-eth
+  encapsulation mpls
+   protocol ldp
+   transport-mode ethernet
+  !
+ !
+ pw-class vpls-eth
+  encapsulation mpls
+   protocol ldp
+   transport-mode ethernet
+  !
+ !
+ bridge group CALIX
+  bridge-domain CALIX_OLT_HSD_VOICE
+   interface TenGigE0/2/0/4.100
+   !
+   routed interface BVI2012
+   !
+  !
+  bridge-domain CALIX_OLT_NODE_MGMT
+   interface TenGigE0/2/0/4.4000
+   !
+   routed interface BVI2002
+   !
+  !
+ !
+ bridge group VLAN10
+  bridge-domain VLAN10
+   interface TenGigE0/0/0/18.10
+   !
+   routed interface BVI10
+   !
+  !
+ !
+ bridge group VLAN11
+  bridge-domain VLAN11
+   interface TenGigE0/2/0/11.11
+   !
+   routed interface BVI11
+   !
+  !
+ !
+ bridge group AA_VMWARE
+  bridge-domain VMWARE_SC_TRUNK
+   mtu 9000
+   interface TenGigE0/2/0/23.300
+   !
+   routed interface BVI300
+   !
+  !
+ !
+ bridge group Nokia_VSR
+  bridge-domain AP_Side
+   interface GigabitEthernet0/1/0/15
+   !
+   interface GigabitEthernet0/1/0/18.111
+   !
+   routed interface BVI111
+   !
+  !
+  bridge-domain Internet_Side
+   interface GigabitEthernet0/1/0/18.112
+   !
+   routed interface BVI112
+   !
+  !
+ !
+ bridge group mpls_BSOD
+  bridge-domain mpls_BSOD
+   interface TenGigE0/0/0/5
+   !
+  !
+ !
+ bridge group LLD-Servers
+  bridge-domain LLD-Servers
+   interface TenGigE0/2/0/16
+   !
+   interface TenGigE0/0/0/16.100
+   !
+   routed interface BVI100
+   !
+  !
+ !
+ bridge group Harmonic_Test
+ !
+ bridge group Nokia_Gainspeed
+  bridge-domain NOKIA_OLT_NODE_MGMT
+   interface Bundle-Ether2000.169
+   !
+   routed interface BVI2000
+   !
+  !
+  bridge-domain NOKIA_OLT_VCM_HSD_VOICE
+   dhcp ipv4 snoop profile R-OLT_CNR_HELPERS
+   interface Bundle-Ether2000.100
+   !
+   routed interface BVI2010
+   !
+  !
+ !
+ bridge group Virtual_Servers
+  bridge-domain Server_Mgmt
+   interface TenGigE0/0/0/14
+   !
+   routed interface BVI800
+   !
+  !
+ !
+ bridge group Transparent_3000
+  bridge-domain CMTS_side
+   interface TenGigE0/2/0/10.3000
+   !
+   routed interface BVI3000
+   !
+  !
+ !
+ bridge group Transparent_3001
+  bridge-domain Router_side
+   interface TenGigE0/2/0/10.3001
+   !
+   routed interface BVI3001
+   !
+  !
+ !
+ bridge group cts09k1dccc-GACs
+  bridge-domain cts09k1dccc-GACs
+   interface TenGigE0/2/0/9
+   !
+   interface GigabitEthernet0/1/0/10
+   !
+   interface GigabitEthernet0/1/0/11
+   !
+   routed interface BVI802
+   !
+  !
+ !
+ bridge group EON_Compute_Stack
+  bridge-domain Severs
+   interface TenGigE0/2/0/22
+   !
+   interface TenGigE0/2/0/23.801
+   !
+   interface TenGigE0/2/0/23.802
+   !
+   interface TenGigE0/2/0/23.803
+   !
+   routed interface BVI801
+   !
+  !
+  bridge-domain Servers
+  !
+ !
+!
+mpls oam
+!
+snmp-server traps mpls traffic-eng up
+snmp-server traps mpls traffic-eng down
+snmp-server traps mpls traffic-eng reroute
+snmp-server traps mpls traffic-eng reoptimize
+snmp-server traps mpls frr all
+snmp-server traps mpls frr protected
+snmp-server traps mpls frr unprotected
+snmp-server traps mpls ldp up
+snmp-server traps mpls ldp down
+snmp-server traps mpls ldp threshold
+snmp-server traps mpls traffic-eng p2mp up
+snmp-server traps mpls traffic-eng p2mp down
+snmp-server traps rsvp all
+snmp-server traps rsvp new-flow
+snmp-server traps rsvp lost-flow
+snmp-server traps mpls l3vpn all
+snmp-server traps mpls l3vpn vrf-up
+snmp-server traps mpls l3vpn vrf-down
+snmp-server traps mpls l3vpn max-threshold-cleared
+snmp-server traps mpls l3vpn max-threshold-exceeded
+snmp-server traps mpls l3vpn mid-threshold-exceeded
+snmp-server traps mpls l3vpn max-threshold-reissue-notif-time 1
+mpls ldp
+ igp sync delay on-session-up 10
+ discovery
+  hello holdtime 15
+  hello interval 5
+ !
+ router-id 96.34.233.64
+ session protection
+ address-family ipv4
+  label
+   local
+    allocate for MPLS_LOOPBACK_RANGE
+    advertise
+     for MPLS_LOOPBACK_RANGE
+     interface TenGigE0/0/0/5
+     interface TenGigE0/2/0/10.200
+    !
+   !
+  !
+ !
+ interface TenGigE0/0/0/5
+ !
+ interface TenGigE0/0/0/10
+ !
+ interface TenGigE0/0/0/22
+ !
+ interface TenGigE0/0/0/23
+ !
+ interface TenGigE0/2/0/2
+ !
+ interface TenGigE0/2/0/10.200
+ !
+!
+snmp-server traps pim neighbor-change
+snmp-server traps pim invalid-message-received
+snmp-server traps pim rp-mapping-change
+snmp-server traps pim interface-state-change
+snmp-server traps msdp peer-state-change
+multicast-routing
+ address-family ipv4
+  interface BVI103
+   enable
+  !
+  interface BVI801
+   enable
+  !
+  interface BVI802
+   enable
+  !
+  interface Bundle-Ether20
+   enable
+  !
+  interface Bundle-Ether21
+   enable
+  !
+  interface TenGigE0/0/0/0
+   enable
+  !
+  interface TenGigE0/0/0/1
+   enable
+  !
+  interface TenGigE0/0/0/2
+   enable
+  !
+  interface TenGigE0/0/0/3
+   enable
+  !
+  interface TenGigE0/0/0/4
+   enable
+  !
+  interface TenGigE0/0/0/5
+   enable
+  !
+  interface TenGigE0/0/0/6
+   enable
+  !
+  interface TenGigE0/0/0/9
+   enable
+  !
+  interface TenGigE0/0/0/10
+   enable
+  !
+  interface TenGigE0/0/0/13
+   enable
+  !
+  interface TenGigE0/0/0/15
+   enable
+  !
+  interface TenGigE0/0/0/22
+   enable
+  !
+  interface TenGigE0/0/0/23
+   enable
+  !
+  interface GigabitEthernet0/1/0/0
+   enable
+  !
+  interface GigabitEthernet0/1/0/1
+   enable
+  !
+  interface GigabitEthernet0/1/0/2
+   enable
+  !
+  multipath hash source-nexthop
+  rate-per-route
+  interface all enable
+  accounting per-prefix
+ !
+ address-family ipv6
+  interface Bundle-Ether21
+   enable
+  !
+  interface TenGigE0/0/0/7
+   enable
+  !
+  interface TenGigE0/2/0/2
+   enable
+  !
+  interface TenGigE0/0/0/22
+   enable
+  !
+  multipath hash source-nexthop
+ !
+!
+router mld
+ interface TenGigE0/0/0/7
+  router enable
+ !
+ version 2
+!
+router igmp
+ interface BVI801
+  version 3
+ !
+ interface BVI802
+  version 3
+ !
+ interface TenGigE0/0/0/0
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/1
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/2
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/3
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/4
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/5
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/6
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/10
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/13
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/15
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/22
+  version 3
+  router enable
+ !
+ interface TenGigE0/0/0/23
+  version 3
+  router enable
+ !
+ interface TenGigE0/2/0/23
+  version 3
+  router enable
+ !
+ interface TenGigE0/2/0/23.801
+  version 3
+  router enable
+ !
+ interface GigabitEthernet0/1/0/0
+  version 3
+  router enable
+ !
+ interface GigabitEthernet0/1/0/1
+  version 3
+  router enable
+ !
+ interface GigabitEthernet0/1/0/2
+  version 3
+  router enable
+ !
+!
+snmp-server traps ipsla
+snmp-server traps sensor
+snmp-server traps fru-ctrl
+snmp-server traps ospf lsa lsa-maxage
+snmp-server traps ospf lsa lsa-originate
+snmp-server traps ospf errors bad-packet
+snmp-server traps ospf errors authentication-failure
+snmp-server traps ospf errors config-error
+snmp-server traps ospf errors virt-bad-packet
+snmp-server traps ospf errors virt-authentication-failure
+snmp-server traps ospf errors virt-config-error
+snmp-server traps ospf retransmit packets
+snmp-server traps ospf retransmit virt-packets
+snmp-server traps ospf state-change if-state-change
+snmp-server traps ospf state-change neighbor-state-change
+snmp-server traps ospf state-change virtif-state-change
+snmp-server traps ospf state-change virtneighbor-state-change
+lldp
+!
+router pim
+ address-family ipv4
+  rp-address 10.224.0.1
+  old-register-checksum
+  log neighbor changes
+  interface BVI801
+   enable
+  !
+  interface BVI802
+   enable
+  !
+  interface Bundle-Ether20
+   enable
+  !
+  interface Bundle-Ether21
+   enable
+  !
+  interface TenGigE0/0/0/0
+   enable
+  !
+  interface TenGigE0/0/0/1
+   enable
+  !
+  interface TenGigE0/0/0/2
+   enable
+  !
+  interface TenGigE0/0/0/3
+   enable
+  !
+  interface TenGigE0/0/0/4
+   enable
+  !
+  interface TenGigE0/0/0/5
+   enable
+  !
+  interface TenGigE0/0/0/6
+   enable
+  !
+  interface TenGigE0/2/0/2
+   bfd minimum-interval 1000
+   bfd fast-detect
+   bfd multiplier 3
+  !
+  interface TenGigE0/0/0/10
+   enable
+  !
+  interface TenGigE0/0/0/13
+   enable
+  !
+  interface TenGigE0/0/0/15
+   enable
+  !
+  interface TenGigE0/0/0/22
+   enable
+  !
+  interface TenGigE0/0/0/23
+   enable
+  !
+  interface TenGigE0/2/0/23
+   enable
+  !
+  interface TenGigE0/2/0/23.801
+   enable
+  !
+  interface GigabitEthernet0/1/0/0
+   enable
+  !
+  interface GigabitEthernet0/1/0/1
+   enable
+  !
+  interface GigabitEthernet0/1/0/2
+   enable
+  !
+  ssm range SSM-RANGE
+ !
+ address-family ipv6
+  interface Bundle-Ether21
+   enable
+  !
+  interface TenGigE0/0/0/7
+   enable
+  !
+  interface TenGigE0/2/0/2
+   bfd minimum-interval 100
+   bfd fast-detect
+   bfd multiplier 3
+   enable
+  !
+  interface TenGigE0/0/0/22
+   enable
+  !
+  ssm range IPV6-SSM-RANGE
+ !
+!
+router rip
+ interface TenGigE0/0/0/20
+  broadcast-for-v2
+ !
+!
+snmp-server traps gdoi all
+snmp-server traps gdoi gm-rereg
+snmp-server traps gdoi gm-new-reg
+snmp-server traps gdoi gm-rekey-rcvd
+snmp-server traps gdoi gm-reg-complete
+snmp-server traps gdoi gm-rekey-failure
+snmp-server traps gdoi gm-incomplete-cfg
+snmp-server traps gdoi gm-no-ipsec-flows
+snmp-server traps ipsec tunnel stop
+snmp-server traps ipsec tunnel start
+snmp-server traps isakmp tunnel stop
+snmp-server traps isakmp tunnel start
+ssh timeout 90
+ssh server rate-limit 90
+ssh server session-limit 10
+ssh server v2
+ssh server vrf default
+snmp-server traps subscriber session-agg node
+snmp-server traps subscriber session-agg access-interface
+snmp-server traps performance traffic
+end
+
+RP/0/RSP0/CPU0:dtr01k1dccc#

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CTEC Lab Verifier</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --border:#30363d;
+    --accent:#58a6ff; --green:#3fb950; --red:#f85149;
+    --yellow:#d29922; --text:#c9d1d9; --muted:#8b949e;
+    --font: 'Segoe UI', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px}
+  header{background:var(--panel);border-bottom:1px solid var(--border);
+         padding:14px 24px;display:flex;align-items:center;gap:16px}
+  header h1{font-size:18px;font-weight:600;color:var(--accent)}
+  header span{color:var(--muted);font-size:12px}
+  #status-badge{margin-left:auto;padding:4px 12px;border-radius:20px;font-size:12px;
+                font-weight:600;background:#21262d;border:1px solid var(--border)}
+  #status-badge.connected{border-color:var(--green);color:var(--green)}
+  #status-badge.disconnected{border-color:var(--red);color:var(--red)}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;height:calc(100vh - 53px)}
+
+  /* Sidebar */
+  aside{background:var(--panel);border-right:1px solid var(--border);
+        padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+  aside h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+           color:var(--muted);margin-bottom:4px;margin-top:8px}
+  .nav-btn{width:100%;text-align:left;background:none;border:none;
+           color:var(--text);padding:8px 12px;border-radius:6px;cursor:pointer;
+           font-size:13px;display:flex;align-items:center;gap:8px;transition:.15s}
+  .nav-btn:hover{background:#21262d}
+  .nav-btn.active{background:#1f3a5f;color:var(--accent)}
+  .nav-btn .badge{margin-left:auto;font-size:11px;padding:2px 7px;
+                  border-radius:10px;background:#21262d}
+  .nav-btn .badge.pass{background:#1a3a2a;color:var(--green)}
+  .nav-btn .badge.fail{background:#3a1a1a;color:var(--red)}
+
+  /* Device filter */
+  #device-select{width:100%;padding:7px 10px;background:#21262d;
+                 border:1px solid var(--border);border-radius:6px;
+                 color:var(--text);font-size:13px;margin-top:4px}
+
+  /* Main content */
+  main{overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+
+  /* Cards */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .card-header{padding:12px 16px;border-bottom:1px solid var(--border);
+               display:flex;align-items:center;gap:10px;background:#161b22}
+  .card-header h3{font-size:14px;font-weight:600}
+  .card-body{padding:16px}
+
+  /* Connect form */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form-group{display:flex;flex-direction:column;gap:4px}
+  .form-group label{font-size:12px;color:var(--muted)}
+  .form-group input{padding:8px 10px;background:#21262d;border:1px solid var(--border);
+                    border-radius:6px;color:var(--text);font-size:13px}
+  .form-group input:focus{outline:none;border-color:var(--accent)}
+  .btn{padding:8px 18px;border-radius:6px;border:none;cursor:pointer;
+       font-size:13px;font-weight:600;transition:.15s}
+  .btn-primary{background:var(--accent);color:#0d1117}
+  .btn-primary:hover{background:#79b8ff}
+  .btn-danger{background:var(--red);color:#fff}
+  .btn-danger:hover{opacity:.85}
+  .btn-secondary{background:#21262d;color:var(--text);border:1px solid var(--border)}
+  .btn-secondary:hover{background:#30363d}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+
+  /* Result tables */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:8px 12px;color:var(--muted);font-weight:500;
+     border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase}
+  td{padding:8px 12px;border-bottom:1px solid #21262d;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#1c2128}
+
+  .pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+  .pill.pass{background:#1a3a2a;color:var(--green)}
+  .pill.fail{background:#3a1a1a;color:var(--red)}
+  .pill.skip{background:#2a2a1a;color:var(--yellow)}
+  .pill.pending{background:#21262d;color:var(--muted)}
+
+  /* Output pre */
+  pre{background:#0d1117;border:1px solid var(--border);border-radius:6px;
+      padding:12px;font-size:12px;overflow-x:auto;white-space:pre-wrap;
+      word-break:break-word;max-height:400px;overflow-y:auto;color:#e6edf3;
+      font-family:'Cascadia Code','Consolas',monospace}
+
+  /* Logs */
+  .log-list{display:flex;flex-direction:column;gap:4px}
+  .log-item{display:flex;align-items:center;justify-content:space-between;
+            padding:8px 12px;background:#0d1117;border-radius:6px;
+            border:1px solid var(--border)}
+  .log-item span{font-size:12px;font-family:monospace;color:var(--muted)}
+  .log-item a{color:var(--accent);font-size:12px;text-decoration:none}
+  .log-item a:hover{text-decoration:underline}
+
+  /* Spinner */
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);
+           border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Section visibility */
+  .section{display:none}
+  .section.active{display:flex;flex-direction:column;gap:20px}
+
+  /* Toast */
+  #toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:8px;
+         font-size:13px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;
+         z-index:999}
+  #toast.show{opacity:1}
+  #toast.ok{background:#1a3a2a;color:var(--green);border:1px solid var(--green)}
+  #toast.err{background:#3a1a1a;color:var(--red);border:1px solid var(--red)}
+
+  /* Verify output collapsible */
+  details{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+  details summary{padding:10px 14px;cursor:pointer;background:#1c2128;
+                  font-size:13px;font-weight:500;list-style:none;
+                  display:flex;align-items:center;gap:8px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:'▶';font-size:10px;color:var(--muted);transition:.2s}
+  details[open] summary::before{transform:rotate(90deg)}
+  details .detail-body{padding:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ CTEC Lab Verifier</h1>
+  <span>vCMTS &amp; iCMTS Network Verification</span>
+  <div id="status-badge" class="disconnected">● Disconnected</div>
+</header>
+
+<div class="layout">
+<!-- ── Sidebar ── -->
+<aside>
+  <h2>Session</h2>
+  <button class="nav-btn active" onclick="showSection('connect')" id="nav-connect">
+    🔌 Connect
+  </button>
+
+  <h2>Device Filter</h2>
+  <select id="device-select">
+    <option value="">All Devices</option>
+    <option value="apa">apa — APA Switch</option>
+    <option value="apc">apc — vCMTS</option>
+    <option value="ara">ara — ARA Switch</option>
+    <option value="asa">asa — ASA Switch</option>
+    <option value="cts">cts — iCMTS E6000</option>
+    <option value="dtr">dtr — DTR01 Router</option>
+  </select>
+
+  <h2>Stages</h2>
+  <button class="nav-btn" onclick="showSection('ping')" id="nav-ping">
+    📡 Stage 1 — Ping
+    <span class="badge" id="badge-ping"></span>
+  </button>
+  <button class="nav-btn" onclick="showSection('ssh')" id="nav-ssh">
+    🔐 Stage 2 — SSH
+    <span class="badge" id="badge-ssh"></span>
+  </button>
+  <button class="nav-btn" onclick="showSection('verify')" id="nav-verify">
+    🔍 Stage 3 — Verify
+    <span class="badge" id="badge-verify"></span>
+  </button>
+  <button class="nav-btn" onclick="showSection('configs')" id="nav-configs">
+    💾 Configs
+    <span class="badge" id="badge-configs"></span>
+  </button>
+
+  <h2>Network</h2>
+  <button class="nav-btn" onclick="showSection('webservices')" id="nav-webservices">
+    🌐 Web Services
+  </button>
+  <button class="nav-btn" onclick="showSection('critlinks')" id="nav-critlinks">
+    🔗 Critical Links
+  </button>
+  <button class="nav-btn" onclick="showSection('runall')" id="nav-runall">
+    🚀 Run All
+  </button>
+
+  <h2>Tools</h2>
+  <button class="nav-btn" onclick="showSection('logs')" id="nav-logs">
+    📋 Logs
+  </button>
+  <button class="nav-btn" onclick="showSection('devices')" id="nav-devices">
+    🖥️ Devices
+  </button>
+</aside>
+
+<!-- ── Main ── -->
+<main id="main-content">
+</main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+const state = { token: null, device: () => document.getElementById('device-select').value };
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  setTimeout(() => t.className = '', 3000);
+}
+
+// ── API helper ───────────────────────────────────────────────────────────────
+async function api(method, path, body=null) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (state.token) headers['x-session-token'] = state.token;
+  const res = await fetch(path, { method, headers, body: body ? JSON.stringify(body) : null });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.detail || `HTTP ${res.status}`);
+  return data;
+}
+
+// ── Section router ───────────────────────────────────────────────────────────
+const SECTIONS = ['connect','ping','ssh','verify','configs','webservices','critlinks','runall','logs','devices'];
+
+function showSection(name) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const nb = document.getElementById(`nav-${name}`);
+  if (nb) nb.classList.add('active');
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+  RENDERERS[name]();
+}
+
+// ── Badge helpers ─────────────────────────────────────────────────────────────
+function setBadge(id, results) {
+  const el = document.getElementById(id);
+  if (!el || !results) return;
+  const vals = Object.values(results);
+  const pass = vals.filter(Boolean).length;
+  el.textContent = `${pass}/${vals.length}`;
+  el.className = `badge ${pass === vals.length ? 'pass' : 'fail'}`;
+}
+
+// ── Status badge ──────────────────────────────────────────────────────────────
+function setConnected(yes) {
+  const b = document.getElementById('status-badge');
+  b.textContent = yes ? '● Connected' : '● Disconnected';
+  b.className = yes ? 'connected' : 'disconnected';
+}
+
+// ── Pill helper ───────────────────────────────────────────────────────────────
+function pill(val) {
+  if (val === true)  return '<span class="pill pass">PASS</span>';
+  if (val === false) return '<span class="pill fail">FAIL</span>';
+  if (val === 'skip') return '<span class="pill skip">SKIP</span>';
+  return '<span class="pill pending">—</span>';
+}
+
+// ── Loading spinner ───────────────────────────────────────────────────────────
+function spinBtn(btn, loading) {
+  if (loading) { btn._orig = btn.innerHTML; btn.innerHTML = '<span class="spinner"></span> Running…'; btn.disabled = true; }
+  else         { btn.innerHTML = btn._orig || btn.innerHTML; btn.disabled = false; }
+}
+
+// ── Result table (pass/fail rows) ─────────────────────────────────────────────
+function resultTable(results, col1='Device') {
+  if (!results) return '<p style="color:var(--muted)">No data yet.</p>';
+  const rows = Object.entries(results).map(([k,v]) =>
+    `<tr><td>${k}</td><td>${pill(v)}</td></tr>`).join('');
+  return `<table><thead><tr><th>${col1}</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+</script>
+
+<script>
+const RENDERERS = {};
+
+// ── CONNECT ───────────────────────────────────────────────────────────────────
+RENDERERS.connect = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🔌 Connect to Jump Server</h3></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Jump Server Password</label>
+          <input type="password" id="jump-pw" placeholder="Jump password"/>
+        </div>
+        <div class="form-group">
+          <label>Lab Device Password</label>
+          <input type="password" id="dev-pw" placeholder="Device password"/>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-connect" onclick="doConnect()">Connect</button>
+        <button class="btn btn-danger"  id="btn-disconnect" onclick="doDisconnect()" ${state.token?'':'disabled'}>Disconnect</button>
+        <span id="connect-msg" style="color:var(--muted);font-size:12px"></span>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="session-info" style="${state.token?'':'display:none'}">
+    <div class="card-header"><h3>Session Info</h3></div>
+    <div class="card-body">
+      <table>
+        <tr><td style="color:var(--muted);width:140px">Token</td><td><code style="font-size:11px">${state.token||''}</code></td></tr>
+        <tr><td style="color:var(--muted)">Jump Host</td><td id="si-jump">—</td></tr>
+        <tr><td style="color:var(--muted)">Username</td><td id="si-user">—</td></tr>
+      </table>
+    </div>
+  </div>`;
+};
+
+async function doConnect() {
+  const btn = document.getElementById('btn-connect');
+  const msg = document.getElementById('connect-msg');
+  const jp  = document.getElementById('jump-pw').value;
+  const dp  = document.getElementById('dev-pw').value;
+  if (!jp || !dp) { toast('Enter both passwords', 'err'); return; }
+  spinBtn(btn, true);
+  msg.textContent = 'Connecting…';
+  try {
+    const d = await api('POST', '/connect', { jump_password: jp, device_password: dp });
+    state.token = d.token;
+    setConnected(true);
+    toast('Connected ✓');
+    msg.textContent = '';
+    document.getElementById('btn-disconnect').disabled = false;
+    document.getElementById('session-info').style.display = '';
+    document.getElementById('si-jump').textContent = d.jump_host;
+    document.getElementById('si-user').textContent = d.username;
+    document.querySelector('code').textContent = d.token;
+  } catch(e) { toast(e.message, 'err'); msg.textContent = e.message; }
+  spinBtn(btn, false);
+}
+
+async function doDisconnect() {
+  if (!state.token) return;
+  try { await api('POST', '/disconnect'); } catch(_) {}
+  state.token = null;
+  setConnected(false);
+  toast('Disconnected');
+  showSection('connect');
+}
+
+// ── PING ──────────────────────────────────────────────────────────────────────
+RENDERERS.ping = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>📡 Stage 1 — Ping Reachability</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Pings each device from the jump server (ICMP -c 3 -W 2).
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-ping" onclick="doPing()">▶ Run Ping</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="ping-results" style="display:none">
+    <div class="card-header"><h3>Results</h3></div>
+    <div class="card-body" id="ping-body"></div>
+  </div>`;
+};
+
+async function doPing() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-ping');
+  spinBtn(btn, true);
+  try {
+    const d   = await api('GET', `/ping${state.device() ? '?device='+state.device() : ''}`);
+    setBadge('badge-ping', d.results);
+    document.getElementById('ping-results').style.display = '';
+    document.getElementById('ping-body').innerHTML = resultTable(d.results, 'Host');
+    toast('Ping complete');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+
+// ── SSH ───────────────────────────────────────────────────────────────────────
+RENDERERS.ssh = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🔐 Stage 2 — SSH Connectivity</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Tests SSH login and runs a version command on each device.
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-ssh" onclick="doSSH()">▶ Run SSH Test</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="ssh-results" style="display:none">
+    <div class="card-header"><h3>Results</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);font-size:12px;margin-bottom:8px">Ping</p>
+      <div id="ssh-ping-body"></div>
+      <p style="color:var(--muted);font-size:12px;margin:12px 0 8px">SSH</p>
+      <div id="ssh-body"></div>
+    </div>
+  </div>`;
+};
+
+async function doSSH() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-ssh');
+  spinBtn(btn, true);
+  try {
+    const d = await api('GET', `/ssh${state.device() ? '?device='+state.device() : ''}`);
+    setBadge('badge-ssh', d.ssh);
+    document.getElementById('ssh-results').style.display = '';
+    document.getElementById('ssh-ping-body').innerHTML = resultTable(d.ping, 'Host');
+    document.getElementById('ssh-body').innerHTML      = resultTable(d.ssh,  'Host');
+    toast('SSH test complete');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+</script>
+
+<script>
+// ── VERIFY ────────────────────────────────────────────────────────────────────
+RENDERERS.verify = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🔍 Stage 3 — Full Device Verification</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Runs all configured checks per device (interface status, bundles, LLDP, configs).
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-verify" onclick="doVerify()">▶ Run Verify</button>
+      </div>
+    </div>
+  </div>
+  <div id="verify-results"></div>`;
+};
+
+async function doVerify() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-verify');
+  spinBtn(btn, true);
+  try {
+    const d   = await api('GET', `/verify${state.device() ? '?device='+state.device() : ''}`);
+    const out = document.getElementById('verify-results');
+    // summary pass/fail per device
+    const summary = {};
+    Object.entries(d.results).forEach(([host, checks]) => {
+      summary[host] = Object.values(checks).every(v => v && !v.includes('[ERROR]'));
+    });
+    setBadge('badge-verify', summary);
+
+    let html = `<div class="card"><div class="card-header"><h3>Summary</h3></div>
+      <div class="card-body">${resultTable(summary,'Device')}</div></div>`;
+
+    // per-device collapsible output
+    Object.entries(d.results).forEach(([host, checks]) => {
+      if (!Object.keys(checks).length) return;
+      const rows = Object.entries(checks).map(([label, output]) => `
+        <details>
+          <summary>${label}</summary>
+          <div class="detail-body"><pre>${escHtml(output)}</pre></div>
+        </details>`).join('');
+      html += `<div class="card">
+        <div class="card-header"><h3>${host}</h3></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
+      </div>`;
+    });
+    out.innerHTML = html;
+    toast('Verify complete');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+
+// ── CONFIGS ───────────────────────────────────────────────────────────────────
+RENDERERS.configs = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>💾 Pull Running Configs</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Pulls running-config from each device and saves to <code>configs/</code>.
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-configs" onclick="doConfigs()">▶ Pull Configs</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="configs-results" style="display:none">
+    <div class="card-header"><h3>Saved Files</h3></div>
+    <div class="card-body" id="configs-body"></div>
+  </div>`;
+};
+
+async function doConfigs() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-configs');
+  spinBtn(btn, true);
+  try {
+    const d = await api('GET', `/configs${state.device() ? '?device='+state.device() : ''}`);
+    setBadge('badge-configs', Object.fromEntries(d.saved_files.map(f=>[f,true])));
+    document.getElementById('configs-results').style.display = '';
+    document.getElementById('configs-body').innerHTML =
+      d.saved_files.length
+        ? `<div class="log-list">${d.saved_files.map(f=>`
+            <div class="log-item"><span>${f}</span></div>`).join('')}</div>`
+        : '<p style="color:var(--muted)">No files saved.</p>';
+    toast('Configs pulled');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+
+// ── WEB SERVICES ──────────────────────────────────────────────────────────────
+RENDERERS.webservices = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🌐 Web Service Reachability</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Checks PacketStorm (HTTP via jump), ByteBlower (ping via jump), and Latency Analyzer (HTTP local).
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-web" onclick="doWebServices()">▶ Check Services</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="web-results" style="display:none">
+    <div class="card-header"><h3>Results</h3></div>
+    <div class="card-body" id="web-body">
+      <p style="color:var(--muted);font-size:13px">Results are logged server-side. Check the Logs section for details.</p>
+    </div>
+  </div>`;
+};
+
+async function doWebServices() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-web');
+  spinBtn(btn, true);
+  try {
+    await api('GET', '/web-services');
+    document.getElementById('web-results').style.display = '';
+    toast('Web services check complete — see Logs');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+
+// ── CRITICAL LINKS ────────────────────────────────────────────────────────────
+RENDERERS.critlinks = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🔗 Critical Link Summary</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Verifies FH0/0/0/24, BE1, BE101-103 on APA and BE1, Hu0/0/1/0 on ARA are UP.
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-crit" onclick="doCritLinks()">▶ Check Links</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="crit-results" style="display:none">
+    <div class="card-header"><h3>Results</h3></div>
+    <div class="card-body" id="crit-body">
+      <p style="color:var(--muted);font-size:13px">Results are logged server-side. Check the Logs section for details.</p>
+    </div>
+  </div>`;
+};
+
+async function doCritLinks() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-crit');
+  spinBtn(btn, true);
+  try {
+    await api('GET', '/critical-links');
+    document.getElementById('crit-results').style.display = '';
+    toast('Critical links check complete — see Logs');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+</script>
+
+<script>
+// ── RUN ALL ───────────────────────────────────────────────────────────────────
+RENDERERS.runall = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🚀 Run All Stages</h3></div>
+    <div class="card-body">
+      <p style="color:var(--muted);margin-bottom:12px;font-size:13px">
+        Runs Ping → SSH → Verify → Configs → Web Services → Critical Links in one shot.
+      </p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-runall" onclick="doRunAll()">▶ Run All</button>
+      </div>
+    </div>
+  </div>
+  <div id="runall-results"></div>`;
+};
+
+async function doRunAll() {
+  if (!state.token) { toast('Connect first', 'err'); return; }
+  const btn = document.getElementById('btn-runall');
+  spinBtn(btn, true);
+  try {
+    const d   = await api('GET', `/run-all${state.device() ? '?device='+state.device() : ''}`);
+    const out = document.getElementById('runall-results');
+
+    setBadge('badge-ping',   d.ping);
+    setBadge('badge-ssh',    d.ssh);
+
+    const verifySummary = {};
+    Object.entries(d.verify||{}).forEach(([host, checks]) => {
+      verifySummary[host] = Object.values(checks).every(v => v && !v.includes('[ERROR]'));
+    });
+    setBadge('badge-verify', verifySummary);
+
+    let html = `
+    <div class="card">
+      <div class="card-header"><h3>Ping</h3></div>
+      <div class="card-body">${resultTable(d.ping,'Host')}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>SSH</h3></div>
+      <div class="card-body">${resultTable(d.ssh,'Host')}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h3>Verify Summary</h3></div>
+      <div class="card-body">${resultTable(verifySummary,'Device')}</div>
+    </div>`;
+
+    // Verify detail per device
+    Object.entries(d.verify||{}).forEach(([host, checks]) => {
+      if (!Object.keys(checks).length) return;
+      const rows = Object.entries(checks).map(([label, output]) => `
+        <details>
+          <summary>${label}</summary>
+          <div class="detail-body"><pre>${escHtml(output)}</pre></div>
+        </details>`).join('');
+      html += `<div class="card">
+        <div class="card-header"><h3>${host}</h3></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:8px">${rows}</div>
+      </div>`;
+    });
+
+    out.innerHTML = html;
+    toast('Run All complete ✓');
+  } catch(e) { toast(e.message, 'err'); }
+  spinBtn(btn, false);
+}
+
+// ── LOGS ──────────────────────────────────────────────────────────────────────
+RENDERERS.logs = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>📋 Log Files</h3></div>
+    <div class="card-body">
+      <div class="btn-row" style="margin-bottom:12px">
+        <button class="btn btn-secondary" onclick="loadLogs()">↻ Refresh</button>
+      </div>
+      <div id="log-list"><p style="color:var(--muted)">Loading…</p></div>
+    </div>
+  </div>
+  <div class="card" id="log-viewer" style="display:none">
+    <div class="card-header">
+      <h3 id="log-viewer-title">Log</h3>
+      <button class="btn btn-secondary" style="margin-left:auto;padding:4px 10px;font-size:12px"
+              onclick="document.getElementById('log-viewer').style.display='none'">✕ Close</button>
+    </div>
+    <div class="card-body"><pre id="log-content" style="max-height:500px"></pre></div>
+  </div>`;
+  loadLogs();
+};
+
+async function loadLogs() {
+  try {
+    const d   = await api('GET', '/logs');
+    const el  = document.getElementById('log-list');
+    if (!d.logs.length) { el.innerHTML = '<p style="color:var(--muted)">No logs found.</p>'; return; }
+    el.innerHTML = `<div class="log-list">${
+      [...d.logs].reverse().map(f => `
+        <div class="log-item">
+          <span>${f}</span>
+          <div style="display:flex;gap:8px">
+            <a href="#" onclick="viewLog('${f}');return false">View</a>
+            <a href="/logs/${f}" download>Download</a>
+          </div>
+        </div>`).join('')
+    }</div>`;
+  } catch(e) { toast(e.message, 'err'); }
+}
+
+async function viewLog(filename) {
+  try {
+    const res  = await fetch(`/logs/${filename}`, { headers: state.token ? {'x-session-token': state.token} : {} });
+    const text = await res.text();
+    document.getElementById('log-viewer').style.display = '';
+    document.getElementById('log-viewer-title').textContent = filename;
+    document.getElementById('log-content').textContent = text;
+  } catch(e) { toast(e.message, 'err'); }
+}
+
+// ── DEVICES ───────────────────────────────────────────────────────────────────
+RENDERERS.devices = () => {
+  document.getElementById('main-content').innerHTML = `
+  <div class="card">
+    <div class="card-header"><h3>🖥️ Known Devices</h3></div>
+    <div class="card-body" id="devices-body"><p style="color:var(--muted)">Loading…</p></div>
+  </div>`;
+  loadDevices();
+};
+
+async function loadDevices() {
+  try {
+    const d  = await api('GET', '/devices');
+    const el = document.getElementById('devices-body');
+    const aliasRows = Object.entries(d.aliases).map(([a,h]) =>
+      `<tr><td><code>${a}</code></td><td>${h}</td><td>${d.devices[h]||'—'}</td></tr>`).join('');
+    el.innerHTML = `
+      <table>
+        <thead><tr><th>Alias</th><th>Hostname</th><th>Label</th></tr></thead>
+        <tbody>${aliasRows}</tbody>
+      </table>`;
+  } catch(e) { toast(e.message, 'err'); }
+}
+
+// ── Utility ───────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+showSection('connect');
+</script>
+</body>
+</html>

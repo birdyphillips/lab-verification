@@ -1,0 +1,8 @@
+2026-08-14 15:13:00  DEBUG     [KEY] Loading from C:\Users\p3135123/.ssh/id_rsa
+2026-08-14 15:13:51  INFO      
+========================================================================
+  Stage 1 — Ping Reachability (via jump server)
+========================================================================
+2026-08-14 15:13:51  DEBUG     [CMD] jump $ ping -c 3 -W 2 apc01k1dccc
+2026-08-14 15:13:53  DEBUG     [CMD] jump exec_command OK (549 chars)
+2026-08-14 15:13:53  INFO        [PASS]  ping apc01k1dccc

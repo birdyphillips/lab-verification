@@ -1,0 +1,1410 @@
+! Running config pulled from ara01k1dccc at 20260803_145448
+show running-config
+Mon Aug  3 20:56:35.369 UTC
+!! Building configuration...
+!! IOS XR Configuration 7.11.2
+!! Last configuration change at Wed Jul 29 16:16:43 2026 by jnguyen1
+!
+hostname ara01k1dccc
+group TP_RPD-APC
+ interface 'Te.*'
+  mtu 2048
+  service-policy input QP_ARA_I
+  service-policy output QP_ARA_O
+  ipv6 mtu 2048
+  carrier-delay up 500 down 0
+  load-interval 30
+  dampening 1 750 2000 4
+ !
+ interface 'Te.*\.110' l2transport
+  description RPD-MGMT-APC01
+  encapsulation untagged
+ !
+end-group
+group TP_INTERFACE-DEFAULTS
+ interface 'Hu.*'
+  lldp
+  !
+  carrier-delay up 500 down 0
+  load-interval 30
+  dampening 1 750 2000 4
+ !
+ interface 'Te.*'
+  lldp
+  !
+  carrier-delay up 500 down 0
+  load-interval 30
+  dampening 1 750 2000 4
+ !
+ interface 'Bundle-Ether.*'
+  mtu 9192
+  service-policy input QP_ARA_I
+  service-policy output QP_ARA_O
+  lacp mode active
+  bundle minimum-active links 1
+  load-interval 30
+ !
+end-group
+taskgroup chtridgroup
+ task read aaa
+ task read acl
+ task read bgp
+ task read cdp
+ task read cef
+ task read ppp
+ task read qos
+ task read rib
+ task read boot
+ task read diag
+ task read dwdm
+ task read hsrp
+ task read ipv4
+ task read ipv6
+ task read isis
+ task read lpts
+ task read ospf
+ task read ouni
+ task read snmp
+ task read vlan
+ task read vrrp
+ task read admin
+ task read l2vpn
+ task read bundle
+ task read crypto
+ task read fabric
+ task read static
+ task read sysmgr
+ task read system
+ task read tunnel
+ task read drivers
+ task read logging
+ task read monitor
+ task read mpls-te
+ task read netflow
+ task read network
+ task read mpls-ldp
+ task read pkg-mgmt
+ task read fault-mgr
+ task read interface
+ task read multicast
+ task read route-map
+ task read sonet-sdh
+ task read transport
+ task read filesystem
+ task read tty-access
+ task read config-mgmt
+ task read ip-services
+ task read mpls-static
+ task read route-policy
+ task read host-services
+ task read basic-services
+ task read config-services
+ task write basic-services
+ task execute bundle
+ task execute crypto
+ task execute logging
+ task execute interface
+ task execute multicast
+ task execute transport
+ task execute basic-services
+!
+aaa default-taskgroup chtridgroup
+banner exec #
+***********************************************
+*                                             *
+*    Welcome to                               *
+*    ara01k1dccc                              *
+*                                             *
+*    Stability Zone C - AK.R01.R04.RU5        *
+*                                             *
+*    14810 Grasslands Dr. Englewood, CO 80112 *
+*                                             *
+*    Model Number: NCS-55A1-24Q6H-SS          *
+*    IOS Version: 7.11.2                      *
+*                                             *
+***********************************************
+#
+banner login #
+******************************************************************************
+* This is a private computer system of Charter Communications ("Charter").   *
+* It is for authorized, legitimate business use and users only. All users    *
+* (authorized or unauthorized) have no explicit or implicit expectation of   *
+* privacy.                                                                   *
+*                                                                            *
+* Any or all uses of this system and all files on this system may be         *
+* intercepted, monitored, and disclosed by Charter at any time, and may be   *
+* disclosed to any third-party at Charter's sole discretion, including but   *
+* not limited to law enforcement.  By using this system, the user consents   *
+* to such interception, monitoring, and disclosure at Charter's sole         *
+* discretion.                                                                *
+*                                                                            *
+* Unauthorized or improper use of this system may result in loss of access   *
+* and/or privileges, corrective action up to and including termination, and  *
+* any legal remedy available to Charter, and/or civil and criminal           *
+* penalties. By continuing to use this system you indicate your awareness of *
+* and consent to these terms and conditions of use, including those found in *
+* Charter's Acceptable Use of Technology Policy, Network Protection Policy   *
+* and Employee Handbook.                                                     *
+*                                                                            *
+* LOG OFF IMMEDIATELY if you do not agree to the conditions stated in this   *
+* warning.                                                                   *
+******************************************************************************
+#
+logging trap informational
+logging events threshold 75
+logging events level informational
+logging archive
+ device harddisk
+ severity alerts
+ file-size 10
+ frequency daily
+ archive-size 100
+ archive-length 5
+!
+logging console disable
+logging monitor debugging
+logging buffered 3000000
+logging buffered informational
+logging facility local5
+logging 22.254.3.212 vrf default severity info
+logging 22.254.9.167 vrf default severity all
+logging 22.254.9.213 vrf default severity info
+logging 172.30.122.26 vrf default severity all
+logging suppress rule CIN
+ alarm MGBL exec ACCT_ERR
+ alarm MGBL CONFIGCLI AAA_ERR
+ alarm PLATFORM PUNT ILI_FAIL
+ alarm MGBL adminexec ACCT_ERR
+!
+logging suppress apply rule CIN
+ all-of-router
+!
+logging source-interface Loopback0
+logging hostnameprefix ara01k1dccc
+logging suppress duplicates
+logging events link-status software-interfaces
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 66.189.243.5 port 49
+!
+tacacs-server host 2600:6ce7::20:5 port 49
+!
+tacacs-server host 2600:6ce7::20:4 port 49
+!
+tacacs-server host 66.189.243.4 port 49
+!
+tacacs-server ipv6 dscp af11
+tacacs-server key 7 1043100D0D4701
+username admin
+ group root-lr
+ group cisco-support
+ secret 10 $6$20hTlEvLAy31l...$MmLr2F8/oOvf61nhBloHKxQ.x91nSFmnIv88.kyYJcMa5W3P1vCqva1mKzwXNAeYFpSq.jvnL26zbNtfKyQri0
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local none
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+grpc
+ port 57350
+ max-request-total 256
+!
+line console
+ timeout login response 30
+ transport input ssh
+ transport output all
+!
+line default
+ exec-timeout 0 0
+ transport input ssh
+!
+line template TF_VTY-Access
+ accounting commands default
+ authorization exec default
+ authorization commands default
+ login authentication default
+ timestamp disable
+ exec-timeout 0 0
+ session-limit 10
+ transport input ssh
+!
+vty-pool default 0 10 line-template default
+http client secure-verify-peer disable
+http client source-interface ipv4 Loopback0
+snmp-server interface Loopback0
+!
+snmp-server ifindex persist
+snmp-server host 172.30.122.26 traps version 2c Y7QJEAaS_r5BVb-Jxd0hmM
+snmp-server host 2600:6ce5:0:a:250:56ff:fea3:afda traps version 2c Y7QJEAaS_r5BVb-Jxd0hmM
+snmp-server ipv4 dscp cs1
+snmp-server view restricted 1.3.6.1 included
+snmp-server view restricted 1.3.6.1.4.* included
+snmp-server view restricted 1.3.6.1.2.1.3 included
+snmp-server view restricted 1.3.6.1.2.1.4.21 excluded
+snmp-server view restricted 1.3.6.1.2.1.4.22 excluded
+snmp-server view restricted 1.3.6.1.2.1.4.24 excluded
+snmp-server view restricted 1.3.6.1.4.1.9.9.10 excluded
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.1 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.2 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.3 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.4 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.5 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.6 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.7 included
+snmp-server view restricted 1.3.6.1.4.1.9.9.109.1.1.1.1.8 included
+snmp-server view docsisManagerView 1.3 excluded
+snmp-server view docsisManagerView 1.3.6.1 included
+snmp-server view docsisManagerView 1.3.6.1.2.1.1 included
+snmp-server view docsisManagerView 1.3.6.1.4.1.99 excluded
+snmp-server view docsisManagerView 1.3.6.1.4.1.9.9.252 included
+snmp-server view docsisManagerView 1.3.6.1.4.1.4491.2.2.9.1.1 included
+snmp-server community En73rPr1s3Ro view restricted RO IPv4 TF_SNMP_4 IPv6 TF_SNMP_6
+snmp-server community ThisIsATEST! view docsisManagerView IPv4 TF_SNMP_4 IPv6 TF_SNMP_6
+snmp-server community Y7QJEAaS_r5BVb-Jxd0hmM view restricted RO SystemOwner IPv4 TF_SNMP_4 IPv6 TF_SNMP_6
+snmp-server group rotesting v2c read docsisManagerView write docsisManagerView
+snmp-server group rwtesting v2c read docsisManagerView write docsisManagerView
+snmp-server traps rf
+snmp-server traps ntp
+snmp-server traps copy-complete
+snmp-server traps snmp
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps flash removal
+snmp-server traps flash insertion
+snmp-server traps config
+snmp-server traps entity
+snmp-server contact AE Core Red
+snmp-server location AK.R01.R04.RU5
+snmp-server trap-source Loopback0
+monitor-session RPD ethernet
+ destination interface GigabitEthernet0/0/0/32
+!
+linux networking
+ vrf default
+  address-family ipv4
+   protection
+    protocol tcp local-port 57350 default-action deny
+     permit remote-address 24.28.218.0/24
+     permit remote-address 172.27.3.24/29
+    !
+   !
+  !
+  address-family ipv6
+   protection
+    protocol tcp local-port 57350 default-action deny
+     permit remote-address 2001:1998:200:91::ff/128
+     permit remote-address 2600:6cec:403:4a::/64
+    !
+   !
+  !
+ !
+!
+dhcp ipv4
+ profile DG_DAA-PNR_4 relay
+  helper-address vrf default 68.114.181.151
+  helper-address vrf default 96.37.183.5
+ !
+ profile DG_CNR-AMM22_4 relay
+  helper-address vrf default 68.114.181.151
+  helper-address vrf default 96.37.183.5
+ !
+!
+ntp
+ server 107.14.0.47 prefer
+ server ipv6 2600:6cec:1c0:2::8
+ access-group ipv4 peer TF_NTP_4
+ access-group ipv6 peer TF_NTP_6
+ source Loopback0
+ update-calendar
+!
+object-group network ipv6 PL_AED_6
+ 2605:1c00:1ff0:82::201/128
+ 2607:f428:ffff:ffff::54/128
+!
+object-group network ipv6 PL_NSO_6
+ 2600:6ce4:0:19::11/128
+ 2600:6ce4:0:19::69/128
+ 2600:6ce4:40:67:250:56ff:fe99:2b97/128
+ 2600:6ce4:40:67:250:56ff:fe99:5de2/128
+ 2600:6ce4:40:67:250:56ff:fe99:9810/128
+ 2600:6ce4:40:67:11be:b5f:b4fb:ac9f/128
+!
+object-group network ipv6 PL_XPTRAK_6
+ host 2001:1998:202:4019::151
+ host 2001:1998:202:4019::158
+!
+object-group network ipv6 PL_BASTION_6
+ 2600:6ce4:40::215/128
+ 2605:1c00:50f0:1007::/64
+!
+object-group network ipv6 PL_NODE-APC_6
+ 2001:1998:202:409c::/64
+ 2001:1998:202:409d::/64
+ 2001:1998:202:409e::/64
+ 2001:1998:202:409f::/64
+ 2001:1998:202:410c::/64
+ 2001:1998:280:25::/64
+ 2001:1998:280:26::/64
+ 2001:1998:280:27::/64
+ 2001:1998:280:11c::/64
+ 2001:1998:280:11d::/64
+ 2600:6ce5:0:601::/126
+ 2600:6ce6:4220:1001::/64
+ 2600:6ce6:4220:1002::/64
+!
+object-group network ipv6 PL_NODE-NTP_6
+ 2600:6cec:1c0:2::8/128
+!
+object-group network ipv6 PL_NODE-PTP_6
+ 2001:1998:200:aa::/64
+ 2001:1998:200:ab::/64
+ 2001:1998:202:2006::/64
+ 2001:1998:202:2007::/64
+ 2001:1998:202:3042::/64
+ 2001:1998:202:3043::/64
+ 2001:1998:202:3044::/64
+ 2001:1998:280:417::/64
+ 2001:1998:602:4::/64
+ 2001:1998:602:5::/64
+ 2001:1998:60a:105e::/64
+ 2001:1998:60a:105f::/64
+ 2600:6ce6:4411:3::/64
+!
+object-group network ipv6 PL_NODE-TOD_6
+ 2600:6cec:401:800e::5/128
+!
+object-group network ipv6 PL_NODE-ICMP_6
+ fe80::/10
+ ff00::/8
+ 2001:1998:200:42::/64
+ 2001:1998:200:ac::/64
+ 2001:1998:200:ae::/64
+ 2001:1998:281:2c::/64
+ 2001:1998:604:1004::/64
+ 2001:1998:604:1005::/64
+ 2001:1998:604:3b58::/64
+ 2001:1998:604:3b59::/64
+ 2001:1998:60a:1054::/64
+ 2001:1998:60a:1055::/64
+ 2001:1998:60a:105c::/64
+ 2001:1998:60a:105d::/64
+ 2001:1998:6f0:958::/64
+ 2001:1998:6f0:959::/64
+ 2605:1c00:50f2:204::/64
+!
+object-group network ipv6 PL_NODE-MGMT_6
+ 2001:1998:200:42::/64
+ 2001:1998:200:ac::/64
+ 2001:1998:200:ae::/64
+ 2001:1998:281:2c::/64
+ 2001:1998:604:1004::/64
+ 2001:1998:604:1005::/64
+ 2001:1998:604:3b58::/64
+ 2001:1998:604:3b59::/64
+ 2001:1998:60a:1054::/64
+ 2001:1998:60a:1055::/64
+ 2001:1998:60a:105c::/64
+ 2001:1998:60a:105d::/64
+ 2001:1998:6f0:958::/64
+ 2001:1998:6f0:959::/64
+ 2605:1c00:50f2:204::/64
+!
+object-group network ipv6 PL_DOCSIS-TAO_6
+ 2600:6c7f:9330:940::/64
+ 2600:6c7f:9330:941::/64
+ 2600:6c7f:9340:940::/64
+ 2600:6c7f:9340:941::/64
+ 2600:6ce4:40:4006:96:34:183:230/128
+!
+object-group network ipv6 PL_RCI-SERVER_6
+!
+object-group network ipv6 PL_LINK-SERVER_6
+ 2001:1998:202:304e::/64
+!
+object-group network ipv6 PL_NODE-SYSLOG_6
+ 2600:6ce4:0:230::4/128
+ 2600:6ce4:40:4006:96:34:183:230/128
+!
+object-group network ipv6 PL_VIDEO-AUXCORE_6
+ 2001:1998:200:94::/64
+ 2001:1998:200:95::/64
+ 2001:1998:280:15c::/64
+ 2001:1998:280:15d::/64
+ 2600:6ce4:0:2e::/64
+ 2600:6ce5:0:601::/64
+ 2600:6cec:402:53::/64
+!
+object-group network ipv6 PL_SECURITY-SCANNERS_6
+ 2600:6cec:1c0:4:250:56ff:fe99:10e7/128
+ 2600:6cec:1c0:4:250:56ff:fe99:1317/128
+ 2600:6cec:1c0:4:250:56ff:fe99:19ee/128
+ 2600:6cec:1c0:4:250:56ff:fe99:1d7b/128
+ 2600:6cec:1c0:4:250:56ff:fe99:2c73/128
+ 2600:6cec:1c0:4:250:56ff:fe99:4e6f/128
+ 2600:6cec:1c0:4:250:56ff:fe99:6c2a/128
+ 2600:6cec:1c0:4:250:56ff:fe99:6d0f/128
+ 2600:6cec:1c0:4:250:56ff:fe99:7520/128
+ 2600:6cec:1c0:4:250:56ff:fe99:8b35/128
+ 2600:6cec:1c0:4:250:56ff:fe99:91ea/128
+ 2600:6cec:1c0:4:250:56ff:fe99:9885/128
+ 2600:6cec:1c0:4:250:56ff:fe99:9dce/128
+ 2600:6cec:1c0:4:250:56ff:fe99:a466/128
+ 2600:6cec:1c0:4:250:56ff:fe99:b7d8/128
+ 2600:6cec:1c0:4:250:56ff:fe99:c94c/128
+ 2600:6cec:1c0:4:250:56ff:fe99:ca98/128
+ 2600:6cec:1c0:4:250:56ff:fe99:d8e8/128
+ 2600:6cec:1c0:4:250:56ff:fe99:f161/128
+ 2600:6cec:1c0:4:250:56ff:fe99:fea9/128
+!
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH peer
+     address ipv4 22.254.3.5
+     address ipv4 24.28.218.90
+     address ipv4 71.85.90.154
+     address ipv4 71.92.24.21
+     address ipv4 96.34.180.93
+     address ipv4 107.14.108.148
+     address ipv4 142.136.2.107
+     address ipv4 172.20.22.133
+     address ipv4 172.27.3.28
+     address ipv4 172.27.6.4
+     address ipv4 172.27.31.228
+     address ipv4 172.30.104.100
+     address ipv4 10.100.50.0/24
+     address ipv4 22.254.3.0/24
+     address ipv4 66.189.243.0/27
+     address ipv4 107.14.108.144/28
+     address ipv4 131.150.32.64/26
+     address ipv4 172.17.31.0/24
+     address ipv4 172.17.32.0/24
+     address ipv4 172.17.33.0/26
+     address ipv4 172.17.35.0/24
+     address ipv4 172.18.11.0/24
+     address ipv4 172.27.3.24/29
+     address ipv4 172.27.6.0/28
+     address ipv4 172.27.31.0/24
+     address ipv4 172.27.31.136/29
+     address ipv4 172.27.136.0/22
+     address ipv4 172.30.104.80/28
+     address ipv4 172.30.104.96/28
+     address ipv4 172.30.105.192/26
+     address ipv4 172.30.106.64/27
+     address ipv4 172.30.106.192/26
+     address ipv4 172.30.120.128/28
+     address ipv4 172.30.122.0/24
+     address ipv4 172.31.12.0/23
+     address ipv4 192.168.254.0/24
+     address ipv6 2001:1998:200:91::ff
+     address ipv6 2600:6ce4:40::215
+     address ipv6 2001:1998:202:3083::/64
+     address ipv6 2600:6ce5:0:a::/64
+     address ipv6 2600:6ce5:0:40d::/64
+     address ipv6 2600:6ce5:4000:7::/64
+     address ipv6 2600:6ce7:0:10::/64
+     address ipv6 2605:1c00:50f0:1007::/64
+     address ipv6 2605:1c00:50f1:2::/64
+     address ipv6 2605:1c00:50f2::/64
+     address ipv6 2605:1c00:50f3:1::/64
+     address ipv6 2605:1c00:50f3:5::/64
+    !
+    allow SNMP peer
+     address ipv4 22.254.1.62
+     address ipv4 22.254.3.5
+     address ipv4 22.254.9.167
+     address ipv4 24.28.218.14
+     address ipv4 24.28.218.90
+     address ipv4 68.114.180.245
+     address ipv4 71.10.216.30
+     address ipv4 98.120.32.146
+     address ipv4 107.14.108.148
+     address ipv4 172.20.22.133
+     address ipv4 172.27.3.28
+     address ipv4 172.27.6.4
+     address ipv4 172.27.31.228
+     address ipv4 172.30.104.100
+     address ipv4 22.239.0.0/24
+     address ipv4 22.239.128.0/24
+     address ipv4 96.37.182.64/26
+     address ipv4 172.16.192.0/24
+     address ipv4 172.17.32.0/24
+     address ipv4 172.17.33.0/26
+     address ipv4 172.17.35.0/24
+     address ipv4 172.18.11.0/24
+     address ipv4 172.27.3.24/29
+     address ipv4 172.27.6.0/28
+     address ipv4 172.27.31.136/29
+     address ipv4 172.27.122.0/24
+     address ipv4 172.27.136.0/22
+     address ipv4 172.30.104.80/28
+     address ipv4 172.30.104.96/28
+     address ipv4 172.30.105.192/26
+     address ipv4 172.30.106.192/26
+     address ipv4 172.30.120.128/28
+     address ipv4 172.30.122.0/24
+     address ipv4 172.31.12.0/23
+     address ipv6 2001:1998:200:91::ff
+     address ipv6 2001:1998:202:304e::2
+     address ipv6 2001:1998:202:3083::148
+     address ipv6 2600:6ce4:40::215
+     address ipv6 2001:1998:202:3083::/64
+     address ipv6 2600:6ce4:40:f::/64
+     address ipv6 2600:6ce4:40:20::/64
+     address ipv6 2600:6ce5:0:a::/64
+     address ipv6 2600:6ce5:4000:7::/64
+     address ipv6 2600:6ce7:0:10::/64
+     address ipv6 2605:1c00:50f0:1007::/64
+     address ipv6 2605:1c00:50f1:2::/64
+     address ipv6 2605:1c00:50f2::/64
+     address ipv6 2605:1c00:50f3:1::/64
+    !
+    allow TFTP peer
+     address ipv4 10.0.0.0/8
+    !
+    allow Telnet peer
+     address ipv4 71.10.216.30
+     address ipv4 22.239.0.0/24
+    !
+    allow NETCONF peer
+     address ipv4 22.254.3.0/24
+    !
+   !
+  !
+ !
+!
+hw-module profile tcam format access-list ipv4 src-addr dst-addr src-port dst-port proto packet-length frag-bit common-acl port-range ttl-match interface-based location 0/0/CPU0
+hw-module profile tcam format access-list ipv6 src-addr src-port dst-addr dst-port next-hdr common-acl location 0/0/CPU0
+ipv6 access-list NTP_6
+ 10 permit ipv6 2001:1998:200::/40 any
+ 20 permit ipv6 2001:1998:300:1000::/62 any
+ 30 permit ipv6 host 2600:6cec:1c0:2::8 any
+ 100 deny ipv6 any any
+!
+ipv6 access-list TF_SNMP_6
+ 10 permit ipv6 host 2600:6ce4:40::211 any
+ 20 permit ipv6 host 2605:1c00:50f1:2::131 any
+ 30 permit ipv6 host 2605:1c00:50f1:2:250:56ff:febd:8dfd any
+ 40 permit ipv6 host 2605:1c00:50f3:1::4 any
+ 50 permit ipv6 host 2605:1c00:50f0:1007::4 any
+ 60 permit ipv6 host 2605:1c00:50f1:2::131 any
+ 70 permit ipv6 host 2001:1998:202:3083::148 any
+ 80 permit ipv6 host 2600:6ce4:40:73:250:56ff:fe99:61cc any
+ 90 permit ipv6 host 2600:6ce4:40:20:250:56ff:fe99:42f0 any
+ 100 permit ipv6 host 2600:6ce4:40:f:250:56ff:fe99:e1a3 any
+ 110 permit ipv6 host 2600:6ce4:40:f:250:56ff:fe99:c05d any
+ 120 permit ipv6 host 2600:6ce4:40:20:250:56ff:fe99:6cf2 any
+ 130 permit ipv6 host 2605:1c00:50f0:1007::15 any
+!
+ipv6 access-list mcastv6-counter
+ 10 permit ipv6 any ff38::/32
+!
+ipv6 access-list TF_PROTECT-NODE_6I
+ 10 remark APC_COMMUNICATION
+ 20 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_NODE-APC_6
+ 30 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_LINK-SERVER_6
+ 40 remark ALLOW_PTP
+ 50 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_NODE-PTP_6
+ 60 remark ALLOW_VIDEO
+ 70 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_VIDEO-AUXCORE_6
+ 80 remark ALLOW_TAO-BASTIONS
+ 90 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_DOCSIS-TAO_6
+ 100 remark ALLOW_RCI-SERVER
+ 110 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_RCI-SERVER_6
+ 120 remark ALLOW_TOD
+ 130 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_NODE-TOD_6
+ 140 remark ALLOW_ICMPv6
+ 150 permit icmpv6 any net-group PL_NODE-ICMP_6
+ 160 permit icmpv6 any net-group PL_NODE-APC_6
+ 170 permit icmpv6 any net-group PL_NODE-PTP_6
+ 180 remark ALLOW_DHCPv6
+ 190 permit udp any range 546 547 any range 546 547
+ 200 remark ALLOW_MULTICAST
+ 210 permit ipv6 any ff00::/8
+ 220 remark ALLOW_DOWNLOAD_SERVERS
+ 230 permit tcp net-group PL_NODE-MGMT_6 net-group PL_AED_6
+ 240 remark ALLOW_BASTION
+ 250 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_BASTION_6
+ 260 remark ALLOW_SECURITY-SCANNERS
+ 270 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_SECURITY-SCANNERS_6
+ 280 remark ALLOW_XPTRAK_SERVERS
+ 290 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_XPTRAK_6
+ 300 remark ALLOW_NSO-BPA_SERVERS
+ 310 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_NSO_6
+ 320 remark ALLOW_SYSLOG_SERVERS
+ 330 permit ipv6 net-group PL_NODE-MGMT_6 net-group PL_NODE-SYSLOG_6
+ 970 remark DENY_ICMPv6
+ 980 deny icmpv6 any any router-advertisement
+ 990 deny icmpv6 any any neighbor-redirect
+ 1000 remark OTHER_TRAFFIC
+ 1010 deny ipv6 any any log
+!
+ipv4 access-list NTP_4
+ 10 permit ipv4 host 107.14.0.47 any
+ 20 permit ipv4 host 172.27.1.4 any
+ 30 permit ipv4 host 172.27.2.4 any
+ 100 deny ipv4 any any
+!
+ipv4 access-list TF_NTP_4
+ 40 permit ipv4 host 172.30.105.134 any
+!
+ipv4 access-list TF_SNMP_4
+ 10 remark SCOPE-SERVERS
+ 20 permit ipv4 host 96.37.182.92 any
+ 30 permit ipv4 host 96.37.182.93 any
+ 40 permit ipv4 host 172.16.192.173 any
+ 50 permit ipv4 host 172.16.192.174 any
+ 60 remark SNMP-TRAP-SERVERS
+ 70 permit ipv4 host 22.254.1.62 any
+ 80 permit ipv4 host 24.33.37.99 any
+ 90 permit ipv4 host 24.33.46.83 any
+ 100 permit ipv4 24.33.54.0 0.0.0.255 any
+ 110 permit ipv4 24.33.60.0 0.0.3.255 any
+ 120 permit ipv4 host 65.185.201.39 any
+ 130 permit ipv4 host 65.185.201.83 any
+ 140 permit ipv4 host 65.185.215.115 any
+ 150 permit ipv4 host 65.185.215.177 any
+ 160 permit ipv4 host 65.185.216.36 any
+ 170 remark Cloud Shell
+ 180 permit ipv4 172.30.105.192 0.0.0.63 any
+ 190 permit ipv4 172.30.106.192 0.0.0.63 any
+ 200 permit ipv4 172.30.120.128 0.0.0.15 any
+ 210 remark NMS
+ 220 permit ipv4 host 172.27.122.240 any
+ 230 permit ipv4 172.30.122.32 0.0.0.31 any
+ 240 permit ipv4 host 22.254.3.211 any
+ 250 permit ipv4 172.30.122.0 0.0.0.255 any
+ 260 permit ipv4 host 172.30.124.155 any
+ 270 remark WAE
+ 280 permit ipv4 172.27.31.136 0.0.0.7 any
+ 290 remark JUMP-SERVERS
+ 300 permit ipv4 host 107.14.108.148 any
+ 310 permit ipv4 host 172.30.104.100 any
+ 320 permit ipv4 host 172.27.3.28 any
+ 330 permit ipv4 host 172.27.6.4 any
+ 340 remark LINK-SERVERS
+ 350 permit ipv4 host 98.120.32.146 any
+ 1000 deny ipv4 any any
+!
+class-map match-any QC_ARA-HIGH_I
+ match dscp 32 38 46 
+ match mpls experimental topmost 4 5 
+ end-class-map
+! 
+class-map match-any QC_ARA-HIGH_O
+ match traffic-class 6 
+ end-class-map
+! 
+class-map match-any QC_ARA-MEDIUM_I
+ match dscp 8 10 12 16 24 
+ match mpls experimental topmost 1 2 3 
+ end-class-map
+! 
+class-map match-any QC_ARA-MEDIUM_O
+ match traffic-class 3 
+ end-class-map
+! 
+class-map match-any QC_ARA-CRITICAL_I
+ match dscp 48 56 
+ match mpls experimental topmost 6 7 
+ end-class-map
+! 
+class-map match-any QC_ARA-CRITICAL_O
+ match traffic-class 7 
+ end-class-map
+! 
+policy-map QP_ARA_I
+ class QC_ARA-CRITICAL_I
+  set traffic-class 7
+ ! 
+ class QC_ARA-HIGH_I
+  set traffic-class 6
+ ! 
+ class QC_ARA-MEDIUM_I
+  set traffic-class 3
+ ! 
+ class class-default
+  set traffic-class 0
+ ! 
+ end-policy-map
+! 
+policy-map QP_ARA_O
+ class QC_ARA-CRITICAL_O
+  priority level 1 
+  shape average percent 7 
+ ! 
+ class QC_ARA-HIGH_O
+  bandwidth remaining percent 84 
+ ! 
+ class QC_ARA-MEDIUM_O
+  bandwidth remaining percent 5 
+  random-detect default 
+ ! 
+ class class-default
+  bandwidth remaining percent 1 
+  random-detect default 
+ ! 
+ end-policy-map
+! 
+hw-module quad 0 location 0/0/CPU0 instance 0
+ mode 10g
+!
+hw-module quad 1 location 0/0/CPU0 instance 0
+ mode 10g
+!
+hw-module quad 2 location 0/0/CPU0 instance 0
+ mode 10g
+!
+hw-module quad 3 location 0/0/CPU0 instance 0
+ mode 10g
+!
+hw-module quad 4 location 0/0/CPU0 instance 0
+ mode 10g
+!
+hw-module quad 5 location 0/0/CPU0 instance 0
+ mode 10g
+!
+interface Bundle-Ether1
+ apply-group TP_INTERFACE-DEFAULTS
+ description [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][ZLAG=2100]
+ ipv4 address 96.34.24.162 255.255.255.254
+ ipv6 address 2001:506:100:fc91::e/127
+!
+interface Loopback0
+ description [TYPE=LOOPBACK][NAME=ARA01K1DCCC][FUNC=ARA][CLLI=K1DCCC][SITE=CHTR][AS=65519]
+ ipv4 address 96.34.184.129 255.255.255.255
+ ipv6 address 2001:506:100:fc80::72/128
+!
+interface MgmtEth0/RP0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/32
+ shutdown
+!
+interface TenGigE0/0/0/0
+ apply-group TP_RPD-APC
+ ! - Node 1
+ description [VENDOR=HARMONIC][TYPE=RPD][MODEL=PEBBLE-2][MAC=<MAC Address>][PORT=TEN1/1][LOCATION=LM4.R02.S03.P5]
+ monitor-session RPD ethernet
+ !
+!
+interface TenGigE0/0/0/0.110 l2transport
+ apply-group TP_RPD-APC
+!
+interface TenGigE0/0/0/1
+ apply-group TP_RPD-APC
+ description [VENDOR=HARMONIC][TYPE=RPD][MODEL=PEBBLE-2][MAC=<MAC Address>][PORT=TEN1/1][LOCATION=LM4.R02.S03.P5]
+!
+interface TenGigE0/0/0/1.110 l2transport
+ apply-group TP_RPD-APC
+!
+interface TenGigE0/0/0/2
+ shutdown
+!
+interface TenGigE0/0/0/3
+ shutdown
+!
+interface TenGigE0/0/0/4
+ shutdown
+!
+interface TenGigE0/0/0/5
+ shutdown
+!
+interface TenGigE0/0/0/6
+ shutdown
+!
+interface TenGigE0/0/0/7
+ shutdown
+!
+interface TenGigE0/0/0/8
+ shutdown
+!
+interface TenGigE0/0/0/9
+ shutdown
+!
+interface TenGigE0/0/0/10
+ apply-group TP_RPD-APC
+ description [HOST=APDxxK1DCCC][VENDOR=TBD][TYPE=RPD][MODEL=TBD][MAC=TBD][LOCATION=TBD]
+!
+interface TenGigE0/0/0/10.110 l2transport
+ apply-group TP_RPD-APC
+!
+interface TenGigE0/0/0/11
+ shutdown
+!
+interface TenGigE0/0/0/12
+ apply-group TP_RPD-APC
+ description [HOST=APDxxK1DCCC][VENDOR=TBD][TYPE=RPD][MODEL=TBD][MAC=TBD][LOCATION=TBD]
+!
+interface TenGigE0/0/0/12.110 l2transport
+ apply-group TP_RPD-APC
+!
+interface TenGigE0/0/0/13
+ shutdown
+!
+interface TenGigE0/0/0/14
+ shutdown
+!
+interface TenGigE0/0/0/15
+ shutdown
+!
+interface TenGigE0/0/0/16
+ shutdown
+!
+interface TenGigE0/0/0/17
+ shutdown
+!
+interface TenGigE0/0/0/18
+ shutdown
+!
+interface TenGigE0/0/0/19
+ shutdown
+!
+interface TenGigE0/0/0/20
+ shutdown
+!
+interface TenGigE0/0/0/21
+ shutdown
+!
+interface TenGigE0/0/0/22
+ shutdown
+!
+interface TenGigE0/0/0/23
+ shutdown
+!
+interface TenGigE0/0/0/24
+ shutdown
+!
+interface TenGigE0/0/0/25
+ shutdown
+!
+interface TenGigE0/0/0/26
+ shutdown
+!
+interface TenGigE0/0/0/27
+ shutdown
+!
+interface TenGigE0/0/0/28
+ shutdown
+!
+interface TenGigE0/0/0/29
+ shutdown
+!
+interface TenGigE0/0/0/30
+ shutdown
+!
+interface TenGigE0/0/0/31
+ shutdown
+!
+interface TenGigE0/0/0/33
+ shutdown
+!
+interface TenGigE0/0/0/34
+ shutdown
+!
+interface TenGigE0/0/0/35
+ shutdown
+!
+interface TenGigE0/0/0/36
+ shutdown
+!
+interface TenGigE0/0/0/37
+ shutdown
+!
+interface TenGigE0/0/0/38
+ shutdown
+!
+interface TenGigE0/0/0/39
+ shutdown
+!
+interface TenGigE0/0/0/40
+ shutdown
+!
+interface TenGigE0/0/0/41
+ shutdown
+!
+interface TenGigE0/0/0/42
+ shutdown
+!
+interface TenGigE0/0/0/43
+ shutdown
+!
+interface TenGigE0/0/0/44
+ shutdown
+!
+interface TenGigE0/0/0/45
+ shutdown
+!
+interface TenGigE0/0/0/46
+ shutdown
+!
+interface TenGigE0/0/0/47
+ description [TYPE=PTP][HOST=atp01k1dccc][NBR_INT=1-1-1-1-x]
+ mtu 2048
+ service-policy input QP_ARA_I
+ service-policy output QP_ARA_O
+ carrier-delay up 500 down 0
+ load-interval 30
+ dampening 1 750 2000 4
+!
+interface TenGigE0/0/0/47.102 l2transport
+ description PTP-BCM-1
+ encapsulation dot1q 102
+ rewrite ingress tag pop 1 symmetric
+!
+controller Optics0/0/0/10
+ dwdm-carrier 50GHz-grid frequency 19220
+!
+controller Optics0/0/0/12
+ dwdm-carrier 50GHz-grid frequency 19230
+!
+interface BVI110
+ description [TYPE=NODE][NAME=RPD-MGMT][DAA=HARMONIC][APC01]
+ mtu 2048
+ ipv4 address 172.22.100.1 255.255.255.224
+ arp gratuitous ignore
+ ipv6 nd prefix default no-autoconfig
+ ipv6 nd other-config-flag
+ ipv6 nd managed-config-flag
+ ipv6 mtu 2048
+ ipv6 address 2605:1c00:50f2:204::1/64
+ ipv6 enable
+ load-interval 30
+ ipv6 access-group TF_PROTECT-NODE_6I ingress
+!
+interface BVI7002
+ description [TYPE=PTP][NAME=PTP-BCM]
+ mtu 2048
+ ipv4 address 96.37.176.53 255.255.255.252
+ ipv6 nd prefix default no-autoconfig
+ ipv6 nd unicast-ra
+ ipv6 nd other-config-flag
+ ipv6 nd router-preference high
+ ipv6 nd managed-config-flag
+ ipv6 mtu 2048
+ ipv6 address 2600:6ce6:4411:3::1/64
+ ipv6 enable
+ load-interval 30
+!
+interface HundredGigE0/0/1/0
+ apply-group TP_INTERFACE-DEFAULTS
+ description [TYPE=ASA][BW=100G][NAME=ASA01K1DCCC][NBR_INT=Hu0/0/0/0]
+ bundle id 1 mode inherit
+!
+interface HundredGigE0/0/1/2
+ shutdown
+!
+interface HundredGigE0/0/1/3
+ shutdown
+!
+interface HundredGigE0/0/1/4
+ shutdown
+!
+interface HundredGigE0/0/1/5
+ shutdown
+!
+interface preconfigure TenGigE0/0/0/32
+!
+interface preconfigure TwentyFiveGigE0/0/0/24
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/25
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/26
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/27
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/28
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/29
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/30
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/31
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/32
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/33
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/34
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/35
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/36
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/37
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/38
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/39
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/40
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/41
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/42
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/43
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/44
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/45
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/46
+ shutdown
+!
+interface preconfigure TwentyFiveGigE0/0/0/47
+ shutdown
+!
+!
+prefix-set PL_MGMT_4
+  # Loopback - Infrastructure - Nodes,
+  24.28.212.142/32,
+  172.22.100.0/28,
+  96.34.201.68/32,
+  96.34.184.129/32,
+  96.37.176.52/30
+end-set
+!
+prefix-set PL_MGMT_6
+  # Loopback - Infrastructure - Nodes  ,
+  2001:506:100:fc80::72/128,
+  2605:1c00:50f2:204::/64,
+  2600:6ce6:4411:3::/64
+end-set
+!
+prefix-set PL_DEFAULT-ONLY_4
+  0.0.0.0/0
+end-set
+!
+prefix-set PL_DEFAULT-ONLY_6
+  ::/0
+end-set
+!
+community-set CS_TYPE-ACC-TBV
+  ios-regex '7843:264.',
+  ios-regex '7843:28..'
+end-set
+!
+community-set CS_TYPE-ACC-MGMT
+  7843:2004,
+  7843:2645
+end-set
+!
+route-policy BP_ARA-ASA_4I
+  if destination in PL_DEFAULT-ONLY_4 then
+    pass
+  elseif community matches-any CS_TYPE-ACC-TBV then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy BP_ARA-ASA_4O
+  if community matches-any CS_TYPE-ACC-TBV then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy BP_ARA-ASA_6I
+  if destination in PL_DEFAULT-ONLY_6 then
+    pass
+  elseif community matches-any CS_TYPE-ACC-TBV then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy BP_ARA-ASA_6O
+  if community matches-any CS_TYPE-ACC-TBV then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy BP_ARA-ASA_EI
+  pass
+end-policy
+!
+route-policy BP_ARA-ASA_EO
+  pass
+end-policy
+!
+route-policy RP_ARA-CONNECTED_4
+  if destination in PL_MGMT_4 then
+    set community CS_TYPE-ACC-MGMT
+  else
+    drop
+  endif
+end-policy
+!
+route-policy RP_ARA-CONNECTED_6
+  if destination in PL_MGMT_6 then
+    set community CS_TYPE-ACC-MGMT
+  else
+    drop
+  endif
+end-policy
+!
+router isis default
+ set-overload-bit on-startup 360
+ is-type level-1
+ net 49.9900.0960.3418.4129.00
+ nsf cisco
+ log adjacency changes
+ lsp-gen-interval initial-wait 1 secondary-wait 5000 maximum-wait 5000
+ log pdu drops
+ lsp-refresh-interval 65000
+ max-lsp-lifetime 65535
+ address-family ipv4 unicast
+  metric-style wide
+  advertise passive-only
+  spf-interval initial-wait 50 secondary-wait 100 maximum-wait 5000
+  maximum-paths 2
+  adjacency-check disable
+ !
+ address-family ipv6 unicast
+  metric-style wide
+  maximum-paths 2
+ !
+ interface Bundle-Ether1
+  circuit-type level-1
+  point-to-point
+  hello-padding disable
+  hello-password hmac-md5 encrypted 110400111F4218
+  address-family ipv4 unicast
+   metric 1000
+   mpls ldp sync
+  !
+  address-family ipv6 unicast
+   metric 1000
+  !
+ !
+ interface Loopback0
+  passive
+  circuit-type level-1
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+!
+snmp-server traps bgp
+router bgp 65519
+ nsr disable
+ bgp router-id 96.34.184.129
+ address-family ipv4 unicast
+  maximum-paths ibgp 10
+  redistribute connected route-policy RP_ARA-CONNECTED_4
+ !
+ address-family ipv6 unicast
+  maximum-paths ibgp 10
+  redistribute connected route-policy RP_ARA-CONNECTED_6
+ !
+ address-family l2vpn evpn
+ !
+ neighbor-group BG_ARA-ASA_4
+  remote-as 65519
+  password encrypted 020B1D4F03561C
+  update-source Loopback0
+  address-family ipv4 unicast
+   multipath
+   route-policy BP_ARA-ASA_4I in
+   route-policy BP_ARA-ASA_4O out
+   soft-reconfiguration inbound always
+  !
+  address-family l2vpn evpn
+   route-policy BP_ARA-ASA_EI in
+   route-policy BP_ARA-ASA_EO out
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor-group BG_ARA-ASA_6
+  remote-as 65519
+  password encrypted 1043100D0D4701
+  update-source Loopback0
+  address-family ipv6 unicast
+   multipath
+   route-policy BP_ARA-ASA_6I in
+   route-policy BP_ARA-ASA_6O out
+   soft-reconfiguration inbound always
+  !
+ !
+ neighbor 96.34.184.128
+  use neighbor-group BG_ARA-ASA_4
+  description asa01k1dccc
+ !
+ neighbor 2001:506:100:fc80::101
+  use neighbor-group BG_ARA-ASA_6
+  description asa01k1dccc
+ !
+!
+l2vpn
+ bridge group PTP-GROUPS
+  bridge-domain PTP-BCM-1
+   interface TenGigE0/0/0/47.102
+   !
+   routed interface BVI7002
+   !
+  !
+ !
+ bridge group NODE-GROUPS
+  bridge-domain RPD-MGMT-APC01
+   mld snooping profile BRIDGE_PROFILE
+   igmp snooping profile BRIDGE_PROFILE
+   interface TenGigE0/0/0/0.110
+   !
+   interface TenGigE0/0/0/1.110
+    split-horizon group
+   !
+   interface TenGigE0/0/0/10.110
+    split-horizon group
+   !
+   interface TenGigE0/0/0/12.110
+    split-horizon group
+   !
+   routed interface BVI110
+    split-horizon group core
+   !
+  !
+ !
+!
+dhcp ipv6
+ profile DG_CNR-AMM22_6 relay
+  helper-address vrf default 2600:6cec:401:800e::5
+  helper-address vrf default 2600:6cec:402:5a::151
+ !
+ profile DG_RPD_6_APC01 relay
+  helper-address vrf default 2600:6cec:401:800e::5
+  helper-address vrf default 2600:6cec:402:5a::151
+  source-interface BVI110
+ !
+ interface BVI110 relay profile DG_RPD_6_APC01
+!
+mpls ldp
+ graceful-restart
+ router-id 96.34.184.129
+ address-family ipv4
+  label
+   local
+    allocate for host-routes
+   !
+  !
+ !
+ interface Bundle-Ether1
+ !
+!
+multicast-routing
+ address-family ipv4
+  rate-per-route
+  interface all enable
+ !
+ address-family ipv6
+  interface all enable
+ !
+!
+router mld
+ interface BVI110
+  version 2
+  router enable
+ !
+!
+router igmp
+ interface BVI110
+  version 3
+  router enable
+ !
+!
+lldp
+ apply-group TP_INTERFACE-DEFAULTS
+ subinterfaces enable
+ tlv-select
+  management-address disable
+  system-description disable
+ !
+ chassis-id-type network-address
+!
+router pim
+ address-family ipv4
+  log neighbor changes
+  interface Bundle-Ether1
+   enable
+  !
+  interface Bundle-Ether2
+   enable
+  !
+  multipath
+  ssm range PL_SSM-RANGE_4
+ !
+ address-family ipv6
+  log neighbor changes
+  interface Bundle-Ether1
+   enable
+  !
+  interface Bundle-Ether2
+   enable
+  !
+  multipath
+ !
+!
+license smart transport smart
+license smart url https://smartreceiver.cisco.com/licservice/license
+license smart proxy port 3128
+license smart proxy hostname 172.30.107.95
+license smart flexible-consumption enable
+mld snooping profile BRIDGE_PROFILE
+!
+igmp snooping profile BRIDGE_PROFILE
+!
+ssh client dscp 48
+ssh client source-interface Loopback0
+ssh client disable hmac hmac-sha1
+ssh client algorithms cipher aes128-ctr aes192-ctr aes256-ctr aes128-gcm@openssh.com aes256-gcm@openssh.com
+ssh client algorithms key-exchange curve25519-sha256 diffie-hellman-group14-sha256 diffie-hellman-group16-sha512 curve25519-sha256@libssh.org
+ssh server dscp 48
+ssh server logging
+ssh timeout 90
+ssh server disable hmac hmac-sha1
+ssh server rate-limit 120
+ssh server algorithms cipher aes128-ctr aes192-ctr aes256-ctr aes128-gcm@openssh.com aes256-gcm@openssh.com
+ssh server algorithms host-key ecdsa-nistp256 ecdsa-nistp384 ecdsa-nistp521 x509v3-ssh-rsa ed25519 rsa-sha512 rsa-sha256 ssh-rsa-cert-v01
+ssh server algorithms key-exchange curve25519-sha256 diffie-hellman-group14-sha256 diffie-hellman-group16-sha512 curve25519-sha256@libssh.org
+ssh server session-limit 10
+ssh server v2
+ssh server vrf mgmt
+ssh server vrf default
+ssh server vrf Mgmt-intf
+ssh server netconf vrf default
+hw-module route-stats l3mcast ipv6 ingress mcastv6-counter
+end
+
+RP/0/RP0/CPU0:ara01k1dccc#

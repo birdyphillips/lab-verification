@@ -1,0 +1,107 @@
+2026-08-14 13:38:26  INFO      
+CTEC Lab Network Verifier
+2026-08-14 13:38:26  INFO      Jump host : ctec-jump.ctec.charterlab.com
+2026-08-14 13:38:26  INFO      Username  : aphillips
+2026-08-14 13:38:26  INFO      Log file  : C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260814_133826.log
+
+2026-08-14 13:38:26  DEBUG     [KEY] Loading from C:\Users\p3135123/.ssh/id_rsa
+2026-08-14 13:38:27  INFO      
+========================================================================
+  Connecting to ctec-jump.ctec.charterlab.com
+========================================================================
+2026-08-14 13:38:27  INFO        Trying SSH key: C:\Users\p3135123/.ssh/id_rsa
+2026-08-14 13:38:27  INFO        Connected to ctec-jump.ctec.charterlab.com (key auth)
+2026-08-14 13:38:36  INFO      
+========================================================================
+  Stage 1 — Ping Reachability (via jump server)
+========================================================================
+2026-08-14 13:38:36  DEBUG     [CMD] jump $ ping -c 3 -W 2 apc01k1dccc
+2026-08-14 13:38:38  DEBUG     [CMD] jump exec_command OK (549 chars)
+2026-08-14 13:38:38  INFO        [PASS]  ping apc01k1dccc
+2026-08-14 13:38:38  DEBUG     [CMD] jump $ ping -c 3 -W 2 apa01k1dccc
+2026-08-14 13:38:40  DEBUG     [CMD] jump exec_command OK (543 chars)
+2026-08-14 13:38:40  INFO        [PASS]  ping apa01k1dccc
+2026-08-14 13:38:40  DEBUG     [CMD] jump $ ping -c 3 -W 2 ara01k1dccc
+2026-08-14 13:38:43  DEBUG     [CMD] jump exec_command OK (543 chars)
+2026-08-14 13:38:43  INFO        [PASS]  ping ara01k1dccc
+2026-08-14 13:38:43  DEBUG     [CMD] jump $ ping -c 3 -W 2 asa01k1dccc
+2026-08-14 13:38:45  DEBUG     [CMD] jump exec_command OK (547 chars)
+2026-08-14 13:38:45  INFO        [PASS]  ping asa01k1dccc
+2026-08-14 13:38:45  DEBUG     [CMD] jump $ ping -c 3 -W 2 cts01k1dccc
+2026-08-14 13:38:47  DEBUG     [CMD] jump exec_command OK (557 chars)
+2026-08-14 13:38:47  INFO        [PASS]  ping cts01k1dccc
+2026-08-14 13:38:47  DEBUG     [CMD] jump $ ping -c 3 -W 2 dtr01k1dccc
+2026-08-14 13:38:49  DEBUG     [CMD] jump exec_command OK (555 chars)
+2026-08-14 13:38:49  INFO        [PASS]  ping dtr01k1dccc
+2026-08-14 13:38:49  INFO      
+========================================================================
+  Stage 2 — SSH Connectivity
+========================================================================
+2026-08-14 13:38:49  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-14 13:38:49  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-14 13:38:51  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-14 13:38:51  DEBUG     [SSH] apc01k1dccc auth OK (password)
+2026-08-14 13:38:51  DEBUG     [CMD] apc01k1dccc $ show version brief
+2026-08-14 13:38:53  DEBUG     [CMD] apc01k1dccc shell OK (113 chars)
+2026-08-14 13:38:53  INFO        [PASS]  ssh apc01k1dccc
+2026-08-14 13:38:53  DEBUG     [SSH] Connecting to apa01k1dccc
+2026-08-14 13:38:53  DEBUG     [CHANNEL] Opening channel to apa01k1dccc:22
+2026-08-14 13:38:55  DEBUG     [CHANNEL] IPv4 resolution failed for apa01k1dccc, using hostname
+2026-08-14 13:38:55  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-14 13:38:56  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-14 13:38:56  DEBUG     [SSH] apa01k1dccc auth OK (keyboard-interactive)
+2026-08-14 13:38:56  DEBUG     [CMD] apa01k1dccc $ show version brief
+2026-08-14 13:38:58  DEBUG     [CMD] apa01k1dccc shell OK (610 chars)
+2026-08-14 13:38:58  INFO        [PASS]  ssh apa01k1dccc
+2026-08-14 13:38:58  DEBUG     [SSH] Connecting to ara01k1dccc
+2026-08-14 13:38:58  DEBUG     [CHANNEL] Opening channel to ara01k1dccc:22
+2026-08-14 13:39:00  DEBUG     [CHANNEL] IPv4 resolution failed for ara01k1dccc, using hostname
+2026-08-14 13:39:00  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-14 13:39:01  DEBUG     [SSH] ara01k1dccc auth OK (keyboard-interactive)
+2026-08-14 13:39:01  DEBUG     [CMD] ara01k1dccc $ show version brief
+2026-08-14 13:39:03  DEBUG     [CMD] ara01k1dccc shell OK (130 chars)
+2026-08-14 13:39:03  INFO        [PASS]  ssh ara01k1dccc
+2026-08-14 13:39:03  DEBUG     [SSH] Connecting to asa01k1dccc
+2026-08-14 13:39:03  DEBUG     [CHANNEL] Opening channel to asa01k1dccc:22
+2026-08-14 13:39:05  DEBUG     [CHANNEL] IPv4 resolution failed for asa01k1dccc, using hostname
+2026-08-14 13:39:05  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-14 13:39:05  DEBUG     [AUTH] kbd-interactive: title='' fields=0
+2026-08-14 13:39:05  DEBUG     [SSH] asa01k1dccc auth OK (keyboard-interactive)
+2026-08-14 13:39:05  DEBUG     [CMD] asa01k1dccc $ show version brief
+2026-08-14 13:39:08  DEBUG     [CMD] asa01k1dccc shell OK (622 chars)
+2026-08-14 13:39:08  INFO        [PASS]  ssh asa01k1dccc
+2026-08-14 13:39:08  DEBUG     [SSH] Connecting to cts01k1dccc
+2026-08-14 13:39:08  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-14 13:39:09  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-14 13:39:10  DEBUG     [SSH] cts01k1dccc kbd-interactive failed
+2026-08-14 13:39:10  DEBUG     [SSH] cts01k1dccc transport closed — reopening for password auth
+2026-08-14 13:39:10  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-14 13:39:10  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-14 13:39:11  DEBUG     [SSH] cts01k1dccc auth OK (password)
+2026-08-14 13:39:11  DEBUG     [CMD] cts01k1dccc $ show version
+2026-08-14 13:39:13  DEBUG     [CMD] cts01k1dccc shell OK (638 chars)
+2026-08-14 13:39:13  INFO        [PASS]  ssh cts01k1dccc
+2026-08-14 13:39:13  DEBUG     [SSH] Connecting to dtr01k1dccc
+2026-08-14 13:39:13  DEBUG     [CHANNEL] Opening channel to dtr01k1dccc:22
+2026-08-14 13:39:15  DEBUG     [CHANNEL] IPv4 resolution failed for dtr01k1dccc, using hostname
+2026-08-14 13:39:15  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-14 13:39:16  DEBUG     [SSH] dtr01k1dccc auth OK (keyboard-interactive)
+2026-08-14 13:39:16  DEBUG     [CMD] dtr01k1dccc $ show version brief
+2026-08-14 13:39:18  DEBUG     [CMD] dtr01k1dccc shell OK (885 chars)
+2026-08-14 13:39:18  INFO        [PASS]  ssh dtr01k1dccc
+2026-08-14 13:39:18  INFO      
+========================================================================
+  Stage 3 — Device Verification
+========================================================================
+2026-08-14 13:39:18  INFO      
+========================================================================
+  vCMTS (apc)  (apc01k1dccc)
+========================================================================
+2026-08-14 13:39:18  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-14 13:39:18  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-14 13:39:20  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-14 13:39:20  DEBUG     [SSH] apc01k1dccc auth OK (password)
+2026-08-14 13:39:20  INFO      
+  >> Running config
+     CMD: show running-config
+2026-08-14 13:39:20  DEBUG     [CMD] apc01k1dccc $ show running-config

@@ -1,0 +1,11 @@
+[Unit]
+Description=CTEC Lab Network Verification Script
+After=network.target
+
+[Service]
+Type=oneshot
+User=lld_automation
+WorkingDirectory=/home/lld_automation/Lab_Verification
+ExecStart=/usr/bin/python3 /home/lld_automation/Lab_Verification/Lab_verification_and_trouble_shooting.py
+StandardOutput=append:/home/lld_automation/Lab_Verification/run_log.txt
+StandardError=append:/home/lld_automation/Lab_Verification/run_log.txt

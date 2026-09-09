@@ -1,0 +1,222 @@
+2026-08-03 14:46:08  INFO      
+CTEC Lab Network Verifier
+2026-08-03 14:46:08  INFO      Jump host : ctec-jump.ctec.charterlab.com
+2026-08-03 14:46:08  INFO      Username  : aphillips
+2026-08-03 14:46:08  INFO      Log file  : C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260803_144608.log
+
+2026-08-03 14:46:08  DEBUG     [KEY] Loading from C:\Users\p3135123/.ssh/id_rsa
+2026-08-03 14:46:08  INFO      
+========================================================================
+  Connecting to ctec-jump.ctec.charterlab.com
+========================================================================
+2026-08-03 14:46:08  INFO        Trying SSH key: C:\Users\p3135123/.ssh/id_rsa
+2026-08-03 14:46:09  INFO        Connected to ctec-jump.ctec.charterlab.com (key auth)
+2026-08-03 14:49:53  INFO      
+========================================================================
+  Stage 1 — Ping Reachability (via jump server)
+========================================================================
+2026-08-03 14:49:53  DEBUG     [CMD] jump $ ping -c 3 -W 2 apc01k1dccc
+2026-08-03 14:49:55  DEBUG     [CMD] jump exec_command OK (550 chars)
+2026-08-03 14:49:55  INFO        [PASS]  ping apc01k1dccc
+2026-08-03 14:49:55  DEBUG     [CMD] jump $ ping -c 3 -W 2 apa01k1dccc
+2026-08-03 14:49:57  DEBUG     [CMD] jump exec_command OK (543 chars)
+2026-08-03 14:49:57  INFO        [PASS]  ping apa01k1dccc
+2026-08-03 14:49:57  DEBUG     [CMD] jump $ ping -c 3 -W 2 ara01k1dccc
+2026-08-03 14:50:00  DEBUG     [CMD] jump exec_command OK (569 chars)
+2026-08-03 14:50:00  INFO        [PASS]  ping ara01k1dccc
+2026-08-03 14:50:00  DEBUG     [CMD] jump $ ping -c 3 -W 2 asa01k1dccc
+2026-08-03 14:50:02  DEBUG     [CMD] jump exec_command OK (547 chars)
+2026-08-03 14:50:02  INFO        [PASS]  ping asa01k1dccc
+2026-08-03 14:50:02  DEBUG     [CMD] jump $ ping -c 3 -W 2 cts01k1dccc
+2026-08-03 14:50:04  DEBUG     [CMD] jump exec_command OK (555 chars)
+2026-08-03 14:50:04  INFO        [PASS]  ping cts01k1dccc
+2026-08-03 14:50:04  DEBUG     [CMD] jump $ ping -c 3 -W 2 dtr01k1dccc
+2026-08-03 14:50:06  DEBUG     [CMD] jump exec_command OK (555 chars)
+2026-08-03 14:50:06  INFO        [PASS]  ping dtr01k1dccc
+2026-08-03 14:50:06  INFO      
+========================================================================
+  Stage 2 — SSH Connectivity
+========================================================================
+2026-08-03 14:50:06  DEBUG     [SSH] Connecting to apc01k1dccc
+2026-08-03 14:50:06  DEBUG     [CHANNEL] Opening channel to apc01k1dccc:22
+2026-08-03 14:50:08  DEBUG     [CHANNEL] IPv4 resolution failed for apc01k1dccc, using hostname
+2026-08-03 14:50:09  INFO        [FAIL]  ssh apc01k1dccc  (Authentication failed.)
+2026-08-03 14:50:09  DEBUG     [SSH] apc01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 227, in wait_for_response
+    raise e
+paramiko.ssh_exception.AuthenticationException: Authentication failed.
+
+2026-08-03 14:50:09  DEBUG     [SSH] Connecting to apa01k1dccc
+2026-08-03 14:50:09  DEBUG     [CHANNEL] Opening channel to apa01k1dccc:22
+2026-08-03 14:50:10  DEBUG     [CHANNEL] IPv4 resolution failed for apa01k1dccc, using hostname
+2026-08-03 14:50:10  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:11  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:11  DEBUG     [SSH] apa01k1dccc kbd-interactive failed
+2026-08-03 14:50:11  INFO        [FAIL]  ssh apa01k1dccc  (Authentication failed.)
+2026-08-03 14:50:11  DEBUG     [SSH] apa01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 227, in wait_for_response
+    raise e
+paramiko.ssh_exception.AuthenticationException: Authentication failed.
+
+2026-08-03 14:50:11  DEBUG     [SSH] Connecting to ara01k1dccc
+2026-08-03 14:50:11  DEBUG     [CHANNEL] Opening channel to ara01k1dccc:22
+2026-08-03 14:50:12  DEBUG     [CHANNEL] IPv4 resolution failed for ara01k1dccc, using hostname
+2026-08-03 14:50:13  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:13  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:13  DEBUG     [SSH] ara01k1dccc kbd-interactive failed
+2026-08-03 14:50:43  INFO        [FAIL]  ssh ara01k1dccc  (Authentication timeout.)
+2026-08-03 14:50:43  DEBUG     [SSH] ara01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 216, in wait_for_response
+    raise AuthenticationException("Authentication timeout.")
+paramiko.ssh_exception.AuthenticationException: Authentication timeout.
+
+2026-08-03 14:50:43  DEBUG     [SSH] Connecting to asa01k1dccc
+2026-08-03 14:50:43  DEBUG     [CHANNEL] Opening channel to asa01k1dccc:22
+2026-08-03 14:50:45  DEBUG     [CHANNEL] IPv4 resolution failed for asa01k1dccc, using hostname
+2026-08-03 14:50:45  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:45  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:45  DEBUG     [SSH] asa01k1dccc kbd-interactive failed
+2026-08-03 14:50:45  INFO        [FAIL]  ssh asa01k1dccc  (Authentication failed.)
+2026-08-03 14:50:45  DEBUG     [SSH] asa01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 227, in wait_for_response
+    raise e
+paramiko.ssh_exception.AuthenticationException: Authentication failed.
+
+2026-08-03 14:50:45  DEBUG     [SSH] Connecting to cts01k1dccc
+2026-08-03 14:50:45  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-03 14:50:47  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-03 14:50:48  DEBUG     [SSH] cts01k1dccc kbd-interactive failed
+2026-08-03 14:50:48  DEBUG     [SSH] cts01k1dccc transport closed — reopening for password auth
+2026-08-03 14:50:48  DEBUG     [CHANNEL] Opening channel to cts01k1dccc:22
+2026-08-03 14:50:48  DEBUG     [CHANNEL] IPv4 resolution failed for cts01k1dccc, using hostname
+2026-08-03 14:50:48  INFO        [FAIL]  ssh cts01k1dccc  (Authentication failed.)
+2026-08-03 14:50:48  DEBUG     [SSH] cts01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 227, in wait_for_response
+    raise e
+paramiko.ssh_exception.AuthenticationException: Authentication failed.
+
+2026-08-03 14:50:48  DEBUG     [SSH] Connecting to dtr01k1dccc
+2026-08-03 14:50:48  DEBUG     [CHANNEL] Opening channel to dtr01k1dccc:22
+2026-08-03 14:50:50  DEBUG     [CHANNEL] IPv4 resolution failed for dtr01k1dccc, using hostname
+2026-08-03 14:50:51  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:51  DEBUG     [AUTH] kbd-interactive: title='' fields=1
+2026-08-03 14:50:51  DEBUG     [SSH] dtr01k1dccc kbd-interactive failed
+2026-08-03 14:51:21  INFO        [FAIL]  ssh dtr01k1dccc  (Authentication timeout.)
+2026-08-03 14:51:21  DEBUG     [SSH] dtr01k1dccc traceback:
+Traceback (most recent call last):
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 484, in stage_ssh
+    # ---------------------------------------------------------------------------
+  File "C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\Lab_verification_and_trouble_shooting.py", line 344, in ssh_via_jump
+    transport.auth_password(username, password)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\transport.py", line 1529, in auth_password
+    return self.auth_handler.wait_for_response(my_event)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\p3135123\AppData\Roaming\Python\Python313\site-packages\paramiko\auth_handler.py", line 216, in wait_for_response
+    raise AuthenticationException("Authentication timeout.")
+paramiko.ssh_exception.AuthenticationException: Authentication timeout.
+
+2026-08-03 14:51:21  INFO      
+========================================================================
+  Stage 3 — Device Verification
+========================================================================
+2026-08-03 14:51:21  INFO      
+  [SKIP]  vCMTS (apc) (apc01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+  [SKIP]  APA Switch (apa) (apa01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+  [SKIP]  ARA Switch (ara) (ara01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+  [SKIP]  ASA Switch (asa) (asa01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+  [SKIP]  iCMTS E6000 (cts) (cts01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+  [SKIP]  DTR01 Router (dtr) (dtr01k1dccc) — SSH not available
+2026-08-03 14:51:21  INFO      
+========================================================================
+  Stage 3b — Pulling Running Configs
+========================================================================
+2026-08-03 14:51:21  INFO        [SKIP]  apc01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO        [SKIP]  apa01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO        [SKIP]  ara01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO        [SKIP]  asa01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO        [SKIP]  cts01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO        [SKIP]  dtr01k1dccc — SSH not available
+2026-08-03 14:51:21  INFO      
+========================================================================
+  Web Service Reachability
+========================================================================
+2026-08-03 14:51:21  DEBUG     [CMD] jump $ curl -s -o /dev/null -w '%{http_code}' --connect-timeout 10 'http://10.241.0.118/xgui/login.jsp'
+2026-08-03 14:51:21  DEBUG     [CMD] jump exec_command OK (3 chars)
+2026-08-03 14:51:21  INFO        [PASS]  PacketStorm (10.241.0.118)         
+2026-08-03 14:51:21  INFO               PASS  HTTP 200
+2026-08-03 14:51:21  DEBUG     [CMD] jump $ ping -c 3 -W 3 10.241.0.66
+2026-08-03 14:51:24  DEBUG     [CMD] jump exec_command OK (379 chars)
+2026-08-03 14:51:24  INFO        [PASS]  ByteBlower (10.241.0.66)           
+2026-08-03 14:51:24  INFO               PASS  ping OK
+2026-08-03 14:51:24  INFO        [PASS]  Latency Analyzer (71.85.92.85)     
+2026-08-03 14:51:24  INFO               PASS  HTTP 200
+2026-08-03 14:51:24  INFO      
+========================================================================
+  Critical Link Summary
+========================================================================
+2026-08-03 14:51:24  INFO        [SKIP]  apa01k1dccc           FH0/0/0/24            no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  apa01k1dccc           BE1                   no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  apa01k1dccc           BE101                 no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  apa01k1dccc           BE102                 no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  apa01k1dccc           BE103                 no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  ara01k1dccc           BE1                   no data (SSH failed)
+2026-08-03 14:51:24  INFO        [SKIP]  ara01k1dccc           Hu0/0/1/0             no data (SSH failed)
+2026-08-03 14:51:24  INFO      
+2026-08-03 14:51:24  INFO        All critical links UP.
+2026-08-03 14:51:24  INFO      
+========================================================================
+  Verification Complete
+========================================================================
+2026-08-03 14:51:24  INFO      
+  Full debug log: C:\Users\p3135123\OneDrive - Charter Communications\Access_Engineering_Project\Lab_Verification\logs\lab_verify_20260803_144608.log
