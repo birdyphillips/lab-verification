@@ -118,9 +118,9 @@ DISABLED_ALGORITHMS = {
 
 load_dotenv()
 
-JUMP_HOST  = os.getenv("JUMP_HOST", "ctec-jump.ctec.charterlab.com")
+JUMP_HOST  = os.getenv("JUMP_HOST", "")
 JUMP_PORT  = 22
-USERNAME   = os.getenv("JUMP_USER", "aphillips")
+USERNAME   = os.getenv("JUMP_USER", "")
 KEY_PATH   = os.path.expanduser(os.getenv("SSH_KEY_PATH", "~/.ssh/id_rsa"))
 CONFIG_DIR     = os.path.join(os.path.dirname(__file__), "configs")
 BASELINE_DIR   = os.path.join(os.path.dirname(__file__), "Baseline_Config")
@@ -184,7 +184,10 @@ DEVICES = {
 
 # Per-device prompt patterns (compiled regex matching end of buffer)
 PROMPT_PATTERNS = {
-    "apc01k1dccc": re.compile(rb"(?:^|\r|\n)aphillips@apc01k1dccc>\s*$", re.MULTILINE),
+    "apc01k1dccc": re.compile(
+        ("(?:^|\\r|\\n)" + re.escape(USERNAME) + "@apc01k1dccc>\\s*$").encode(),
+        re.MULTILINE
+    ),
     "apa01k1dccc": re.compile(rb"RP/[^\r\n]+#\s*$"),
     "ara01k1dccc": re.compile(rb"RP/[^\r\n]+#\s*$"),
     "asa01k1dccc": re.compile(rb"RP/[^\r\n]+#\s*$"),
@@ -231,10 +234,14 @@ CRITICAL_LINKS = [
     ("ara01k1dccc", "Hu0/0/1/0",   "up"),
 ]
 
+_PS_IP  = os.getenv("PACKETSTORM_IP", "")
+_BB_IP  = os.getenv("BYTEBLOWER_IP", "")
+_LA_IP  = os.getenv("LATENCY_ANALYZER_IP", "")
+
 WEB_SERVICES = {
-    "PacketStorm":     {"label": "PacketStorm (10.241.0.118)",   "method": "http_via_jump", "url":  "http://10.241.0.118/xgui/login.jsp"},
-    "ByteBlower":      {"label": "ByteBlower (10.241.0.66)",     "method": "ping_via_jump", "host": "10.241.0.66"},
-    "LatencyAnalyzer": {"label": "Latency Analyzer (71.85.92.85)", "method": "http_local", "url":  "http://71.85.92.85/"},
+    "PacketStorm":     {"label": f"PacketStorm ({_PS_IP})",        "method": "http_via_jump", "url":  f"http://{_PS_IP}/xgui/login.jsp"},
+    "ByteBlower":      {"label": f"ByteBlower ({_BB_IP})",         "method": "ping_via_jump", "host": _BB_IP},
+    "LatencyAnalyzer": {"label": f"Latency Analyzer ({_LA_IP})",   "method": "http_local",    "url":  f"http://{_LA_IP}/"},
 }
 
 
@@ -707,7 +714,7 @@ def main():
             key = None
 
     if key is None:
-        jump_credential = getpass.getpass(f"Jump server password for {USERNAME}@{JUMP_HOST}: ")
+        jump_credential = os.getenv('JUMP_PASS') or getpass.getpass(f"Jump server password for {USERNAME}@{JUMP_HOST}: ")
         try:
             jump.connect(JUMP_HOST, port=JUMP_PORT, username=USERNAME,
                          password=jump_credential, timeout=20, banner_timeout=20,
@@ -720,7 +727,7 @@ def main():
             sys.exit(1)
 
     # --- Lab device password ---
-    password = getpass.getpass(f"Lab device password for {USERNAME}: ")
+    password = os.getenv('DEVICE_PASSWORD') or getpass.getpass(f"Lab device password for {USERNAME}: ")
 
     # --- Resolve targets ---
     if args.device:

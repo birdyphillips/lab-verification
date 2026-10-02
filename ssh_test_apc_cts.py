@@ -90,9 +90,9 @@ paramiko.transport.Transport._verify_key = _patched_verify_key
 # Config
 # ---------------------------------------------------------------------------
 load_dotenv()
-JUMP_HOST = os.getenv("JUMP_HOST", "ctec-jump.ctec.charterlab.com")
+JUMP_HOST = os.getenv("JUMP_HOST", "")
 JUMP_PORT = 22
-USERNAME  = os.getenv("JUMP_USER", "aphillips")
+USERNAME  = os.getenv("JUMP_USER", "")
 KEY_PATH  = os.path.expanduser(os.getenv("SSH_KEY_PATH", "~/.ssh/id_rsa"))
 
 TARGETS = {
